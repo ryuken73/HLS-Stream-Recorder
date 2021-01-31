@@ -15,24 +15,24 @@ class VideoPlayer extends Component {
         console.log('^^^^^', this.player.controlBar)
     }
 
-    // componentWillReceiveProps(nextProps){
-    //     console.log('### player componentWillReceiveProps:', nextProps);
-    //     this.set_controls_visibility(this.player, nextProps.hideControls);
-    //     if(this.props.src !== nextProps.src){
-    //         // if (this.player) this.player.dispose();
-    //         this.init_player(nextProps);
-    //     }
-    // }
-
-    getDerivedStateFromProps(nextProps){
-        console.log('### player getDerivedStateFromProps:', nextProps);
+    componentWillReceiveProps(nextProps){
+        console.log('### player componentWillReceiveProps:', nextProps);
         this.set_controls_visibility(this.player, nextProps.hideControls);
         if(this.props.src !== nextProps.src){
-            if (this.player) this.player.dispose();
-            console.log('init_player', nextProps, this.props)
+            // if (this.player) this.player.dispose();
             this.init_player(nextProps);
         }
     }
+
+    // getDerivedStateFromProps(nextProps){
+    //     console.log('### player getDerivedStateFromProps:', nextProps);
+    //     this.set_controls_visibility(this.player, nextProps.hideControls);
+    //     if(this.props.src !== nextProps.src){
+    //         if (this.player) this.player.dispose();
+    //         console.log('init_player', nextProps, this.props)
+    //         this.init_player(nextProps);
+    //     }
+    // }
 
     componentWillUnmount() {
         console.log('##### player dismounted');
