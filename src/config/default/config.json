@@ -26,13 +26,13 @@
   "DEFAULT_SCHEDULE_PROPS": {
     "defaultInterval": 3600000,
     "intervalsForSelection": [
-      {"title": "1 Hour", "milliseconds": 3600000},
-      {"title": "30 Minutes", "milliseconds": 1800000},
-      {"title": "20 Minutes", "milliseconds": 1200000},
-      {"title": "10 Minutes", "milliseconds": 600000},
-      {"title": "5 Minutes", "milliseconds": 300000},
-      {"title": "1 Minute", "milliseconds": 60000}
-   ]
+      { "title": "1 Hour", "milliseconds": 3600000 },
+      { "title": "30 Minutes", "milliseconds": 1800000 },
+      { "title": "20 Minutes", "milliseconds": 1200000 },
+      { "title": "10 Minutes", "milliseconds": 600000 },
+      { "title": "5 Minutes", "milliseconds": 300000 },
+      { "title": "1 Minute", "milliseconds": 60000 }
+    ]
   },
   "BASE_DIRECTORY": "c:/cctv",
   "KEEP_SAVED_CLIP_AFTER_HOURS": "24",
@@ -44,7 +44,7 @@
   "AUTO_START_SCHEDULE_DELAY_MS": 5000,
   "KAFKA_ENABLED": false,
   "KAFKA_CLIENT_ID": "HLS-Recorder",
-  "KAFKA_BROKERS": ["nodesr01:9092","nodesr02:9092","nodesr03:9092"],
+  "KAFKA_BROKERS": ["nodesr01:9092", "nodesr02:9092", "nodesr03:9092"],
   "KAFKA_TOPIC": "HLS-Recorder",
   "KAFKA_KEY": "status-report"
 }
