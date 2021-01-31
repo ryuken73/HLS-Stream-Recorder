@@ -61,6 +61,10 @@ export default merge(baseConfig, {
       DEBUG_PROD: false,
       START_MINIMIZED: false,
     }),
+
+    new webpack.DefinePlugin({
+      'process.env.FLUENTFFMPEG_COV': false
+    })
   ],
 
   /**

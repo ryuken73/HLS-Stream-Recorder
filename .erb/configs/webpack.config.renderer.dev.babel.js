@@ -231,6 +231,10 @@ export default merge(baseConfig, {
       debug: true,
     }),
 
+    new webpack.DefinePlugin({
+      'process.env.FLUENTFFMPEG_COV': false
+    }),
+
     new ReactRefreshWebpackPlugin(),
   ],
 

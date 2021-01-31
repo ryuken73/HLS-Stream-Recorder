@@ -58,6 +58,10 @@ export default merge(baseConfig, {
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
     }),
+    
+    new webpack.DefinePlugin({
+      'process.env.FLUENTFFMPEG_COV': false
+    }),
 
     new webpack.LoaderOptionsPlugin({
       debug: true,

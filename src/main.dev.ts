@@ -11,10 +11,12 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import path from 'path';
-import { app, BrowserWindow, shell } from 'electron';
+import { app, BrowserWindow, shell, screen, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
+import {scheduler} from './lib/scheduleManager';
+import {deleteDirectoryR} from './utils/deleteDirectoryR';
 
 export default class AppUpdater {
   constructor() {
@@ -67,16 +69,24 @@ const createWindow = async () => {
     return path.join(RESOURCES_PATH, ...paths);
   };
 
+  const {width,height} = screen.getPrimaryDisplay().workAreaSize;
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1024,
-    height: 728,
+    width: 1750,
+    minWidth: 1012,
+    maxWidth: 1750,
+    minHeight: 800,
+    height: height,
+    backgroundColor: '#252839',
+    title: 'HLS Stream Recorder',
+    minimizable: false,
     icon: getAssetPath('icon.png'),
     webPreferences: {
       nodeIntegration: true,
+      enableRemoteModule: true
     },
   });
-
+  // mainWindow.maximize();
   mainWindow.loadURL(`file://${__dirname}/index.html`);
 
   // @TODO: Use 'ready-to-show' event
@@ -108,7 +118,71 @@ const createWindow = async () => {
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
-  new AppUpdater();
+  // new AppUpdater();
+  //initialize statistics store
+  clearStatisticsStore();
+
+  const electronUtil = require('./lib/electronUtil');
+  const electronLog = electronUtil.initElectronLog({}); 
+
+  const getConfig = require('./lib/getConfig');
+  const config = getConfig.getCombinedConfig();
+  const {DELETE_SCHEDULE_CRON='0,10,20,30,40,50 * * * *'} = config;
+
+  // const scheduler = require('./lib/scheduleManager');
+  const scheduleManager = scheduler(true, electronLog);
+  const deleteScheduler = scheduleManager.register('deleteClips', DELETE_SCHEDULE_CRON);
+
+  deleteScheduler.on('triggered', name => {
+    const config = getConfig.getCombinedConfig();
+    const {
+      BASE_DIRECTORY="none", 
+      CHANNEL_PREFIX="channel",
+      KEEP_SAVED_CLIP_AFTER_HOURS=24
+    } = config;
+    electronLog.log(`triggered: ${name} baseDirectory:[${BASE_DIRECTORY}] channel prefix:[${CHANNEL_PREFIX}] delete before hours: [${KEEP_SAVED_CLIP_AFTER_HOURS}]`);
+    const channelNumbers = Array(20).fill(0).map((element, index) => index+1);
+    const deleteJobs = channelNumbers.map(channelNumber => {
+      const channelDirectory = path.join(BASE_DIRECTORY, `${CHANNEL_PREFIX}${channelNumber}`);
+      const args = [
+        channelNumber,
+        channelDirectory,
+        60 * 60 * KEEP_SAVED_CLIP_AFTER_HOURS, /* seconds */
+        '*', /* dir */
+        false /* test */
+      ]
+      return args;
+    })
+    sequenceExecute(deleteJobs);
+  }); 
+
+  const sequenceExecute = async deleteJobs => {
+    try {
+      if(deleteJobs.length > 0){
+        const args = deleteJobs.shift();
+        const channelNumber = args[0];
+        const channelDirectory = args[1];
+        const deleteBeforeSeconds = args[2]
+        electronLog.info(`Delete Start...[${channelDirectory}]`);
+        const results = await deleteDirectoryR(channelDirectory, deleteBeforeSeconds);
+        electronLog.info('Delete End:', results);
+        results.forEach(result => {
+          if(result.deleted){
+            deleteClipStore(result.file);
+            electronLog.info('Delete clipStore too');
+          }
+        })
+        mainWindow.webContents.send('deleteScheduleDone', channelNumber);
+        await sequenceExecute(deleteJobs);
+      }
+    } catch (error) {
+      electronLog.error(error)
+      console.error('error in delete clips')
+    }
+
+  }
+  deleteScheduler.start();
+
 };
 
 /**
@@ -130,3 +204,24 @@ app.on('activate', () => {
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) createWindow();
 });
+
+
+import Store from 'electron-store';
+Store.initRenderer();
+
+const deleteClipStore = deletedPath => {
+  const clipStore = new Store({
+    name:'clipStore',
+    cwd:app.getPath('home')
+  })
+  const clipId = path.basename(deletedPath);
+  clipStore.delete(clipId);
+}
+
+const clearStatisticsStore = () => {
+  const statisticsStore = new Store({
+    name:'statisticsStore',
+    cwd:app.getPath('home')
+  })
+  statisticsStore.clear();
+}

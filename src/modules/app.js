@@ -1,5 +1,26 @@
 import {createAction, handleActions} from 'redux-actions';
 
+// const electronUtil = require('../lib/electronUtil');
+import {initElectronLog, createElectronStore} from '../lib/electronUtil';
+initElectronLog({});
+
+const {remote} = require('electron');
+const clipStore = createElectronStore({
+    name:'clipStore',
+    cwd:remote.app.getPath('home')
+});
+const sourceStore = createElectronStore({
+    name:'sourceStore',
+    cwd:remote.app.getPath('home')
+});
+const intervalStore = createElectronStore({
+    name:'intervalStore',
+    cwd:remote.app.getPath('home')
+});
+
+import {cctvFromConfig} from '../lib/getCCTVList';
+const sources = cctvFromConfig();
+
 // action types
 const SET_SOURCES = 'app/SET_SOURCES';
 
@@ -7,7 +28,10 @@ const SET_SOURCES = 'app/SET_SOURCES';
 export const setSources = createAction(SET_SOURCES);
 
 const initialState = {
-    sources: ['ryu', 'ken']
+    sources,
+    clipStore,
+    sourceStore,
+    intervalStore
 }
 
 // reducer

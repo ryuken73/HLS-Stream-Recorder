@@ -1,0 +1,50 @@
+{
+  "NUMBER_OF_CHANNELS": 4,
+  "CHANNEL_PREFIX": "channel",
+  "WAIT_SECONDS_MS_FOR_PLAYBACK_CHANGE": 2000,
+  "LONG_BUFFERING_MS_SECONDS": 3000,
+  "SLEEP_MS_BETWEEN_ALL_START": 2000,
+  "SLEEP_MS_BETWEEN_ALL_STOP": 300,
+  "DEFAULT_PLAYER_PROPS": {
+    "player": null,
+    "url": "",
+    "type": "application/x-mpegURL",
+    "channelName": "preview",
+    "preservePlaybackRate": true,
+    "width": 284,
+    "height": 170,
+    "controls": true,
+    "hideControls": ["play", "volume", "seekbar", "timer", "playbackrates"],
+    "autoplay": true,
+    "bigPlayButton": false,
+    "bigPlayButtonCentered": false,
+    "enableOverlay": true,
+    "overlayContent": "Default Overlay",
+    "enableAutoRefresh": true,
+    "inactivityTimeout": 5000
+  },
+  "DEFAULT_SCHEDULE_PROPS": {
+    "defaultInterval": 3600000,
+    "intervalsForSelection": [
+      {"title": "1 Hour", "milliseconds": 3600000},
+      {"title": "30 Minutes", "milliseconds": 1800000},
+      {"title": "20 Minutes", "milliseconds": 1200000},
+      {"title": "10 Minutes", "milliseconds": 600000},
+      {"title": "5 Minutes", "milliseconds": 300000},
+      {"title": "1 Minute", "milliseconds": 60000}
+   ]
+  },
+  "BASE_DIRECTORY": "c:/cctv",
+  "KEEP_SAVED_CLIP_AFTER_HOURS": "24",
+  "DELETE_SCHEDULE_CRON": "0,10,20,30,40,50 * * * *",
+  "MAX_MEMORY_TO_RELOAD_MB": 2048,
+  "MAX_MEMORY_RELOAD_WAIT_MS": 5000,
+  "MEMORY_USAGE_PERCENTAGE_TO_AUTO_CLEAR": 70,
+  "AUTO_START_SCHEDULE": true,
+  "AUTO_START_SCHEDULE_DELAY_MS": 5000,
+  "KAFKA_ENABLED": false,
+  "KAFKA_CLIENT_ID": "HLS-Recorder",
+  "KAFKA_BROKERS": ["nodesr01:9092","nodesr02:9092","nodesr03:9092"],
+  "KAFKA_TOPIC": "HLS-Recorder",
+  "KAFKA_KEY": "status-report"
+}

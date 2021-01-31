@@ -219,5 +219,9 @@ export default merge(baseConfig, {
         process.env.OPEN_ANALYZER === 'true' ? 'server' : 'disabled',
       openAnalyzer: process.env.OPEN_ANALYZER === 'true',
     }),
+
+    new webpack.DefinePlugin({
+      'process.env.FLUENTFFMPEG_COV': false
+    })
   ],
 });
