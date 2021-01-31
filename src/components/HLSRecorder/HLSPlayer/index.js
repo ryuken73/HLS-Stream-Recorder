@@ -195,7 +195,7 @@ const HLSPlayer = (props) => {
                     onEnd={onVideoEnd}
                     onOtherEvent={onVideoOtherEvent}
                     handleManifestRedirects={true}
-                    liveui={false}
+                    liveui={true}
                     enableOverlay={enableOverlay}
                     overlayContent={overlayContent}
                     inactivityTimeout={inactivityTimeout}

@@ -33,20 +33,25 @@ const fs = require('fs');
 const path = require('path');
 const getChannelClipCountInDirectory = (state, channelNumber) => {
     return new Promise((resolve, reject) => {
-        const channelRecorder = state.hlsRecorders.recorders.get(channelNumber);
-        const saveFolder = channelRecorder.channelDirectory;
-        const {localm3u8} = channelRecorder;
-        fs.readdir(saveFolder, (err, files) => {
-            // console.log(`@@@ channelNumber=${channelNumber} localm3u8=${localm3u8} allFolderCount=${files.length}`)
-            const countInFolder = localm3u8 === null ? files.length : files.filter(file => {
-                const currentFolder = path.join(saveFolder, file);
-                const currentRecordingFolder = path.dirname(localm3u8);
-                currentFolder === currentRecordingFolder && console.log(`@@@ currentFolder=${currentFolder} currentRecordingFolder=${currentRecordingFolder} ${currentFolder !== currentRecordingFolder}`)
-                return currentFolder !== currentRecordingFolder
-            }).length;
-            // console.log(`@@@ countInFolder=${countInFolder}`);
-            resolve(countInFolder);
-        })
+        try {
+            const channelRecorder = state.hlsRecorders.recorders.get(channelNumber);
+            const saveFolder = channelRecorder.channelDirectory;
+            const {localm3u8} = channelRecorder;
+            fs.readdir(saveFolder, (err, files) => {
+                // console.log(`@@@ channelNumber=${channelNumber} localm3u8=${localm3u8} allFolderCount=${files.length}`)
+                const countInFolder = localm3u8 === null ? files.length : files.filter(file => {
+                    const currentFolder = path.join(saveFolder, file);
+                    const currentRecordingFolder = path.dirname(localm3u8);
+                    currentFolder === currentRecordingFolder && console.log(`@@@ currentFolder=${currentFolder} currentRecordingFolder=${currentRecordingFolder} ${currentFolder !== currentRecordingFolder}`)
+                    return currentFolder !== currentRecordingFolder
+                }).length;
+                // console.log(`@@@ countInFolder=${countInFolder}`);
+                resolve(countInFolder);
+            })
+        } catch (err) {
+            console.error(err);            
+        }
+
     })
 }
 

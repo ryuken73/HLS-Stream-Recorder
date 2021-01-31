@@ -12,19 +12,23 @@ class VideoPlayer extends Component {
         console.log('##### player mounted!', this.props)
         this.init_player(this.props);
         this.init_player_events(this.props);
+        console.log('^^^^^', this.player.controlBar)
     }
 
     // componentWillReceiveProps(nextProps){
+    //     console.log('### player componentWillReceiveProps:', nextProps);
     //     this.set_controls_visibility(this.player, nextProps.hideControls);
     //     if(this.props.src !== nextProps.src){
     //         // if (this.player) this.player.dispose();
     //         this.init_player(nextProps);
     //     }
     // }
-    componentDidUpdate(nextProps){
+
+    getDerivedStateFromProps(nextProps){
+        console.log('### player getDerivedStateFromProps:', nextProps);
         this.set_controls_visibility(this.player, nextProps.hideControls);
         if(this.props.src !== nextProps.src){
-            // if (this.player) this.player.dispose();
+            if (this.player) this.player.dispose();
             console.log('init_player', nextProps, this.props)
             this.init_player(nextProps);
         }
@@ -41,6 +45,7 @@ class VideoPlayer extends Component {
 
     init_player(props) {
         try {
+            console.log('### init_player');
             const playerOptions = this.generate_player_options(props);
             const {enableOverlay=false, overlayContent="This is HLS Player!"} = props;
             console.log('#####', playerOptions)
@@ -159,7 +164,7 @@ class VideoPlayer extends Component {
     render() {
         return (
             <div>
-                <video id={this.playerId} className={`video-js vjs-liveui ${this.props.bigPlayButtonCentered? 'vjs-big-play-centered' : ''} ${this.props.className}`}></video>
+                <video id={this.playerId} className={`video-js ${this.props.bigPlayButtonCentered? 'vjs-big-play-centered' : ''} ${this.props.className}`}></video>
             </div>
         )
     }
