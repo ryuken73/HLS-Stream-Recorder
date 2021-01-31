@@ -1,6 +1,6 @@
 {
-  "name": "electron-react-boilerplate",
-  "productName": "ElectronReact",
+  "name": "hls-stream-recorder",
+  "productName": "HLS-Stream-Recorder",
   "description": "Electron application boilerplate based on React, React Router, Webpack, React Fast Refresh for rapid application development",
   "scripts": {
     "build": "concurrently \"yarn build:main\" \"yarn build:renderer\"",
@@ -30,15 +30,26 @@
     ]
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.erb.ElectronReact",
+    "productName": "HLS-Stream-Recorder",
+    "appId": "org.erb.HLS-Stream-Recorder",
+    "asarUnpack": [
+      "bin/ffmpeg.exe",
+      "config/default/config.json",
+      "config/default/sources.json"
+    ],
     "files": [
       "dist/",
       "node_modules/",
       "index.html",
+      "lib/deleteOldFiles.js",
       "main.prod.js",
       "main.prod.js.map",
-      "package.json"
+      "package.json",
+      "bin/",
+      "config/",
+      "video-js.css",
+      "videojs-overlay.css",
+      "config.json"
     ],
     "afterSign": ".erb/scripts/Notarize.js",
     "mac": {
@@ -192,6 +203,7 @@
     "babel-jest": "^26.1.0",
     "babel-loader": "^8.2.2",
     "babel-plugin-dev-expression": "^0.2.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "browserslist-config-erb": "^0.0.1",
     "chalk": "^4.1.0",

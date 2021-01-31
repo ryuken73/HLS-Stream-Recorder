@@ -1,12 +1,12 @@
 {
-  "name": "electron-react-boilerplate",
-  "productName": "electron-react-boilerplate",
-  "version": "2.0.1",
-  "description": "Electron application boilerplate based on React, React Router, Webpack, React Hot Loader for rapid application development",
+  "name": "HLS-Stream-Recorder",
+  "productName": "HLS-Stream-Recorder",
+  "version": "0.1.0",
+  "description": "HLS to File Recorder",
   "main": "./main.prod.js",
   "author": {
-    "name": "Electron React Boilerplate Maintainers",
-    "email": "electronreactboilerplate@gmail.com",
+    "name": "ryuken73",
+    "email": "ryuken73@gmail.com",
     "url": "https://github.com/electron-react-boilerplate"
   },
   "scripts": {

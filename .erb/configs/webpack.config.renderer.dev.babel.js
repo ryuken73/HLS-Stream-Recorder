@@ -209,7 +209,7 @@ export default merge(baseConfig, {
           sourceType: 'var',
         }),
 
-    new webpack.NoEmitOnErrorsPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
 
     /**
      * Create global constants which can be configured at compile time.
