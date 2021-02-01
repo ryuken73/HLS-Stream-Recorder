@@ -75,7 +75,7 @@ export const initElectronLog = options => {
         fileMaxSize=10485760,
         fileLogLevel='info',
         consoleLogLevel='info',
-        fileName='HLSRecorder.log'
+        fileName='HLS-Stream-Recorder.log'
     } = options;
     log.transports.console.format = consoleFormat;
     log.transports.file.maxSize = fileMaxSize;

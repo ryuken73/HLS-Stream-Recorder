@@ -18,6 +18,9 @@ import MenuBuilder from './menu';
 import {scheduler} from './lib/scheduleManager';
 import {deleteDirectoryR} from './utils/deleteDirectoryR';
 
+const userData = app.getPath('userData');
+app.setAppLogsPath(path.join(userData, 'logs'));
+
 export default class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
