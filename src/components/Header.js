@@ -129,6 +129,14 @@ const Header = (props) => {
           refreshChannelClipCountStatistics({channelNumber});
         })
      },[])
+
+    // const {AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT, MEM_CLEAR_COUNT_LIMIT} = props.config;
+    // const {memClearCount} = appStat;
+    // const {setAppStatNStore} = props.StatisticsActions;
+    // if(AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT && (memClearCount > MEM_CLEAR_COUNT_LIMIT)){
+    //     setAppStatNStore({statName:'memClearCount', value:0})
+    //     reload();
+    // }
     
     const AppStatComponent = () => {
         const StatLists = Object.entries(appStat).map(([statName, value]) => {

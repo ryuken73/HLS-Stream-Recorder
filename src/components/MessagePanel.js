@@ -9,7 +9,8 @@ const {app} = remote;
 
 const {
   KAFKA_TOPIC=`topic_${Date.now()}`, 
-  KAFKA_KEY='none'} = require('../lib/getConfig').getCombinedConfig();
+  KAFKA_KEY='none'
+} = require('../lib/getConfig').getCombinedConfig();
 
 function MessagePanel(props) {
   // console.log('######################## re-render MessagePanel', props);
@@ -41,7 +42,16 @@ function MessagePanel(props) {
     }
   },[memUsageToClear]);
 
+  const {memClearCount} = props.appStat;
+  const {AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT, MEM_CLEAR_COUNT_LIMIT} = props.config;
   React.useEffect(() => {
+    console.log(memUsed, memClearCount, AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT, MEM_CLEAR_COUNT_LIMIT)
+    // (memUsed > maxMemory) && setReloadDialogOpen(true);
+    if(AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT && (memClearCount > MEM_CLEAR_COUNT_LIMIT)){
+      // reset memClearCount
+      setAppStatNStore({statName:'memClearCount', value:0});
+      setReloadDialogOpen(true);
+    }   
     return async () => {
       const reportStatus = {
         type: 'performance',
@@ -54,10 +64,8 @@ function MessagePanel(props) {
         messageJson: reportStatus
       })
     }
-    (memUsed > maxMemory) && setReloadDialogOpen(true);
+
   }, [memUsed])
-
-
 
     return (
         <SectionWithFullHeightFlex outerbgcolor={"#2d2f3b"} className="SectionWithFullHeightFlex ImageBox" flexGrow="0" width="1" mt={mt} mb="2px">

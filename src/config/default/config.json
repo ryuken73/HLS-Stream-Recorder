@@ -46,5 +46,7 @@
   "KAFKA_CLIENT_ID": "HLS-Recorder",
   "KAFKA_BROKERS": ["nodesr01:9092", "nodesr02:9092", "nodesr03:9092"],
   "KAFKA_TOPIC": "HLS-Recorder",
-  "KAFKA_KEY": "status-report"
+  "KAFKA_KEY": "status-report",
+  "MEM_CLEAR_COUNT_LIMIT": 10,
+  "AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT": true
 }

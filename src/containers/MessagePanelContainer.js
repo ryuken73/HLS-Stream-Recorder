@@ -8,8 +8,13 @@ import * as statisticsActions from '../modules/statistics';
 
 function mapStateToProps(state, ownProps) {
   // console.log('mapStateToProps:',state) 
+  const {config} = state.options;
+  const {appStat} = state.statistics;
+  
   return {
     ...ownProps,
+    config,
+    appStat
   }
 }
 
