@@ -99,12 +99,15 @@ function OptionDialog(props) {
   };
 
   const onClickSelectSaveDirectory = () => {
-    dialog.showOpenDialog(({properties:['openDirectory']}), filePaths=> {
+    dialog.showOpenDialog({properties:['openDirectory']})
+    .then(result => {
+      const {filePaths} = result;
       if(filePaths === undefined) return;
       setConfigValue({configName:'BASE_DIRECTORY', value:filePaths[0]});
-      // setBaseDirectory(filePaths[0]);      
+      setValueChanged(true);
     })
-  };
+    .catch(err => console.error(err))
+  }
  
   const onClickSaveBtn = () => {
     saveConfig({config});
@@ -159,7 +162,7 @@ function OptionDialog(props) {
         <OptionTextInputWithDefault subtitle='Delete Schedule Cron' value={DELETE_SCHEDULE_CRON} onChange={onChangeConfig('DELETE_SCHEDULE_CRON')}></OptionTextInputWithDefault>
         <OptionTextInputWithDefault subtitle='Max Memory to Reload' value={MAX_MEMORY_TO_RELOAD_MB} onChange={onChangeConfig('MAX_MEMORY_TO_RELOAD_MB')}></OptionTextInputWithDefault>
         <OptionTextInputWithDefault subtitle='High Memory Usage(%)' value={MEMORY_USAGE_PERCENTAGE_TO_AUTO_CLEAR} onChange={onChangeConfig('MEMORY_USAGE_PERCENTAGE_TO_AUTO_CLEAR')}></OptionTextInputWithDefault>
-        <OptionTextInputWithDefault subtitle='Save Directory' value={BASE_DIRECTORY} onChange={onChangeConfig('BASE_DIRECTORY')} iconButton={SaveDirectoryButton}></OptionTextInputWithDefault>
+        <OptionTextInputWithDefault subtitle='Save Directory' value={BASE_DIRECTORY} iconButton={SaveDirectoryButton}></OptionTextInputWithDefault>
         <OptionRadioButtonWithDefault subtitle="Schedule Auto Start" currentvalue={AUTO_START_SCHEDULE} onChange={onChangeConfig('AUTO_START_SCHEDULE')}></OptionRadioButtonWithDefault>
         <OptionTextInputWithDefault subtitle='Schedule Start Delay(ms)' value={AUTO_START_SCHEDULE_DELAY_MS} onChange={onChangeConfig('AUTO_START_SCHEDULE_DELAY_MS')}></OptionTextInputWithDefault>
         
