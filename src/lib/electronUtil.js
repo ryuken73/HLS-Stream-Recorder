@@ -86,8 +86,11 @@ export const initElectronLog = options => {
     log.transports.file.archiveLog = file => {
         file = file.toString();
         const info = path.parse(file);
-        const dayString = utils.date.getString(new Date(),{});
+        // const dayString = utils.date.getString(new Date(),{});
         try {
+            console.log(utils)
+            console.log(utils.date)
+            const dayString = utils.date.getString(new Date(),{});
             fs.renameSync(file, path.join(info.dir, info.name + dayString + '.' + info.ext));
         } catch (e) {
             console.warn('Could not rotate log', e);
