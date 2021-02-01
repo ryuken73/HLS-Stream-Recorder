@@ -151,8 +151,9 @@ export const setAppStatNStore = ({statName, value}) => (dispatch, getState) => {
 export const increaseAppStatNStore = ({statName}) => (dispatch, getState) => {
     const state = getState();
     const oldValue = state.statistics.appStat[statName];
-    statisticsStore.set(`appStats.${statName}`, oldValue + 1);
-    dispatch(increaseAppStat({statName}));
+    dispatch(setAppStatNStore({statName, value: oldValue + 1}))
+    // statisticsStore.set(`appStats.${statName}`, oldValue + 1);
+    // dispatch(increaseAppStat({statName}));
 }
 
 // clear stat and statStore
