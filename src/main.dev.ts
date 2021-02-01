@@ -69,14 +69,14 @@ const createWindow = async () => {
     return path.join(RESOURCES_PATH, ...paths);
   };
 
-  const {width,height} = screen.getPrimaryDisplay().workAreaSize;
+  // const {width,height} = screen.getPrimaryDisplay().workAreaSize;
   mainWindow = new BrowserWindow({
     show: false,
     width: 1750,
     minWidth: 1012,
     maxWidth: 1750,
     minHeight: 800,
-    height: height,
+    height: 800,
     backgroundColor: '#252839',
     title: 'HLS Stream Recorder',
     minimizable: false,
