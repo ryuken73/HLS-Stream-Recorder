@@ -122,7 +122,6 @@ const Header = (props) => {
 
     const {appStat} = props;
     const {refreshChannelClipCountStatistics} = props.StatisticsActions;
-    // const {ipcRenderer} = require('electron');
     React.useEffect(() => {
         ipcRenderer.on('deleteScheduleDone', (event, channelNumber) => {
           console.log(`&&&&& got message from main : deleteScheduleDone ${channelNumber}`);
@@ -130,14 +129,6 @@ const Header = (props) => {
         })
      },[])
 
-    // const {AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT, MEM_CLEAR_COUNT_LIMIT} = props.config;
-    // const {memClearCount} = appStat;
-    // const {setAppStatNStore} = props.StatisticsActions;
-    // if(AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT && (memClearCount > MEM_CLEAR_COUNT_LIMIT)){
-    //     setAppStatNStore({statName:'memClearCount', value:0})
-    //     reload();
-    // }
-    
     const AppStatComponent = () => {
         const StatLists = Object.entries(appStat).map(([statName, value]) => {
             if(statName.includes('Time')){                
@@ -158,10 +149,6 @@ const Header = (props) => {
         return StatLists;
     }
 
-    // const clearAllStatistics = () => {
-    //     clearAllChannelStatNStore();
-    //     clearAppStatNStore();
-    // }
     const classes = useStyles();
     return (      
         <Box 
@@ -301,10 +288,6 @@ const Header = (props) => {
                 fontFamily="Roboto, Helvetica, Arial, sans-serif" 
                 textAlign="center" 
                 fontSize="35px"
-                // mx="5px"
-                // mt="15px"
-                // py="10px"
-                // width="95%"
                 textOverflow="hidden"
                 whiteSpace="nowrap"
             >CCTV Recorder

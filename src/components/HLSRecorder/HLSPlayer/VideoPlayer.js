@@ -24,16 +24,6 @@ class VideoPlayer extends Component {
         }
     }
 
-    // getDerivedStateFromProps(nextProps){
-    //     console.log('### player getDerivedStateFromProps:', nextProps);
-    //     this.set_controls_visibility(this.player, nextProps.hideControls);
-    //     if(this.props.src !== nextProps.src){
-    //         if (this.player) this.player.dispose();
-    //         console.log('init_player', nextProps, this.props)
-    //         this.init_player(nextProps);
-    //     }
-    // }
-
     componentWillUnmount() {
         console.log('##### player dismounted');
         if (this.player) {

@@ -45,8 +45,7 @@ function MessagePanel(props) {
   const {memClearCount} = props.appStat;
   const {AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT, MEM_CLEAR_COUNT_LIMIT} = props.config;
   React.useEffect(() => {
-    console.log(memUsed, memClearCount, AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT, MEM_CLEAR_COUNT_LIMIT)
-    // (memUsed > maxMemory) && setReloadDialogOpen(true);
+    // console.log(memUsed, memClearCount, AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT, MEM_CLEAR_COUNT_LIMIT)
     if(AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT && (memClearCount > MEM_CLEAR_COUNT_LIMIT)){
       // reset memClearCount
       setAppStatNStore({statName:'memClearCount', value:0});

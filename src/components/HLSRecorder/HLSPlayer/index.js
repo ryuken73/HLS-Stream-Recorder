@@ -146,23 +146,6 @@ const HLSPlayer = (props) => {
             refreshTimer = null;
             return
         }
-        // if(eventName === 'abort' && enableAutoRefresh !== null){
-        //     refreshTimer = setInterval(() => {
-        //         channelLog.info('refresh player because of long buffering')
-        //         refreshPlayer({channelNumber});
-        //     },LONG_BUFFERING_MS_SECONDS)
-        //     return
-        // } else if(eventName === 'abort' && enableAutoRefresh === null) {
-        //     return
-        // }
-        // if(eventName === 'playing' || eventName === 'loadstart' || eventName === 'waiting'){
-        //     if(refreshTimer === null) {
-        //         return;
-        //     }
-        //     clearTimeout(refreshTimer);
-        //     refreshTimer = null;
-        //     return
-        // }
         if(eventName === 'ratechange'){
             // if ratechange occurred not manually but by changing media, just return
             if(player.readyState() === 0) return;

@@ -35,7 +35,6 @@ function SourceRecording(props) {
             subject={sourceDisplay.subject} 
             titlewidth={"80px"}
             content={sourceDisplay.content} 
-            // color={"white"}
             border={1}
             ml={"3px"}
             mt={"0px"}

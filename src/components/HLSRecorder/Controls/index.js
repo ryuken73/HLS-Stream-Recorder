@@ -282,17 +282,6 @@ const Controls = props => {
                         ></PowerSettingsNewIcon>
                     </SmallPaddingIconButton>
                 </Tooltip>
-                {/* <SmallPaddingIconButton 
-                        padding="1px" 
-                        size="small" 
-                        iconcolor="black"
-                        onClick={dismountRecorder}
-                    >
-                        <PowerSettingsNewIcon 
-                            // color="primary" 
-                            fontSize={"small"} 
-                        ></PowerSettingsNewIcon>
-                </SmallPaddingIconButton> */}
             </Box>
         </Box>
     );

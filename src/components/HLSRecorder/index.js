@@ -2,7 +2,6 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import SectionWithFullHeight from '../template/SectionWithFullHeight';
-// import Duration from './Duration';
 import DurationContainer from '../../containers/DurationContainer';
 import SourceSelectorContainer from '../../containers/SourceSelectorContainer';
 import HLSPlayerContainer from '../../containers/HLSPlayerContainer';
@@ -10,8 +9,6 @@ import ControlsContainer from '../../containers/ControlsContainer';
 import SchedulerContainer from '../../containers/SchedulerContainer';
 import SourceRecordingContainer from '../../containers/SourceRecordingContainer';
 import { setRecorder, setRecorderMount } from '../../modules/hlsRecorders';
-// import Controls from './Controls';
-// import Scheduler from './Scheduler';
 
 const HLSRecorder = (props) => {
     const {

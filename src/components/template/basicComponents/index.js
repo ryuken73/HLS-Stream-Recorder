@@ -58,17 +58,6 @@ const BasicIconButton = styled(IconButton)`
     }
 `
 
-// const BasicIconButtonWithTooltip = tooltipProps => iconButtonProps => props => {
-//     const {children} = props;
-//     return <Tooltip {...tooltipProps}>
-//                 <Box>
-//                     <BasicIconButton {...iconButtonProps}>
-//                         {children}
-//                     </BasicIconButton>
-//                 </Box>
-//     </Tooltip>
-// }
-
 export {
     BasicButton,
     BasicSelect,

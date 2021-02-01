@@ -51,10 +51,7 @@ function IntervalSelection(props) {
 
     return (
         <OptionSelectButton 
-            // subtitle='CCTV'
-            // titlewidth={"115px"}
             FrontButton={ButtonElement}
-            // width="100%"
             currentItem={scheduleInterval}
             multiple={false}
             menuItems={selectItems}

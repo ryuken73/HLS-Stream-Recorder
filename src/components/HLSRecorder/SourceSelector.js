@@ -36,7 +36,6 @@ function Selection(props) {
             currentItem={currentUrl}
             multiple={false}
             menuItems={selectItems}
-            // onChangeSelect={onChange('url')} 
             onChangeSelect={onChangeSelect} 
             smallComponent={true}
             bgcolor={'#232738'}
