@@ -13,8 +13,8 @@ import utils from '../utils';
 
 const { dialog } = require('electron').remote;
 
-const INPUT_WIDTH='400px'
-const SUBTITLE_WIDTH='25%';
+const INPUT_WIDTH='300px'
+const SUBTITLE_WIDTH='30%';
 
 const OptionTextInputWithDefault = props => {
   const {children} = props;
@@ -26,6 +26,7 @@ const OptionTextInputWithDefault = props => {
             bgcolor="white" 
             textColor="black" 
             textalign="left"
+            my="0px"
             {...props}
           >
             {children}
@@ -71,7 +72,8 @@ function OptionDialog(props) {
     MAX_MEMORY_RELOAD_WAIT_MS,
     AUTO_START_SCHEDULE,
     AUTO_START_SCHEDULE_DELAY_MS,
-    MEMORY_USAGE_PERCENTAGE_TO_AUTO_CLEAR
+    MEMORY_USAGE_PERCENTAGE_TO_AUTO_CLEAR,
+    KAFKA_ENABLED
   } = config;
   const {setOptionsDialogOpen=()=>{}, saveConfig=()=>{}} = props.OptionDialogActions;
   const {setDefaultConfig=()=>{}} = props.OptionDialogActions;
@@ -165,6 +167,7 @@ function OptionDialog(props) {
         <OptionTextInputWithDefault subtitle='Save Directory' value={BASE_DIRECTORY} iconButton={SaveDirectoryButton}></OptionTextInputWithDefault>
         <OptionRadioButtonWithDefault subtitle="Schedule Auto Start" currentvalue={AUTO_START_SCHEDULE} onChange={onChangeConfig('AUTO_START_SCHEDULE')}></OptionRadioButtonWithDefault>
         <OptionTextInputWithDefault subtitle='Schedule Start Delay(ms)' value={AUTO_START_SCHEDULE_DELAY_MS} onChange={onChangeConfig('AUTO_START_SCHEDULE_DELAY_MS')}></OptionTextInputWithDefault>
+        <OptionRadioButtonWithDefault subtitle="Enable Kafka Send" currentvalue={KAFKA_ENABLED} onChange={onChangeConfig('KAFKA_ENABLED')}></OptionRadioButtonWithDefault>
         
       </DialogContentText>
     </DialogContent>

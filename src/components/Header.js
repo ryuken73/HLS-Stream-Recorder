@@ -113,8 +113,6 @@ const Header = (props) => {
 
     const clearCache = () => {
         // const {webFrame} = require('electron')
-        alert(remote.app.getPath('userData'))
-        alert(remote.app.getPath('appData'))
         webFrame.clearCache();
     }
 
