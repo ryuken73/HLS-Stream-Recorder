@@ -27,8 +27,8 @@ function Duration(props) {
                     value={duration}
                     fontSize={"12px"}
                     disabled={true}
-                    mt={"1px"}
-                    mb={"1px"}
+                    mt={"2px"}
+                    mb={"2px"}
                 ></SmallMarginTextField> 
             </Box>
         ) 

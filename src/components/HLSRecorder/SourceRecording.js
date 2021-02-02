@@ -23,8 +23,8 @@ function SourceRecording(props) {
                     value={title}
                     fontSize={"12px"}
                     disabled={true}
-                    mt={"0px"}
-                    mb={"0px"}
+                    mt={"3px"}
+                    mb={"2px"}
                     textalign={"left"}
                 ></SmallMarginTextField> 
             </Box>
