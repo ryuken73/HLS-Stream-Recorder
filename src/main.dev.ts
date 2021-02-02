@@ -106,7 +106,13 @@ const createWindow = async () => {
     }
   });
 
+  // mainWindow.on('close', (event) => {
+  //   // return false;
+  //   event.preventDefault();
+  // })
+
   mainWindow.on('closed', () => {
+    console.log('application is about to exit')
     mainWindow = null;
   });
 
