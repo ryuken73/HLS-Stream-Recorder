@@ -2,7 +2,7 @@ const fs = require('fs');
 const mkdirp = require('mkdirp');
 const path = require('path');
 
-const number = {
+export const number = {
     group1000(number){
         return new Intl.NumberFormat().format(number)
     },
@@ -21,7 +21,7 @@ const number = {
     }
 }
 
-const string = {
+export const string = {
     toObject(string, itemSep, keySep){
         if(typeof(string) !== 'string') return {};
         const itemArray = string.replace(/^\?/,'').split(itemSep);
@@ -35,7 +35,7 @@ const string = {
     }
 }
 
-const clone = {
+export const clone = {
     replaceElement(array, index, newElement){
         return [
             ...array.slice(0, index),
@@ -45,7 +45,7 @@ const clone = {
     }
 }
 
-const date = {
+export const date = {
     getString(date, separator={}){
         const {
             dateSep='', 
@@ -64,7 +64,7 @@ const date = {
     }
 }
 
-const file = {
+export const file = {
     validType : {
         directory(dirname){
             if(typeof(dirname) === 'string') return true;
@@ -187,7 +187,7 @@ const file = {
     }
 }
 
-const fp = {
+export const fp = {
     throttle(duration, fn){
         let timer = null;
         return (...args) => {
@@ -274,7 +274,7 @@ const appendToWriteStream = async (rStream, wStream) => {
     })
 }
 
-const browserStorage = {
+export const browserStorage = {
     storage : null,
     // storageAvailable : (type) => {
     init : (type) => {
@@ -298,15 +298,15 @@ const browserStorage = {
     clear: () => this.storage.clear()
 }
 
-export default {
-    browserStorage,
-    clone,
-    fp,
-    file,
-    number,
-    date,
-    string
-}
+// export default {
+//     browserStorage,
+//     clone,
+//     fp,
+//     file,
+//     number,
+//     date,
+//     string
+// }
 
 // const trottled = fp.throttle(100, console.log);
 // const looplog = fp.times(trottled, {count:100, sleep:100});
