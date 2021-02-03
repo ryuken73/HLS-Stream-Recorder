@@ -26,13 +26,14 @@ const useStyles = makeStyles((theme) => ({
 
 const rimraf = require('rimraf');
 const path = require('path');
-import utils from '../../../utils';
+import {file} from '../../../utils';
 import { setRecorderMount } from '../../../modules/hlsRecorders';
 
 async function mkdir(directory){
     try {
-        await utils.file.makeDirectory(directory);
+        await file.makeDirectory(directory);
     } catch (err) {
+        console.error('in HLSRecorder index.js');
         console.error(err);
     }
 }

@@ -29,11 +29,12 @@ const {
 const INITIAL_DURATION = '00:00:00.00';
 const INITIAL_INTERVAL = defaultInterval;
 
-import utils from '../utils';
+import {date, file} from '../utils';
 async function mkdir(directory){
     try {
-        await utils.file.makeDirectory(directory);
+        await file.makeDirectory(directory);
     } catch (err) {
+        console.error('in hlsRecorder module');
         console.error(err);
     }
 }
@@ -210,9 +211,9 @@ export const createRecorder = (channelNumber, createdByError=false) => (dispatch
 const getOutputName = (hlsRecorder, hlsPlayer) => {
     const {channelName, channelDirectory} = hlsRecorder;
     const {source} = hlsPlayer;
-    const now = utils.date.getString(new Date(),{sep:'-'});
+    const now = date.getString(new Date(),{sep:'-'});
     const jobDescString = `${channelName}_${now}_${Date.now()}_${source.title}`;
-    const safeForWinFile = utils.file.toSafeFileNameWin(jobDescString);
+    const safeForWinFile = file.toSafeFileNameWin(jobDescString);
     const saveDirectory = path.join(channelDirectory, safeForWinFile);
     const subDirectory = safeForWinFile;
     const localm3u8 = path.join(saveDirectory, `${channelName}_stream.m3u8`);
@@ -307,8 +308,8 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
             try {
                 console.log('####### recorder.once end', hlsRecorder.localm3u8);
                 const endTimestamp = Date.now();
-                const startTime = utils.date.getString(new Date(startTimestamp),{sep:'-'})
-                const endTime = utils.date.getString(new Date(endTimestamp),{sep:'-'})
+                const startTime = date.getString(new Date(startTimestamp),{sep:'-'})
+                const endTime = date.getString(new Date(endTimestamp),{sep:'-'})
                 const url = hlsRecorder.playerHttpURL;
                 const title = source.title;
                 const hlsDirectory = saveDirectory;
