@@ -181,9 +181,13 @@ export const refreshChannelClipCountStatistics = ({channelNumber}) => async (dis
 }  
 
 export const setChannelStatNStore = ({channelNumber, statName, value}) => async (dispatch, getState) => {
+    const state = getState();
+    const hlsPlayer = {...state.hlsPlayers.players.get(channelNumber)};
+    const {title} = hlsPlayer.source;
     const statusReport = {
         type: 'channelStatistics',
         source: `channel${channelNumber}`,
+        title: title,
         name: statName,
         value
     }
@@ -200,7 +204,6 @@ export const setChannelStatNStore = ({channelNumber, statName, value}) => async 
     dispatch(setChannelStat({channelNumber, statName:'clipCountStore', value:countInStore}))
     statisticsStore.set(`channelStats.${channelNumber}.clipCountStore`, countInStore);
     // refresh clip count of directory on both store and state 
-    const state = getState();
     const countInFolder = await getChannelClipCountInDirectory(state, channelNumber);
     dispatch(setChannelStat({channelNumber, statName:'clipCountFolder', value: countInFolder}));
     statisticsStore.set(`channelStats.${channelNumber}.clipCountFolder`, countInFolder);
