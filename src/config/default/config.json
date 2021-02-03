@@ -43,6 +43,7 @@
   "AUTO_START_SCHEDULE": true,
   "AUTO_START_SCHEDULE_DELAY_MS": 5000,
   "KAFKA_ENABLED": false,
+  "KAFKA_CLIENT_NAME": "dev",
   "KAFKA_CLIENT_ID": "HLS-Recorder",
   "KAFKA_BROKERS": ["nodesr01:9092", "nodesr02:9092", "nodesr03:9092"],
   "KAFKA_TOPIC": "HLS-Recorder",

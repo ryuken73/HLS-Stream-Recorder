@@ -74,6 +74,7 @@ function OptionDialog(props) {
     AUTO_START_SCHEDULE_DELAY_MS,
     MEMORY_USAGE_PERCENTAGE_TO_AUTO_CLEAR,
     KAFKA_ENABLED,
+    KAFKA_CLIENT_NAME,
     MEM_CLEAR_COUNT_LIMIT,
     AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT
   } = config;
@@ -172,7 +173,7 @@ function OptionDialog(props) {
         <OptionRadioButtonWithDefault subtitle='Auto Reload Over Limit' currentvalue={AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT} onChange={onChangeConfig('AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT')}></OptionRadioButtonWithDefault>
         <OptionRadioButtonWithDefault subtitle="Schedule Auto Start" currentvalue={AUTO_START_SCHEDULE} onChange={onChangeConfig('AUTO_START_SCHEDULE')}></OptionRadioButtonWithDefault>
         <OptionRadioButtonWithDefault subtitle="Enable Kafka Send" currentvalue={KAFKA_ENABLED} onChange={onChangeConfig('KAFKA_ENABLED')}></OptionRadioButtonWithDefault>
-        
+        <OptionTextInputWithDefault subtitle='Kafka Host Name' value={KAFKA_CLIENT_NAME} onChange={onChangeConfig('KAFKA_CLIENT_NAME')}></OptionTextInputWithDefault>
       </DialogContentText>
     </DialogContent>
     <DialogActions>

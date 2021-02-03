@@ -1,5 +1,6 @@
 const {createProducer, sendMessage} = require('./kafkaClient');
 const {
+    KAFKA_CLIENT_NAME="default_name",
     KAFKA_CLIENT_ID='default_client',
     KAFKA_BROKERS=[],
     KAFKA_ENABLED=false
@@ -18,7 +19,8 @@ class KafkaSender {
         console.log(`@@ kafkaSender send called : ${messageJson}`);
         try {
             const {type, source, name, value} = messageJson;
-            console.log(`@@ notify report : type[${type}] source[${source}] name[${name}] value[${value}]`);
+            messageJson.host = KAFKA_CLIENT_NAME;
+            console.log(`@@ notify report : host[${KAFKA_CLIENT_NAME}] type[${type}] source[${source}] name[${name}] value[${value}]`);
             const payloads = {
                 topic: this.topic,
                 messages: [{
