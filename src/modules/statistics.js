@@ -225,8 +225,9 @@ export const clearAllChannelStatNStore = () => (dispatch, getState) => {
 export const increaseChannelStatsNStore = ({channelNumber, statName}) => async (dispatch, getState) => {
     const state = getState();
     const oldValue = state.statistics.channelStats[channelNumber][statName];
-    statisticsStore.set(`channelStats.${channelNumber}.${statName}`, oldValue + 1);
-    dispatch(increaseChannelStat({channelNumber, statName}));
+    dispatch(setChannelStatNStore({channelNumber, statName, value: oldValue + 1}))
+    // statisticsStore.set(`channelStats.${channelNumber}.${statName}`, oldValue + 1);
+    // dispatch(increaseChannelStat({channelNumber, statName}));
     dispatch(increaseAppStatNStore({statName}));
     dispatch(refreshClipCountStatistics());
 }
