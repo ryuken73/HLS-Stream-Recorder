@@ -82,7 +82,7 @@ const createWindow = async () => {
     height: 800,
     backgroundColor: '#252839',
     title: 'HLS Stream Recorder',
-    minimizable: false,
+    // minimizable: false,
     icon: getAssetPath('icon.png'),
     webPreferences: {
       nodeIntegration: true,
