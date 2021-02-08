@@ -298,6 +298,39 @@ export const browserStorage = {
     clear: () => this.storage.clear()
 }
 
+const sortBy = (a,b) => {
+	return key => {
+		// if key value is empty, push back
+		if(a[key] === '') return 1;
+		if(b[key] === '') return -1;
+		// normal order
+		if(a[key] > b[key]) return 1;
+		if(a[key] < b[key]) return -1;
+		return false
+	}
+}
+
+export const order = {
+    orderByKey: (keyName) => {
+        return (a,b) => {
+            const sortByKey = sortBy(a,b);
+            const result = sortByKey(keyName);
+            return result;
+        }
+    }
+}
+
+// const orderTest = [
+//     {name:'ryu', age:10},
+//     {name:'ken', age:50},
+//     {name:'kim', age:49},
+//     {name:'anne', age:16},
+//     {name:'andy', age:19},
+// ]
+
+// console.log(sort(order.orderByKey('name')))
+// console.log(sort(order.orderByKey('age')))
+
 // export default {
 //     browserStorage,
 //     clone,
