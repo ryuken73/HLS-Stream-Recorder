@@ -147,6 +147,11 @@ export const createRecorder = (channelNumber, createdByError=false) => (dispatch
     channelLog.info(`create HLS Recorder`)
 
     const ffmpegPath = getAbsolutePath('bin/ffmpeg.exe', true);
+    if(!fs.existsSync(ffmpegPath)){
+        const notification = new window.Notification('Error', {
+            body: 'No ffmpeg.exe in bin folder. copy file and retry'
+        })
+    }
     const recorderOptions = {
         name: channelName,
         src: url, 
