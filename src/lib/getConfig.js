@@ -24,11 +24,11 @@ export const getCombinedConfig = (params={}) => {
     const {storeName='optionStore', electronPath='home'} = params;
     const defaultJsonFile = electronUtil.getAbsolutePath('config/default/config.json', true);
     const defaultJson = electronUtil.readJSONFile(defaultJsonFile);
-    const sourceStore = new Store({
+    const storeSaved = new Store({
         name: storeName,
         cwd: app.getPath(electronPath)
     })
-    const customConfig = sourceStore.store;
+    const customConfig = storeSaved.store;
     const combinedConfig = {...defaultJson, ...customConfig};
     const typeConverted = valuesToInt(combinedConfig)
     return typeConverted;
