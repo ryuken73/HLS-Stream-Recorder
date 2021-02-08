@@ -1,4 +1,5 @@
-const electronUtil = require('./electronUtil')
+const electronUtil = require('./electronUtil');
+import {order} from '../utils';
 export const cctvFromConfig = () => {
     const defaultJsonFile = electronUtil.getAbsolutePath('config/default/sources.json', true);
     const customJsonFile = electronUtil.getAbsolutePath('config/sources.json', true);
@@ -13,6 +14,9 @@ export const cctvFromConfig = () => {
         return resultsUniq;
     }
     const mergedSources = distinctByKey([...defaultJson.sources, ...customJson.sources], 'title');
-    return mergedSources;
+    const orderByTitle = mergedSources.sort(order.orderByKey('title'));
+    console.log(`m:`, mergedSources)
+    console.log(`o:`, orderByTitle)
+    return orderByTitle;
 }
 
