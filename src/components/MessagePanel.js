@@ -5,11 +5,12 @@ import Typography from '@material-ui/core/Typography';
 import SectionWithFullHeightFlex from './template/SectionWithFullHeightFlex';
 import {remote, webFrame} from 'electron';
 import {kafka} from '../lib/kafkaSender';
-const {app} = remote;
+const {app, getCurrentWindow} = remote;
 
 const {
   KAFKA_TOPIC=`topic_${Date.now()}`, 
-  KAFKA_KEY='none'
+  KAFKA_KEY='none',
+  IDLE_SECONDS_BEFORE_AUTO_MINIMIZE=30
 } = require('../lib/getConfig').getCombinedConfig();
 
 function MessagePanel(props) {
@@ -20,6 +21,38 @@ function MessagePanel(props) {
   const messageText = `[${logLevel}] ${message}`;
   const {setAppStatNStore, increaseAppStatNStore} = props.StatisticsActions;
   const kafkaSender = kafka({topic:KAFKA_TOPIC});
+  const [idleTime, setIdleTime] = React.useState(0);
+  const [minimized, setMinimized] = React.useState(false);
+
+  React.useState(() => {
+    const mainWindow = getCurrentWindow();
+    mainWindow.on('minimize', () => {
+      setMinimized(true)
+    })
+    mainWindow.on('restore', () => {
+      setMinimized(false)
+    })
+  },[])
+
+  React.useEffect(() => {
+    let timer;
+    if(minimized === false){
+      timer = setInterval(() => {
+        const idleTime = remote.powerMonitor.getSystemIdleTime();
+        setIdleTime(idleTime);
+        if(IDLE_SECONDS_BEFORE_AUTO_MINIMIZE - idleTime === 0){
+          const mainWindow = getCurrentWindow();
+          mainWindow.minimize();
+          setMinimized(true)
+        }
+      },1000)
+    } else {
+      clearInterval(timer);
+    }
+    return () => {
+      clearInterval(timer);
+    }
+  },[minimized])
 
   React.useEffect(() => {
     const memChecker = setInterval(() => {
@@ -75,6 +108,9 @@ function MessagePanel(props) {
                     </Box>
                     <Box ml="auto">
                         <Typography variant={"caption"}>[{memUsed}MB / {maxMemory}MB]</Typography>
+                    </Box>
+                    <Box ml="5px">
+                        <Typography variant={"caption"}>[Minimize after {IDLE_SECONDS_BEFORE_AUTO_MINIMIZE - idleTime} seconds]</Typography>
                     </Box>
                     <Box ml="5px">
                         <Typography variant={"caption"}>v.{app.getVersion()}</Typography>

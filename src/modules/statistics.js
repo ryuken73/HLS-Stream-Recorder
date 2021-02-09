@@ -42,7 +42,7 @@ const getChannelClipCountInDirectory = (state, channelNumber) => {
                 const countInFolder = localm3u8 === null ? files.length : files.filter(file => {
                     const currentFolder = path.join(saveFolder, file);
                     const currentRecordingFolder = path.dirname(localm3u8);
-                    currentFolder === currentRecordingFolder && console.log(`@@@ currentFolder=${currentFolder} currentRecordingFolder=${currentRecordingFolder} ${currentFolder !== currentRecordingFolder}`)
+                    // currentFolder === currentRecordingFolder && console.log(`@@@ currentFolder=${currentFolder} currentRecordingFolder=${currentRecordingFolder} ${currentFolder !== currentRecordingFolder}`)
                     return currentFolder !== currentRecordingFolder
                 }).length;
                 // console.log(`@@@ countInFolder=${countInFolder}`);
