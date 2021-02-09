@@ -30,7 +30,7 @@ class KafkaSender {
             }
             const result = await sendMessage(this.producer, payloads);
             console.log('###', result)
-            this.producer.disconnect();
+            // this.producer.disconnect();
         } catch (err) {
             console.error(err);
         }
