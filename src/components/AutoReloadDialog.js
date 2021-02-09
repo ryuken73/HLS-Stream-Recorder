@@ -31,6 +31,9 @@ function AutoReloadDialog(props) {
         })
     },1000)
     setTimer(timer);
+    return () => {
+      clearInterval(timer);
+    }
   },[])
 
   const dialogMessage = remainSeconds === 0 ? 

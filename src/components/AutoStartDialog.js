@@ -30,6 +30,9 @@ function AutoStartDialog(props) {
         })
     },1000)
     setTimer(timer);
+    return () => {
+      clearInterval(timer);
+    }
   },[])
 
   const handleClose = () => {
