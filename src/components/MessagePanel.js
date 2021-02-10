@@ -20,7 +20,8 @@ function MessagePanel(props) {
   const [memUsed, setMemUsed] = React.useState(0);
   const messageText = `[${logLevel}] ${message}`;
   const {setAppStatNStore, increaseAppStatNStore} = props.StatisticsActions;
-  const kafkaSender = kafka({topic:KAFKA_TOPIC});
+  // const kafkaSender = kafka({topic:KAFKA_TOPIC});
+  const [kafkaSender, setkafkaSender] = React.useState(kafka({topic:KAFKA_TOPIC}))
   const [idleTime, setIdleTime] = React.useState(0);
   const [minimized, setMinimized] = React.useState(false);
 
