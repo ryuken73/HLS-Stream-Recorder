@@ -16,11 +16,14 @@ class KafkaSender {
     }
 
     send = async ({key='none', messageJson={}}) => {
-        console.log(`@@ kafkaSender send called : ${messageJson}`);
+        // console.log(`@@ kafkaSender send called : ${messageJson}`);
+        const now = new Date();
+        const dateString = now.toLocaleString();
         try {
             const {type, source, name, value} = messageJson;
+            messageJson.eventTime = dateString;
             messageJson.host = KAFKA_CLIENT_NAME;
-            console.log(`@@ notify report : host[${KAFKA_CLIENT_NAME}] type[${type}] source[${source}] name[${name}] value[${value}]`);
+            // console.log(`@@ notify report : host[${KAFKA_CLIENT_NAME}] type[${type}] source[${source}] name[${name}] value[${value}]`);
             const payloads = {
                 topic: this.topic,
                 messages: [{
