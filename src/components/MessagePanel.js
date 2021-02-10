@@ -25,6 +25,16 @@ function MessagePanel(props) {
   const [minimized, setMinimized] = React.useState(false);
 
   React.useState(() => {
+    // web worker test
+    // const timer = new Worker('./lib/counter.js');
+    // timer.onmessage = event => {
+    //   const {data} = event;
+    //   console.log(data);
+    // }
+    // timer.postMessage('start')
+    // setInterval(() => {
+    //   console.log('1111')
+    // },1000)
     const mainWindow = getCurrentWindow();
     mainWindow.on('minimize', () => {
       setMinimized(true)
@@ -66,6 +76,17 @@ function MessagePanel(props) {
           setAppStatNStore({statName:'memClearTime', value: Date.now()});
           increaseAppStatNStore({statName:'memClearCount'});
         } 
+        const reportStatus = {
+          type: 'performance',
+          source: 'app',
+          name: 'memUsageMB',
+          value: currentMemMB
+        };
+        kafkaSender.send({
+          key: KAFKA_KEY,
+          messageJson: reportStatus
+        })
+        console.log(`current memory: ${currentMemMB}`)
         setMemUsed(currentMemMB);
       })
     },1000)
@@ -84,18 +105,18 @@ function MessagePanel(props) {
       setAppStatNStore({statName:'memClearCount', value:0});
       setReloadDialogOpen(true);
     }   
-    return async () => {
-      const reportStatus = {
-        type: 'performance',
-        source: 'app',
-        name: 'memUsageMB',
-        value: memUsed
-      };
-      const result = await kafkaSender.send({
-        key: KAFKA_KEY,
-        messageJson: reportStatus
-      })
-    }
+    // return async () => {
+    //   const reportStatus = {
+    //     type: 'performance',
+    //     source: 'app',
+    //     name: 'memUsageMB',
+    //     value: memUsed
+    //   };
+    //   const result = await kafkaSender.send({
+    //     key: KAFKA_KEY,
+    //     messageJson: reportStatus
+    //   })
+    // }
 
   }, [memUsed])
 
