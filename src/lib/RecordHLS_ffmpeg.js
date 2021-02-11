@@ -134,16 +134,10 @@ class RecoderHLS extends EventEmitter {
     onFFMPEGEnd = (error) => {
         this.log.info(`ffmpeg ends! : ${this.target} ${this.localm3u8}`);
         if(error){
-            // this.initialize();
-            // do not manually initialize
-            // send error message to ChannelControl
             this.log.error(`ended abnormally: startime =${this.startTime}:duration=${this.duration}`);
             this.emit('error', this.target, this.startTime, this.duration, error);
             this.initialize();            
-            // this.emit('end', this.target, this.startTime, this.duration, error)
             return
-            // this.emit('end', this.target, this.startTime, this.duration)
-            // return;
         }
         this.log.info(`ended ${this.startTime}:${this.duration}`)
         this.emit('end', this.target, this.startTime, this.duration)
@@ -160,7 +154,6 @@ class RecoderHLS extends EventEmitter {
         this.emit('start', cmd);
     }
     progressHandler = event => {
-        // this.bytesRecorded = this.wStream.bytesWritten;
         this.duration = event.timemark;
         this.log.debug(`duration: ${this.duration}`);
         const CRITICAL_SUCCESSIVE_OCCUR_COUNT = 5;
@@ -180,8 +173,6 @@ class RecoderHLS extends EventEmitter {
         }
         this.isPreparing = true;
         this.log.info(`start encoding.... ${this.src}`);
-        // this.command = ffmpeg(this._src).inputOptions(hlsInputOptions).output(this.target).outputOptions(mp4Options);
-        // this.enablePlayback && this.command.output(this._localm3u8).outputOptions(hlsOptions);
         try {
             this.command = ffmpeg(this._src).inputOptions(hlsInputOptions).output(this._localm3u8).outputOptions(hlsOptions);
         } catch (error) {

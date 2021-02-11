@@ -9,7 +9,6 @@ import {remote} from 'electron';
 
 
 function AutoStartDialog(props) {
-  console.log('*********', props)
   const {open, scheduleStartDelay=5000, setAutoStartDialogOpen} = props;
   const {startScheduleAll} = props.HLSRecorderActions;
   const [remainSeconds, setRemainSeconds] = React.useState(parseInt((scheduleStartDelay/1000).toFixed(0)));

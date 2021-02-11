@@ -104,14 +104,10 @@ const Controls = props => {
     },[])
 
     const refreshChannelPlayer = (event) => {
-        // todo: url can be file url when recording
-        // refreshPlayer({channelNumber, url:source.url});
         refreshPlayer({channelNumber});
     }
 
     const remountChannelPlayer = (event) => {
-        // todo: url can be file url when recording
-        // refreshPlayer({channelNumber, url:source.url});
         remountPlayer({channelNumber});
     }
 
@@ -194,8 +190,6 @@ const Controls = props => {
 
     const StyledBadge = withStyles((theme) => ({
         badge: {
-        //   right: 10,
-        //   top: -25,
           right: -10,
           top: -8,
           border: `1.5px solid ${theme.palette.background.paper}`,
@@ -214,14 +208,12 @@ const Controls = props => {
             </SmallPaddingIconButton>
             <SmallPaddingIconButton disabled={inTransition} padding="1px" size="small" iconcolor={recorderIconColor}>
                 <FiberManualRecordIcon 
-                    // color={recorderStatus==="started" ? "secondary" : "primary"}
                     fontSize={"small"} 
                     onClick={recorderStatus==="started" ? stopRecordChannel : startRecordChannel}
                 ></FiberManualRecordIcon>
             </SmallPaddingIconButton>
             <SmallPaddingIconButton disabled={inTransition} padding="1px" size="small" iconcolor={scheduleIconColor}>
                 <AccessAlarmIcon 
-                    // color="primary" 
                     fontSize={"small"} 
                     onClick={scheduleStatus==="started" ? stopScheduleChannel : startScheduleChannel}
                 ></AccessAlarmIcon>
@@ -237,7 +229,6 @@ const Controls = props => {
                 >
                     <SmallPaddingIconButton padding="1px" size="small" iconcolor="black">
                         <FolderOpenIcon 
-                            // color="primary" 
                             fontSize={"small"} 
                             onClick={openDirectory}
                         ></FolderOpenIcon>
@@ -258,7 +249,6 @@ const Controls = props => {
                         onClick={showStatistics}
                     >
                         <AssignmentIcon 
-                            // color="primary" 
                             fontSize={"small"} 
                         ></AssignmentIcon>
                     </SmallPaddingIconButton>
@@ -278,7 +268,6 @@ const Controls = props => {
                         onClick={stopRecordChannelForce}
                     >
                         <PowerSettingsNewIcon 
-                            // color="primary" 
                             fontSize={"small"} 
                         ></PowerSettingsNewIcon>
                     </SmallPaddingIconButton>

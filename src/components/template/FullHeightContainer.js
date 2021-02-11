@@ -6,7 +6,6 @@ const defaultProps = {
     height: 1,
     flexDirection: "column",
     justifyContent: "space-evenly",
-    // flexShrink: 0
 }
 
 export default function FullHeightContainer({children, ...props}) {

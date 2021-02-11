@@ -52,7 +52,6 @@ const OptionRadioButtonWithDefault = props => {
         </OptionRadioButton>
 }
 function OptionDialog(props) {
-  console.log('######################## re-render OptionDialog', props);
   const [valueChanged, setValueChanged] = React.useState(false);
   const {setConfirmOpen, setConfirmAction, setConfirmDialogTitle, setConfirmDialogText} = props;
   const {title="Dialog Box"} = props;
@@ -94,7 +93,7 @@ function OptionDialog(props) {
   const onChangeConfig = configName => {
     return event => {
       setValueChanged(true);
-      console.log(configName, event.target.value, typeof(event.target.value));
+      // console.log(configName, event.target.value, typeof(event.target.value));
       const nomalizedValue = stringToBool(event.target.value)
       setConfigValue({configName, value: nomalizedValue})
     }

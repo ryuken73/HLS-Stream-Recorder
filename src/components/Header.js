@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Box from '@material-ui/core/Box'
 import BorderedList from './template/BorderedList';
-// import IconButton from '@material-ui/core/IconButton';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import SettingsIcon from '@material-ui/icons/Settings';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
@@ -12,7 +11,6 @@ import BugReportIcon from '@material-ui/icons/BugReport';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import LiveHelpIcon from '@material-ui/icons/LiveHelp';
-// import AssignmentOutlinedIcon from '@material-ui/icons/AssignmentOutlined';
 import BackspaceIcon from '@material-ui/icons/Backspace';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
@@ -61,7 +59,6 @@ const Header = (props) => {
 
     const openDialog = React.useCallback(() => {
         openOptionsDialog();
-        // setOptionsDialogOpen({dialogOpen:true})
     },[])
     
     const remount = React.useCallback(() => {
@@ -69,7 +66,6 @@ const Header = (props) => {
         setConfirmDialogText("All Players will be refreshed. OK?");
         setConfirmAction('remount');
         setConfirmOpen(true);
-        // remote.getCurrentWebContents().reload();
     },[])
 
     const reload = React.useCallback(() => {
@@ -79,7 +75,6 @@ const Header = (props) => {
         `);
         setConfirmAction('reload');
         setConfirmOpen(true);
-        // remote.getCurrentWebContents().reload();
     },[])
 
     const clearStatistics = React.useCallback(() => {
@@ -89,7 +84,6 @@ const Header = (props) => {
         `);
         setConfirmAction('clearStatistics');
         setConfirmOpen(true);
-        // remote.getCurrentWebContents().reload();
     },[])
     
     const openDirectory = React.useCallback(() => {
@@ -112,7 +106,6 @@ const Header = (props) => {
     }
 
     const clearCache = () => {
-        // const {webFrame} = require('electron')
         webFrame.clearCache();
     }
 

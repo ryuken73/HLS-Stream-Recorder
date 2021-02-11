@@ -15,8 +15,6 @@ export const cctvFromConfig = () => {
     }
     const mergedSources = distinctByKey([...defaultJson.sources, ...customJson.sources], 'title');
     const orderByTitle = mergedSources.sort(order.orderByKey('title'));
-    console.log(`m:`, mergedSources)
-    console.log(`o:`, orderByTitle)
     return orderByTitle;
 }
 

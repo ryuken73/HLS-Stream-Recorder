@@ -21,7 +21,6 @@ const HLSRecorder = (props) => {
     const {setRecorderMount} = props.HLSRecorderActions;
 
     const bgColors = {
-        // 'starting': 'maroon',
         'starting': '#540101',
         'started': 'maroon',
         'stopping': '#540101',

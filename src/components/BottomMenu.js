@@ -1,7 +1,6 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import {SmallButton}  from './template/smallComponents';
-
 import BorderedBox from './template/BorderedBox';
 import IconButton from '@material-ui/core/IconButton';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -27,7 +26,6 @@ const ButtomMenu = (props) => {
         stopRecordAll=()=>{},
         changeAllIntervals=()=>{}
     } = props.HLSRecorderActions;
-    console.log('$$$$$$$$', changeAllIntervals)
     const scheduleButtonColor =  scheduleStatusAllStopped ? 'darkslategrey' : 'maroon';
     const recordButtonColor =  recorderStatusAllStopped ? 'darkslategrey' : 'maroon';
 

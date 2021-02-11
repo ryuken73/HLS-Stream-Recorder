@@ -26,12 +26,7 @@ const mkOverlayContent = url => {
 
 const players = new Map();
 const {remote} = require('electron');
-// below is not singleton
-// const electronUtil = require('../lib/electronUtil');
-// const sourceStore = electronUtil.createElectronStore({
-//     name:'sourceStore',
-//     cwd:remote.app.getPath('home')
-// });
+
 const Store = require('electron-store');
 const sourceStore = new Store({
     name:'sourceStore',

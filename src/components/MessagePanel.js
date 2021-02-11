@@ -14,13 +14,11 @@ const {
 } = require('../lib/getConfig').getCombinedConfig();
 
 function MessagePanel(props) {
-  // console.log('######################## re-render MessagePanel', props);
   const {logLevel="INFO", message="READY", mt="auto"} = props;
   const {setReloadDialogOpen, maxMemory, memUsageToClear} = props;
   const [memUsed, setMemUsed] = React.useState(0);
   const messageText = `[${logLevel}] ${message}`;
   const {setAppStatNStore, increaseAppStatNStore} = props.StatisticsActions;
-  // const kafkaSender = kafka({topic:KAFKA_TOPIC});
   const [kafkaSender, setkafkaSender] = React.useState(kafka({topic:KAFKA_TOPIC}))
   const [idleTime, setIdleTime] = React.useState(0);
   const [minimized, setMinimized] = React.useState(false);
@@ -79,7 +77,6 @@ function MessagePanel(props) {
   const {memClearCount} = props.appStat;
   const {AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT, MEM_CLEAR_COUNT_LIMIT} = props.config;
   React.useEffect(() => {
-    // console.log(memUsed, memClearCount, AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT, MEM_CLEAR_COUNT_LIMIT)
     if(AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT && (memClearCount > MEM_CLEAR_COUNT_LIMIT)){
       // reset memClearCount
       setAppStatNStore({statName:'memClearCount', value:0});

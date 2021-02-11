@@ -32,7 +32,4 @@ const createStore = () => {
     return new MainStore();
 }
 
-// const store = createStore();
-// console.log(store.getChannelProp.url(1));
-
 export default createStore;
