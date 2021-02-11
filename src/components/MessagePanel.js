@@ -6,6 +6,7 @@ import SectionWithFullHeightFlex from './template/SectionWithFullHeightFlex';
 import {remote, webFrame} from 'electron';
 import {kafka} from '../lib/kafkaSender';
 const {app, getCurrentWindow} = remote;
+const electronUtil = require('../lib/electronUtil');
 
 const {
   KAFKA_TOPIC=`topic_${Date.now()}`, 
@@ -24,6 +25,34 @@ function MessagePanel(props) {
   const [minimized, setMinimized] = React.useState(false);
 
   React.useState(() => {
+    // web worker test
+    const workerJS = electronUtil.getAbsolutePath('lib/worker.js');
+    const timer = new Worker(workerJS);
+    timer.onmessage = event => {
+      const {data:processMemory} = event;
+      const currentMemMB = (processMemory.private/1024).toFixed(0);
+      const memMBToClear = maxMemory * memUsageToClear / 100;
+      if(currentMemMB > memMBToClear){
+        console.log(`### clear memory(webFrame.clearCache()): currentMem[${currentMemMB}] triggerMem[${memMBToClear}]`);
+        webFrame.clearCache();
+        setAppStatNStore({statName:'memClearTime', value: Date.now()});
+        increaseAppStatNStore({statName:'memClearCount'});
+      } 
+      const reportStatus = {
+        type: 'performance',
+        source: 'app',
+        name: 'memUsageMB',
+        value: currentMemMB
+      };
+      kafkaSender.send({
+        key: KAFKA_KEY,
+        messageJson: reportStatus
+      })
+      console.log(`current memory: ${currentMemMB}`)
+      setMemUsed(currentMemMB);
+    }
+
+    timer.postMessage('start')
     const mainWindow = getCurrentWindow();
     mainWindow.on('minimize', () => {
       setMinimized(true)
@@ -31,6 +60,12 @@ function MessagePanel(props) {
     mainWindow.on('restore', () => {
       setMinimized(false)
     })
+
+    return () => {
+      console.log('## destroy webworker[memory getter]')
+      timer.terminate();
+    }
+
   },[])
 
   React.useEffect(() => {
@@ -53,26 +88,37 @@ function MessagePanel(props) {
     }
   },[minimized])
 
-  React.useEffect(() => {
-    const memChecker = setInterval(() => {
-      process.getProcessMemoryInfo()
-      .then(processMemory => {
-        const currentMemMB = (processMemory.private/1024).toFixed(0);
-        const memMBToClear = maxMemory * memUsageToClear / 100;
-        if(currentMemMB > memMBToClear){
-          console.log(`### clear memory(webFrame.clearCache()): currentMem[${currentMemMB}] triggerMem[${memMBToClear}]`);
-          webFrame.clearCache();
-          setAppStatNStore({statName:'memClearTime', value: Date.now()});
-          increaseAppStatNStore({statName:'memClearCount'});
-        } 
-        setMemUsed(currentMemMB);
-      })
-    },1000)
-    return () => {
-      console.log('## clear memChecker')
-      clearInterval(memChecker);
-    }
-  },[memUsageToClear]);
+  // React.useEffect(() => {
+  //   const memChecker = setInterval(() => {
+  //     process.getProcessMemoryInfo()
+  //     .then(processMemory => {
+  //       const currentMemMB = (processMemory.private/1024).toFixed(0);
+  //       const memMBToClear = maxMemory * memUsageToClear / 100;
+  //       if(currentMemMB > memMBToClear){
+  //         console.log(`### clear memory(webFrame.clearCache()): currentMem[${currentMemMB}] triggerMem[${memMBToClear}]`);
+  //         webFrame.clearCache();
+  //         setAppStatNStore({statName:'memClearTime', value: Date.now()});
+  //         increaseAppStatNStore({statName:'memClearCount'});
+  //       } 
+  //       const reportStatus = {
+  //         type: 'performance',
+  //         source: 'app',
+  //         name: 'memUsageMB',
+  //         value: currentMemMB
+  //       };
+  //       kafkaSender.send({
+  //         key: KAFKA_KEY,
+  //         messageJson: reportStatus
+  //       })
+  //       console.log(`current memory: ${currentMemMB}`)
+  //       setMemUsed(currentMemMB);
+  //     })
+  //   },1000)
+  //   return () => {
+  //     console.log('## clear memChecker')
+  //     clearInterval(memChecker);
+  //   }
+  // },[memUsageToClear]);
 
   const {memClearCount} = props.appStat;
   const {AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT, MEM_CLEAR_COUNT_LIMIT} = props.config;
@@ -82,18 +128,18 @@ function MessagePanel(props) {
       setAppStatNStore({statName:'memClearCount', value:0});
       setReloadDialogOpen(true);
     }   
-    return async () => {
-      const reportStatus = {
-        type: 'performance',
-        source: 'app',
-        name: 'memUsageMB',
-        value: memUsed
-      };
-      const result = await kafkaSender.send({
-        key: KAFKA_KEY,
-        messageJson: reportStatus
-      })
-    }
+    // return async () => {
+    //   const reportStatus = {
+    //     type: 'performance',
+    //     source: 'app',
+    //     name: 'memUsageMB',
+    //     value: memUsed
+    //   };
+    //   const result = await kafkaSender.send({
+    //     key: KAFKA_KEY,
+    //     messageJson: reportStatus
+    //   })
+    // }
 
   }, [memUsed])
 
