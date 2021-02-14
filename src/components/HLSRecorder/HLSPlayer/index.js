@@ -132,7 +132,8 @@ const HLSPlayer = (props) => {
                 setChannelStatNStore({channelNumber, statName:'lastRefreshTime', value:Date.now()})
                 increaseChannelStatsNStore({channelNumber, statName:'refreshCount'})
                 // setVersion(Date.now())
-                refreshPlayer({channelNumber});
+                // refreshPlayer({channelNumber});
+                remountPlayer({channelNumber})
             },LONG_BUFFERING_MS_SECONDS)
             return
         } else if(eventName === 'abort' && enableAutoRefresh === null) {
@@ -154,7 +155,10 @@ const HLSPlayer = (props) => {
         }
     }
     return (
-        <Box key={version}>
+        <Box key={version}                     
+        width={width} 
+        height={height}
+        >
             {mountPlayer ?
                 <Box>
                 <VideoPlayer
@@ -186,13 +190,17 @@ const HLSPlayer = (props) => {
                 </Box>
                 :
                 <Box 
-                    width={width} 
-                    height={height}
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
+                    // width={"284px"} 
+                    // height={"170px"}
+                    // display="flex"
+                    // justifyContent="center"
+                    // alignItems="center"
+                    pt={"75px"}
+                    textAlign="center"
+                    fontSize="13px"
                 >
-                    <Box>playback closed!</Box>
+                    Wait Reload....
+                    {/* <Box>playback closed!</Box> */}
 
                 </Box>
             }
