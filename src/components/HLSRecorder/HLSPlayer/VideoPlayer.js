@@ -71,6 +71,8 @@ class VideoPlayer extends Component {
         playerOptions.bigPlayButton = props.bigPlayButton;
         playerOptions.liveui = props.liveui;
         playerOptions.controlBar = {'pictureInPictureToggle': false};
+        playerOptions.loadingSpinner = props.loadingSpinner;
+        playerOptions.errorDisplay = props.errorDisplay;
 
         const hidePlaybackRates = props.hidePlaybackRates || props.hideControls.includes('playbackrates');
         if (!hidePlaybackRates) playerOptions.playbackRates = props.playbackRates;

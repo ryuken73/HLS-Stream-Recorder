@@ -24,6 +24,8 @@ const HLSPlayer = (props) => {
         controls=false,
         hideControls=[],
         autoplay=true, 
+        loadingSpinner=false,
+        errorDisplay=false,
         bigPlayButton=false, 
         bigPlayButtonCentered=false, 
         inactivityTimeout=3000,
@@ -186,6 +188,8 @@ const HLSPlayer = (props) => {
                     enableOverlay={enableOverlay}
                     overlayContent={overlayContent}
                     inactivityTimeout={inactivityTimeout}
+                    loadingSpinner={loadingSpinner}
+                    errorDisplay={errorDisplay}
                 /> 
                 </Box>
                 :
