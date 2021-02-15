@@ -7,7 +7,6 @@ import {remote} from 'electron';
 
 
 function AutoReloadDialog(props) {
-  console.log('*********', props)
   const {open, reloadWaitSeconds=5000} = props;
   const {setAppStatNStore, increaseAppStatNStore} = props.StatisticsActions;
   const {stopRecordAll} = props.HLSRecorderActions;

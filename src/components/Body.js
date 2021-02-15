@@ -1,6 +1,5 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
-// import HLSRecorder from './HLSRecorder';
 import HLSRecorderContainer from '../containers/HLSRecorderContainer';
 
 const Body = (props) => {

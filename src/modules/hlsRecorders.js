@@ -1,12 +1,9 @@
 import {createAction, handleActions} from 'redux-actions';
 import {setPlayerSource, refreshPlayer} from './hlsPlayers';
 import {setChannelStatNStore, increaseChannelStatsNStore} from './statistics';
-// import {logInfo, logError, logFail} from './messagePanel';
-// const cctvFromConfig = require('../lib/getCCTVList');
 import {cctvFromConfig} from '../lib/getCCTVList';
 import {getCombinedConfig,getDefaultConfig}  from '../lib/getConfig';
 
-// const {getCombinedConfig} = require('../lib/getConfig');
 const sources = cctvFromConfig();
 const config = getCombinedConfig({storeName:'optionStore', electronPath:'home'});
 
@@ -163,13 +160,6 @@ export const createRecorder = (channelNumber, createdByError=false) => (dispatch
     }
     const recorder = HLSRecorder.createHLSRecoder(recorderOptions);
 
-    // const startHandler = cmd => {
-    //     channelLog.info(`recorder emitted start(default start handler)`)
-    //     // setTimeout(() => {
-    //         dispatch(setRecorderStatus({channelNumber, recorderStatus: 'started'}));
-    //         dispatch(setRecorderInTransition({channelNumber, inTransition:false}));
-    //     // },1000);
-    // }
     const progressHandler = progress => {
         dispatch(setDuration({channelNumber, duration:progress.duration}));
     }
@@ -300,8 +290,6 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
     
         recorder.once('start', (cmd) => {
             channelLog.info(`recorder emitted start (start handler to change playback source) : ${cmd}`)
-            // dispatch(setRecorderStatus({channelNumber, recorderStatus: 'started'}));
-            // dispatch(setRecorderInTransition({channelNumber, inTransition:false}));
             setTimeout(() => {
                 dispatch(setRecorderStatus({channelNumber, recorderStatus: 'started'}));
                 dispatch(setRecorderInTransition({channelNumber, inTransition:false}));

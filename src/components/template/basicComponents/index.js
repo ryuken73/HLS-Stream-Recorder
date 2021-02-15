@@ -63,5 +63,4 @@ export {
     BasicSelect,
     BasicLink,
     BasicIconButton,
-    // BasicIconButtonWithTooltip
 }

@@ -166,7 +166,6 @@ const HLSPlayer = (props) => {
                 <VideoPlayer
                     controls={controls}
                     src={srcObject}
-                    // poster={this.state.video.poster}
                     autoplay={autoplay}
                     bigPlayButton={bigPlayButton}
                     bigPlayButtonCentered={bigPlayButtonCentered}

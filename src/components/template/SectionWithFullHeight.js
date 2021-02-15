@@ -15,9 +15,7 @@ const defaultProps = {
 export default function SectionWithBorder({children, ...props}) {
     return (
         <Box className="SectionWithFullHeight" {...defaultProps} {...props}>
-            {/* <BorderdBox className="SectionWithFullHeight BorderdBox" flex="1" flexShrink={0}> */}
                 {children}
-            {/* </BorderdBox> */}
         </Box>
     )
 }

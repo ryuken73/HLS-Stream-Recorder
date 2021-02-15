@@ -5,7 +5,6 @@ import BorderedList from '../template/BorderedList';
 import {SmallMarginTextField}  from '../template/smallComponents';
 
 function SourceRecording(props) {
-    // console.log('rerender Title:', props)
     const {
         channelNumber=1,
         title="None",

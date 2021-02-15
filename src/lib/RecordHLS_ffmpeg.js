@@ -37,7 +37,7 @@ const successiveEvent = (checkFunction,logger=console) => {
         return false;   
     }
 }
-
+const FFMPEG_QUIT_TIMEOUT = 3000
 class RecoderHLS extends EventEmitter {
     constructor(options){
         super();
@@ -58,6 +58,8 @@ class RecoderHLS extends EventEmitter {
         this._localm3u8 = localm3u8;
         this._ffmpegBinary = ffmpegBinary;
         this._renameDoneFile = renameDoneFile;
+        this._killTimer = null;
+        this._exitByTimeout = false;
         ffmpeg.setFfmpegPath(this._ffmpegBinary);
         this.log = (() => {
             return {
@@ -81,6 +83,10 @@ class RecoderHLS extends EventEmitter {
         this._startTime = null;
         this._rStream = null;
         this._localm3u8 = null;
+        this._command = null;
+        this._killTimer = null;
+        this._exitByTimeout = false;
+        
         this.log.info(`recoder initialized...`)
     }
 
@@ -99,6 +105,8 @@ class RecoderHLS extends EventEmitter {
     get wStream() { return this._wStream }
     get localm3u8() { return this._localm3u8 }
     get command() { return this._command }
+    get killTimer() { return this._killTimer }
+    get exitByTimeout() { return this._exitByTimeout}
     get elapsed() { 
         const elapsedMS = Date.now() - this.startTime;
         return elapsedMS > 0 ? elapsedMS : 0;
@@ -130,20 +138,20 @@ class RecoderHLS extends EventEmitter {
             duration: this.duration
         })
     };
+    set killTimer(timer) { this._killTimer = timer}
+    set exitByTimeout(bool) { this._exitByTimeout = bool}
 
     onFFMPEGEnd = (error) => {
         this.log.info(`ffmpeg ends! : ${this.target} ${this.localm3u8}`);
-        if(error){
-            // this.initialize();
-            // do not manually initialize
-            // send error message to ChannelControl
+        clearTimeout(this.killTimer);
+        if(error && !this.exitByTimeout){
             this.log.error(`ended abnormally: startime =${this.startTime}:duration=${this.duration}`);
             this.emit('error', this.target, this.startTime, this.duration, error);
             this.initialize();            
-            // this.emit('end', this.target, this.startTime, this.duration, error)
             return
-            // this.emit('end', this.target, this.startTime, this.duration)
-            // return;
+        }
+        if(this.exitByTimeout){
+            this.log.error(`ended by timeout!`)
         }
         this.log.info(`ended ${this.startTime}:${this.duration}`)
         this.emit('end', this.target, this.startTime, this.duration)
@@ -160,7 +168,6 @@ class RecoderHLS extends EventEmitter {
         this.emit('start', cmd);
     }
     progressHandler = event => {
-        // this.bytesRecorded = this.wStream.bytesWritten;
         this.duration = event.timemark;
         this.log.debug(`duration: ${this.duration}`);
         const CRITICAL_SUCCESSIVE_OCCUR_COUNT = 5;
@@ -180,8 +187,6 @@ class RecoderHLS extends EventEmitter {
         }
         this.isPreparing = true;
         this.log.info(`start encoding.... ${this.src}`);
-        // this.command = ffmpeg(this._src).inputOptions(hlsInputOptions).output(this.target).outputOptions(mp4Options);
-        // this.enablePlayback && this.command.output(this._localm3u8).outputOptions(hlsOptions);
         try {
             this.command = ffmpeg(this._src).inputOptions(hlsInputOptions).output(this._localm3u8).outputOptions(hlsOptions);
         } catch (error) {
@@ -203,6 +208,7 @@ class RecoderHLS extends EventEmitter {
         })
         .run();
     }
+
     stop = () => {
         if(!this.isRecording){
             this.log.warn(`start recording first!. there may be premature ending of ffmpeg.`)
@@ -216,7 +222,15 @@ class RecoderHLS extends EventEmitter {
             return;
         }
         this.log.info(`stopping ffmpeg...`);
-        this.command.ffmpegProc.stdin.write('q');
+        // const ffmpegProcId = this.command.ffmpegProc.pid;
+        this.command.ffmpegProc.stdin.write('q', () =>{
+            this.log.info(`write quit to ffmpeg's stdin done!`);
+            this.killTimer = setTimeout(() => {
+               this.log.info(`stopping ffmpeg takes too long. force stop!`);
+               this.exitByTimeout = true;
+               this.command.kill();
+            }, FFMPEG_QUIT_TIMEOUT)
+        })
     }
     destroy = () => {
         this.command && this.command.kill();

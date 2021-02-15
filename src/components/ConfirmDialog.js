@@ -10,7 +10,6 @@ function ConfirmDialog(props) {
     const {clearAppStatNStore, clearAllChannelStatNStore} = props.StatisticsActions;
     const {remountPlayerAll} = props.HLSPlayersActions;
     const executeAction = React.useCallback(() => {
-        console.log('#####', confirmAction)
         if(confirmAction === 'remount'){
             remountPlayerAll();
             return;
