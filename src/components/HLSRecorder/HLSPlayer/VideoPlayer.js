@@ -29,7 +29,7 @@ class VideoPlayer extends Component {
         if (this.player) {
             console.log('##### dispose and nullify player')
             this.player.dispose();
-            this.player = {};
+            this.player = null;
         }
     }
 
@@ -91,7 +91,7 @@ class VideoPlayer extends Component {
 
         this.player.ready(() => {
             props.onReady(this.player);
-            window.player = this.player;
+            // window.player = this.player;
         });
         this.player.on('play', () => {
             props.onPlay(this.player.currentTime());

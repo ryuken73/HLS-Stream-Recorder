@@ -10,7 +10,7 @@ const HLSPlayer = (props) => {
     console.log('rerender hlsplayer', props)
     const [version, setVersion] = React.useState(Date.now());
     const {
-        player=null, 
+        // player=null, 
         enableAutoRefresh=null, 
         enableOverlay=true,
         overlayContent='Default Overlay Content',
