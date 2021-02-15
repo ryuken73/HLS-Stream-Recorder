@@ -134,8 +134,8 @@ const HLSPlayer = (props) => {
                 setChannelStatNStore({channelNumber, statName:'lastRefreshTime', value:Date.now()})
                 increaseChannelStatsNStore({channelNumber, statName:'refreshCount'})
                 // setVersion(Date.now())
-                // refreshPlayer({channelNumber});
-                remountPlayer({channelNumber})
+                refreshPlayer({channelNumber});
+                // remountPlayer({channelNumber})
             },LONG_BUFFERING_MS_SECONDS)
             return
         } else if(eventName === 'abort' && enableAutoRefresh === null) {
