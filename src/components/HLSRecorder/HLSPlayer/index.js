@@ -116,7 +116,7 @@ const HLSPlayer = (props) => {
     const onVideoEnd = React.useCallback(() => {
         // channelLog.info("Video ended");
     },[])
-    const onVideoCanPlay = () => {
+    const onVideoCanPlay = player => {
         channelLog.info('can play');
         if(restorePlaybackRate && player){
             const playbackRate = getPlaybackRateStore();
@@ -126,7 +126,7 @@ const HLSPlayer = (props) => {
 
     let refreshTimer = null;
 
-    const onVideoOtherEvent = eventName => {
+    const onVideoOtherEvent = (eventName, player) => {
         // channelLog.debug(`event occurred: ${eventName}`)
         if(eventName === 'abort' && enableAutoRefresh !== null){
             refreshTimer = setTimeout(() => {
@@ -211,5 +211,5 @@ const HLSPlayer = (props) => {
     );
 };
 
-// export default React.memo(HLSPlayer);
-export default HLSPlayer
+export default React.memo(HLSPlayer);
+// export default HLSPlayer

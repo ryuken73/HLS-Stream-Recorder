@@ -103,7 +103,7 @@ class VideoPlayer extends Component {
             props.onTimeUpdate(this.player.currentTime());
         });
         this.player.on('canplay', () => {
-            props.onCanPlay()
+            props.onCanPlay(this.player)
         })
         this.player.on('seeking', () => {
             this.player.off('timeupdate', () => { });
@@ -123,28 +123,28 @@ class VideoPlayer extends Component {
             props.onError(player.error());
         });
         this.player.on('stalled', () => {
-            props.onOtherEvent('stalled')
+            props.onOtherEvent('stalled', this.player)
         })
         this.player.on('suspend', () => {
-            props.onOtherEvent('suspend')
+            props.onOtherEvent('suspend', this.player)
         })
         this.player.on('waiting', () => {
-            props.onOtherEvent('waiting')
+            props.onOtherEvent('waiting', this.player)
         })
         this.player.on('waiting', () => {
-            props.onOtherEvent('abort')
+            props.onOtherEvent('abort', this.player)
         })
         this.player.on('loadstart', () => {
-            props.onOtherEvent('loadstart')
+            props.onOtherEvent('loadstart', this.player)
         })
         this.player.on('playing', () => {
-            props.onOtherEvent('playing')
+            props.onOtherEvent('playing', this.player)
         })
         this.player.on('emptied', () => {
-            props.onOtherEvent('emptied')
+            props.onOtherEvent('emptied', this.player)
         })
         this.player.on('ratechange', () => {
-            props.onOtherEvent('ratechange');
+            props.onOtherEvent('ratechange', this.player);
         })
         this.player.on('durationchange', () => {
             // console.log('#####', this.player.duration())
