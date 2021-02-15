@@ -24,7 +24,7 @@ const HLSPlayer = (props) => {
         controls=false,
         hideControls=[],
         autoplay=true, 
-        loadingSpinner=false,
+        loadingSpinner=true,
         errorDisplay=false,
         bigPlayButton=false, 
         bigPlayButtonCentered=false, 
