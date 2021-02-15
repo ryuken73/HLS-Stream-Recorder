@@ -112,8 +112,9 @@ const createWindow = async () => {
   //   event.preventDefault();
   // })
 
-  mainWindow.on('closed', () => {
-    console.log('application is about to exit')
+  mainWindow.on('closed', event => {
+    console.log('application is about to exit');
+    // event.preventDefault();
     mainWindow = null;
   });
 

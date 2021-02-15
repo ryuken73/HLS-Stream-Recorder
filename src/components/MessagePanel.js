@@ -54,6 +54,12 @@ function MessagePanel(props) {
     }
 
     timer.postMessage('start')
+
+    // fix reload failure!
+    window.onbeforeunload = event => {
+      timer.terminate();
+    } 
+
     const mainWindow = getCurrentWindow();
     mainWindow.on('minimize', () => {
       setMinimized(true)
@@ -63,7 +69,8 @@ function MessagePanel(props) {
     })
 
     return () => {
-      console.log('## destroy webworker[memory getter]')
+      console.log('## destroy webworker[memory getter]');
+      window.onbeforeunload = null;
       timer.terminate();
     }
 
