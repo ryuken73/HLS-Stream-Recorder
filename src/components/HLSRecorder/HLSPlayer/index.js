@@ -10,7 +10,7 @@ const HLSPlayer = (props) => {
     console.log('rerender hlsplayer', props)
     const [version, setVersion] = React.useState(Date.now());
     const {
-        // player=null, 
+        player=null, 
         enableAutoRefresh=null, 
         enableOverlay=true,
         overlayContent='Default Overlay Content',
@@ -65,6 +65,11 @@ const HLSPlayer = (props) => {
 
     channelLog.info(`[${channelName}] rerender HLSPlayer:${channelName}, restorePlaybackRate=${restorePlaybackRate}`);
 
+    React.useEffect(() => {
+        if(!mountPlayer){
+            setPlayer({channelNumber, player:null})
+        }
+    },[mountPlayer])
 
     const setPlaybackRateStore = (playbackRate) => {
         store.set('playbackRate', playbackRate);
@@ -134,8 +139,8 @@ const HLSPlayer = (props) => {
                 setChannelStatNStore({channelNumber, statName:'lastRefreshTime', value:Date.now()})
                 increaseChannelStatsNStore({channelNumber, statName:'refreshCount'})
                 // setVersion(Date.now())
-                refreshPlayer({channelNumber});
-                // remountPlayer({channelNumber})
+                // refreshPlayer({channelNumber});
+                remountPlayer({channelNumber})
             },LONG_BUFFERING_MS_SECONDS)
             return
         } else if(eventName === 'abort' && enableAutoRefresh === null) {
