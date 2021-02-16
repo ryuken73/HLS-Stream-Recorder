@@ -205,9 +205,23 @@ const Controls = props => {
     
     return (
         <Box display="flex" flexDirection="column" mr="3px">
-            <SmallPaddingIconButton onClick={refreshChannelPlayer} padding="1px" size="small" iconcolor="black">
-                <RefreshIcon color="primary" fontSize={"small"}></RefreshIcon>
-            </SmallPaddingIconButton>
+            <Tooltip
+                title={"Refresh Player"}
+                placement="right"
+                disableFocusListener 
+                disableTouchListener 
+                arrow
+            >
+                <SmallPaddingIconButton 
+                    disabled={!mountPlayer} 
+                    onClick={refreshChannelPlayer} 
+                    padding="1px" 
+                    size="small" 
+                    iconcolor="black"
+                >
+                    <RefreshIcon color="primary" fontSize={"small"}></RefreshIcon>
+                </SmallPaddingIconButton>
+            </Tooltip>
             <Tooltip
                 title={mountPlayer ? "playback off" : "playback on"}
                 placement="right"

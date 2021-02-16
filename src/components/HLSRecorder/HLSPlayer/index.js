@@ -210,7 +210,7 @@ const HLSPlayer = (props) => {
                     textAlign="center"
                     fontSize="13px"
                 >
-                    Wait Reload....
+                    Playback Off
                     {/* <Box>playback closed!</Box> */}
 
                 </Box>
