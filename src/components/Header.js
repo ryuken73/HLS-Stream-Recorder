@@ -6,6 +6,8 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import TvIcon from '@material-ui/icons/Tv';
+import TvOffIcon from '@material-ui/icons/TvOff';
 import HomeIcon from '@material-ui/icons/Home';
 import BugReportIcon from '@material-ui/icons/BugReport';
 import AssignmentIcon from '@material-ui/icons/Assignment';
@@ -43,7 +45,7 @@ const Header = (props) => {
         scheduleStatusAllSame,
         recorderStatusAllSame,
         recorderStatusAnyInTransition,
-        intervalsForSelection,
+        intervalsForSelection
     } = props;
 
     const {
@@ -53,6 +55,10 @@ const Header = (props) => {
         stopRecordAll=()=>{},
         changeAllIntervals=()=>{}
     } = props.HLSRecorderActions;
+
+    const {
+        setPlayerMountAll=()=>{}
+    } = props.HLSPlayerActions;
 
     const scheduleButtonColor =  scheduleStatusAllStopped ? 'grey' : 'maroon';
     const recordButtonColor =  recorderStatusAllStopped ? 'grey' : 'maroon';
@@ -66,6 +72,14 @@ const Header = (props) => {
         setConfirmDialogText("All Players will be refreshed. OK?");
         setConfirmAction('remount');
         setConfirmOpen(true);
+    },[])
+
+    const allPlaybackOn = React.useCallback(() => {
+        setPlayerMountAll({mountPlayer:true})
+    },[])
+
+    const allPlaybackOff = React.useCallback(() => {
+        setPlayerMountAll({mountPlayer:false})
     },[])
 
     const reload = React.useCallback(() => {
@@ -176,15 +190,30 @@ const Header = (props) => {
                 <Tooltip
                     disableFocusListener 
                     disableTouchListener 
-                    title="Reload Application"
+                    title="Playback All On"
                     arrow
                 >
                     <Box>
-                        <BasicIconButton aria-label="reload" onClick={reload}>
-                            <PowerSettingsNewIcon 
+                        <BasicIconButton aria-label="playbackOff" onClick={allPlaybackOn}>
+                            <TvIcon 
                                 fontSize="large"
                                 style={{color:"grey"}}
-                            ></PowerSettingsNewIcon>
+                            ></TvIcon>
+                        </BasicIconButton>
+                    </Box>
+                </Tooltip>
+                <Tooltip
+                    disableFocusListener 
+                    disableTouchListener 
+                    title="Playback All Off"
+                    arrow
+                >
+                    <Box>
+                        <BasicIconButton aria-label="playbackOff" onClick={allPlaybackOff}>
+                            <TvOffIcon 
+                                fontSize="large"
+                                style={{color:"grey"}}
+                            ></TvOffIcon>
                         </BasicIconButton>
                     </Box>
                 </Tooltip>
@@ -289,10 +318,25 @@ const Header = (props) => {
                 <Tooltip
                     disableFocusListener 
                     disableTouchListener 
+                    title="Reload Application"
+                    arrow
+                >
+                    <Box ml="auto"> 
+                        <BasicIconButton aria-label="reload" onClick={reload}>
+                            <PowerSettingsNewIcon 
+                                fontSize="large"
+                                style={{color:"grey"}}
+                            ></PowerSettingsNewIcon>
+                        </BasicIconButton>
+                    </Box>
+                </Tooltip>
+                <Tooltip
+                    disableFocusListener 
+                    disableTouchListener 
                     title="Home Directory"
                     arrow
                 >
-                    <Box ml="auto">
+                    <Box>
                         <BasicIconButton aria-label="home directory" onClick={openHome}>
                             <HomeIcon 
                                 fontSize="large"

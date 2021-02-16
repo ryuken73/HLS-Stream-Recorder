@@ -105,6 +105,18 @@ export const remountPlayerAll = () => (dispatch, getState) => {
         }, index * 100)
     }    
 }
+export const setPlayerMountAll = ({mountPlayer}) => (dispatch, getState) => {
+    console.log('#### setPlayerMountAll called')
+    const state = getState();
+    const {players} = state.hlsPlayers;
+    const playersArray = [...players];
+    for(let index=0; index < playersArray.length ; index++){
+        const channelNumber = playersArray[index][0];
+        setTimeout(() => {
+            dispatch(setPlayerMount({channelNumber, mountPlayer}));
+        }, index * 500)
+    }
+}
 
 const initialState = {
     players,
