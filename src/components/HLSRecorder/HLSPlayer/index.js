@@ -66,8 +66,10 @@ const HLSPlayer = (props) => {
     channelLog.info(`[${channelName}] rerender HLSPlayer:${channelName}, restorePlaybackRate=${restorePlaybackRate}`);
 
     React.useEffect(() => {
-        if(!mountPlayer){
-            setPlayer({channelNumber, player:null})
+        return () => {
+            if(!mountPlayer){
+                setPlayer({channelNumber, player:null})
+            }     
         }
     },[mountPlayer])
 
