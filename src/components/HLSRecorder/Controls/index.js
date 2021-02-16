@@ -3,6 +3,8 @@ import Box from '@material-ui/core/Box';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import TvIcon from '@material-ui/icons/Tv';
+import TvOffIcon from '@material-ui/icons/TvOff';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -206,6 +208,25 @@ const Controls = props => {
             <SmallPaddingIconButton onClick={refreshChannelPlayer} padding="1px" size="small" iconcolor="black">
                 <RefreshIcon color="primary" fontSize={"small"}></RefreshIcon>
             </SmallPaddingIconButton>
+            <Tooltip
+                title={mountPlayer ? "playback off" : "playback on"}
+                placement="right"
+                disableFocusListener 
+                disableTouchListener 
+                arrow
+            >
+                <SmallPaddingIconButton 
+                    padding="1px" 
+                    size="small" 
+                    iconcolor="black"
+                    onClick={toggleMountPlayer}
+                >
+                    {mountPlayer ? 
+                        <TvOffIcon fontSize={"small"} ></TvOffIcon> :
+                        <TvIcon fontSize={"small"} ></TvIcon>
+                    }
+                </SmallPaddingIconButton>
+            </Tooltip>
             <SmallPaddingIconButton disabled={inTransition} padding="1px" size="small" iconcolor={recorderIconColor}>
                 <FiberManualRecordIcon 
                     fontSize={"small"} 

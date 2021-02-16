@@ -164,9 +164,10 @@ const HLSPlayer = (props) => {
         }
     }
     return (
-        <Box key={version}                     
-        width={width} 
-        height={height}
+        <Box 
+            key={version}                     
+            width={width} 
+            height={height}
         >
             {mountPlayer ?
                 <Box>
