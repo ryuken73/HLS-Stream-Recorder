@@ -16,10 +16,16 @@ const {
 
 function MessagePanel(props) {
   const {logLevel="INFO", message="READY", mt="auto"} = props;
-  const {setReloadDialogOpen, maxMemory, memUsageToClear} = props;
+  const {setReloadDialogOpen, maxMemory, memUsageToClear, playbackAllOff} = props;
   const [memUsed, setMemUsed] = React.useState(0);
   const messageText = `[${logLevel}] ${message}`;
-  const {setAppStatNStore, increaseAppStatNStore} = props.StatisticsActions;
+  const {
+    setAppStatNStore=()=>{}, 
+    increaseAppStatNStore=()=>{}
+  } = props.StatisticsActions;
+  const {
+    setPlayerMountAll=()=>{}
+  } = props.HLSPlayerActions;
   const [kafkaSender, setkafkaSender] = React.useState(kafka({topic:KAFKA_TOPIC}))
   const [idleTime, setIdleTime] = React.useState(0);
   const [minimized, setMinimized] = React.useState(false);
@@ -77,14 +83,16 @@ function MessagePanel(props) {
 
   React.useEffect(() => {
     let timer;
-    if(minimized === false){
+    if(playbackAllOff === false){
       timer = setInterval(() => {
         const idleTime = remote.powerMonitor.getSystemIdleTime();
         setIdleTime(idleTime);
         if(IDLE_SECONDS_BEFORE_AUTO_MINIMIZE - idleTime === 0){
-          const mainWindow = getCurrentWindow();
-          mainWindow.minimize();
-          setMinimized(true)
+          clearInterval(timer);
+          setPlayerMountAll({mountPlayer: false})
+          // const mainWindow = getCurrentWindow();
+          // mainWindow.minimize();
+          // setMinimized(true)
         }
       },1000)
     } else {
@@ -93,7 +101,8 @@ function MessagePanel(props) {
     return () => {
       clearInterval(timer);
     }
-  },[minimized])
+  // },[minimized])
+  },[playbackAllOff])
 
   // React.useEffect(() => {
   //   const memChecker = setInterval(() => {
@@ -161,7 +170,12 @@ function MessagePanel(props) {
                         <Typography variant={"caption"}>[{memUsed}MB / {maxMemory}MB]</Typography>
                     </Box>
                     <Box ml="5px">
-                        <Typography variant={"caption"}>[Minimize after {IDLE_SECONDS_BEFORE_AUTO_MINIMIZE - idleTime} seconds]</Typography>
+                        <Typography variant={"caption"}>
+                          {playbackAllOff ? 
+                            "[Playback All Closed!]" :
+                            `[Playback off after ${IDLE_SECONDS_BEFORE_AUTO_MINIMIZE - idleTime} seconds]`
+                          }
+                        </Typography>
                     </Box>
                     <Box ml="5px">
                         <Typography variant={"caption"}>v.{app.getVersion()}</Typography>
