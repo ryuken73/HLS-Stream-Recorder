@@ -9,7 +9,10 @@ function Selection(props) {
         recorderStatus='stopped',
         hidden=false
     } = props;
-    const {setSourceNSave=()=>{}} = props.HLSPlayersActions;
+    const {
+        setSourceNSave=()=>{},
+        setPlayerMount=()=>{}
+    } = props.HLSPlayersActions;
     const {savePlayerHttpURL=()=>{}} = props.HLSRecordersActions;
     
     const currentUrl = source.url;
@@ -24,6 +27,7 @@ function Selection(props) {
         const url = event.target.value;
         setSourceNSave({channelNumber, url});
         savePlayerHttpURL({channelNumber, playerHttpURL:url});
+        setPlayerMount({channelNumber, mountPlayer:true})
     }, [setSourceNSave])
 
     return (
