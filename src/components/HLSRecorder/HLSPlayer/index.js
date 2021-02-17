@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Box from '@material-ui/core/Box';
 import VideoPlayer from './VideoPlayer';
+import {SmallButton}  from '../../template/smallComponents';
 import log from 'electron-log';
 
 const Store = require('electron-store');
@@ -38,7 +39,8 @@ const HLSPlayer = (props) => {
     const {
         setPlayer=()=>{},
         refreshPlayer=()=>{},
-        remountPlayer=()=>{}
+        remountPlayer=()=>{},
+        setPlayerMount=()=>{}
     } = props.HLSPlayersActions;
 
     const {
@@ -131,6 +133,11 @@ const HLSPlayer = (props) => {
         }
     }
 
+    const showPlayback = React.useCallback(() => {
+        console.log('mount playback')
+        setPlayerMount({channelNumber, mountPlayer:true})
+    },[])
+
     let refreshTimer = null;
 
     const onVideoOtherEvent = (eventName, player) => {
@@ -210,7 +217,19 @@ const HLSPlayer = (props) => {
                     textAlign="center"
                     fontSize="13px"
                 >
-                    Playback Off
+                    <SmallButton 
+                        size="small" 
+                        color="secondary" 
+                        variant={"contained"} 
+                        mt={"0px"}
+                        mb={"0px"}
+                        ml={"0px"}
+                        mr={"0px"}
+                        bgcolor={'#191d2e'}
+                        minwidth={"130px"}
+                        onClick={showPlayback}
+                    >Show CCTV</SmallButton>                    
+                    {/* Playback Off */}
                     {/* <Box>playback closed!</Box> */}
 
                 </Box>

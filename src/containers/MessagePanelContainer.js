@@ -13,10 +13,8 @@ function mapStateToProps(state, ownProps) {
   const {appStat} = state.statistics;
   const {players} = state.hlsPlayers;
   const playbackAllOff = [...players.values()].every(hlsplayer => { 
-    console.log(hlsplayer)
     return hlsplayer.mountPlayer === false
   })
-  console.log('#### playbackAllOff:',playbackAllOff)
   return {
     ...ownProps,
     config,
