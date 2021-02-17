@@ -190,7 +190,12 @@ export default handleActions({
             type: hlsPlayer.type,
             handleManifestRedirects: true,
         }
-        player.src(srcObject);
+        try {
+            player.src(srcObject);
+        } catch (err) {
+            console.error('error when refresh player');
+            return { ...state }
+        }
         return { ...state }
     },
 }, initialState);
