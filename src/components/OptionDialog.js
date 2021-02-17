@@ -76,7 +76,7 @@ function OptionDialog(props) {
     KAFKA_CLIENT_NAME,
     MEM_CLEAR_COUNT_LIMIT,
     AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT,
-    IDLE_SECONDS_BEFORE_AUTO_MINIMIZE
+    IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK
   } = config;
   const {setOptionsDialogOpen=()=>{}, saveConfig=()=>{}} = props.OptionDialogActions;
   const {setDefaultConfig=()=>{}} = props.OptionDialogActions;
@@ -174,7 +174,7 @@ function OptionDialog(props) {
         <OptionRadioButtonWithDefault subtitle="Schedule Auto Start" currentvalue={AUTO_START_SCHEDULE} onChange={onChangeConfig('AUTO_START_SCHEDULE')}></OptionRadioButtonWithDefault>
         <OptionRadioButtonWithDefault subtitle="Enable Kafka Send" currentvalue={KAFKA_ENABLED} onChange={onChangeConfig('KAFKA_ENABLED')}></OptionRadioButtonWithDefault>
         <OptionTextInputWithDefault subtitle='Kafka Host Name' value={KAFKA_CLIENT_NAME} onChange={onChangeConfig('KAFKA_CLIENT_NAME')}></OptionTextInputWithDefault>
-        <OptionTextInputWithDefault subtitle='Idle Seconds Auto Minimize' value={IDLE_SECONDS_BEFORE_AUTO_MINIMIZE} onChange={onChangeConfig('IDLE_SECONDS_BEFORE_AUTO_MINIMIZE')}></OptionTextInputWithDefault>
+        <OptionTextInputWithDefault subtitle='Idle Seconds Player Off' value={IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK} onChange={onChangeConfig('IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK')}></OptionTextInputWithDefault>
       </DialogContentText>
     </DialogContent>
     <DialogActions>

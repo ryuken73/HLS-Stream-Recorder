@@ -11,7 +11,7 @@ const electronUtil = require('../lib/electronUtil');
 const {
   KAFKA_TOPIC=`topic_${Date.now()}`, 
   KAFKA_KEY='none',
-  IDLE_SECONDS_BEFORE_AUTO_MINIMIZE=30
+  IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK=30
 } = require('../lib/getConfig').getCombinedConfig();
 
 function MessagePanel(props) {
@@ -87,7 +87,7 @@ function MessagePanel(props) {
       timer = setInterval(() => {
         const idleTime = remote.powerMonitor.getSystemIdleTime();
         setIdleTime(idleTime);
-        if(IDLE_SECONDS_BEFORE_AUTO_MINIMIZE - idleTime === 0){
+        if(IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK - idleTime === 0){
           clearInterval(timer);
           setPlayerMountAll({mountPlayer: false})
           // const mainWindow = getCurrentWindow();
@@ -173,7 +173,7 @@ function MessagePanel(props) {
                         <Typography variant={"caption"}>
                           {playbackAllOff ? 
                             "[Playback All Closed!]" :
-                            `[Playback off after ${IDLE_SECONDS_BEFORE_AUTO_MINIMIZE - idleTime} seconds]`
+                            `[Playback off after ${IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK - idleTime} seconds]`
                           }
                         </Typography>
                     </Box>
