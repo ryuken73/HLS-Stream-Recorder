@@ -141,6 +141,8 @@ const sendAppMessage = statusReport => {
     })
 }
 // redux thunk
+
+// set app related value: set appStat in state, update store and send appStatistics message 
 export const setAppStatNStore = ({statName, value}) => (dispatch, getState) => {
     
     const statusReport = {
@@ -152,6 +154,7 @@ export const setAppStatNStore = ({statName, value}) => (dispatch, getState) => {
     dispatch(setAppStat({statName, value}));
 }
 
+// increse app related value: set appStat in state, update store and send appStatistics message
 export const increaseAppStatNStore = ({statName}) => (dispatch, getState) => {
     const state = getState();
     const value = state.statistics.appStat[statName] + 1;
@@ -174,6 +177,8 @@ const sendChannelMessage = statusReport => {
     })
 }
 
+// set channel related value : set channelStat in state, update store and send channelStatistics message
+// and automatically call setAppStatNStore (update app scope value)
 export const setChannelStatNStore = ({channelNumber, statName, value}) => async (dispatch, getState) => {
 
     const state = getState();
@@ -192,15 +197,19 @@ export const setChannelStatNStore = ({channelNumber, statName, value}) => async 
     // apply app stat (time and count info)
     dispatch(setAppStatNStore({statName, value}));
 
-    // refresh clip count of store on both store and state 
-    const countInStore = getChannelClipCountInStore(channelNumber);
-    dispatch(setChannelStat({channelNumber, statName:'clipCountStore', value:countInStore}))
-    statisticsStore.set(`channelStats.${channelNumber}.clipCountStore`, countInStore);
+    // refresh channel clip count and app clip count
+    // dispatch(refreshChannelClipCountStatistics({channelNumber}));
+    // dispatch(refreshAppClipCountStatistics());
 
-    // refresh clip count of directory on both store and state 
-    const countInFolder = await getChannelClipCountInDirectory(state, channelNumber);
-    dispatch(setChannelStat({channelNumber, statName:'clipCountFolder', value: countInFolder}));
-    statisticsStore.set(`channelStats.${channelNumber}.clipCountFolder`, countInFolder);
+    // // refresh clip count of store on both store and state 
+    // const countInStore = getChannelClipCountInStore(channelNumber);
+    // dispatch(setChannelStat({channelNumber, statName:'clipCountStore', value:countInStore}))
+    // statisticsStore.set(`channelStats.${channelNumber}.clipCountStore`, countInStore);
+
+    // // refresh clip count of directory on both store and state 
+    // const countInFolder = await getChannelClipCountInDirectory(state, channelNumber);
+    // dispatch(setChannelStat({channelNumber, statName:'clipCountFolder', value: countInFolder}));
+    // statisticsStore.set(`channelStats.${channelNumber}.clipCountFolder`, countInFolder);
 }
 
 export const increaseChannelStatsNStore = ({channelNumber, statName}) => async (dispatch, getState) => {
@@ -219,7 +228,10 @@ export const increaseChannelStatsNStore = ({channelNumber, statName}) => async (
     dispatch(increaseChannelStat({channelNumber, statName}));
     
     dispatch(increaseAppStatNStore({statName}));
-    dispatch(refreshClipCountStatistics());
+
+    dispatch(refreshChannelClipCountStatistics({channelNumber}));
+    dispatch(refreshAppClipCountStatistics());
+
 }
 
 // clear stat and statStore
@@ -229,7 +241,7 @@ export const clearAppStatNStore = () => (dispatch, getState) => {
     dispatch(replaceAppStat({initialAppStats}));
 }
 
-const refreshClipCountStatistics = () => async (dispatch, getState) => {
+const refreshAppClipCountStatistics = () => async (dispatch, getState) => {
     const state = getState();
     const countInStore = getTotalClipInStore();
     const countInFolder = await getTotalClipInFolder(state)
@@ -241,9 +253,9 @@ export const refreshChannelClipCountStatistics = ({channelNumber}) => async (dis
     const state = getState();
     const countInStore = getChannelClipCountInStore(channelNumber);
     const countInFolder = await getChannelClipCountInDirectory(state, channelNumber);
-    dispatch(setChannelStat({channelNumber, statName:'clipCountStore', value:countInStore}))
-    dispatch(setChannelStat({channelNumber, statName:'clipCountFolder', value: countInFolder}));
-    dispatch(refreshClipCountStatistics());
+    dispatch(setChannelStatNStore({channelNumber, statName:'clipCountStore', value:countInStore}))
+    dispatch(setChannelStatNStore({channelNumber, statName:'clipCountFolder', value: countInFolder}));
+    dispatch(refreshAppClipCountStatistics());
 }  
 
 

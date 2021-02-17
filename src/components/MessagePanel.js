@@ -30,8 +30,8 @@ function MessagePanel(props) {
     const timer = new Worker(workerJS);
     timer.onmessage = event => {
       const {data:processMemory} = event;
-      const currentMemMB = (processMemory.private/1024).toFixed(0);
-      const memMBToClear = maxMemory * memUsageToClear / 100;
+      const currentMemMB = parseInt((processMemory.private/1024).toFixed(0));
+      const memMBToClear = parseInt(maxMemory * memUsageToClear / 100);
       if(currentMemMB > memMBToClear){
         console.log(`### clear memory(webFrame.clearCache()): currentMem[${currentMemMB}] triggerMem[${memMBToClear}]`);
         webFrame.clearCache();

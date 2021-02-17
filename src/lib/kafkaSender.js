@@ -16,7 +16,7 @@ class KafkaSender {
     }
 
     send = async ({key='none', messageJson={}}) => {
-        // console.log(`@@ kafkaSender send called : ${messageJson}`);
+        console.log(`@@ kafkaSender send called :`, messageJson);
         const now = new Date();
         const dateString = now.toLocaleString();
         try {
