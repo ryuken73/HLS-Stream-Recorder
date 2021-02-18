@@ -1,8 +1,12 @@
 import {createAction, handleActions} from 'redux-actions';
 import {setPlayerSource, refreshPlayer} from './hlsPlayers';
-import {setChannelStatNStore, increaseChannelStatsNStore} from './statistics';
 import {cctvFromConfig} from '../lib/getCCTVList';
 import {getCombinedConfig,getDefaultConfig}  from '../lib/getConfig';
+import {
+    setChannelStatNStore, 
+    increaseChannelStatsNStore, 
+    refreshChannelClipCountStatistics
+} from './statistics';
 
 const sources = cctvFromConfig();
 const config = getCombinedConfig({storeName:'optionStore', electronPath:'home'});
@@ -183,6 +187,7 @@ export const createRecorder = (channelNumber, createdByError=false) => (dispatch
               // file is valid. emit normal end event to save clip on clipStore
               dispatch(setChannelStatNStore({channelNumber, statName:'lastFailureTime', value:Date.now()}))
               dispatch(increaseChannelStatsNStore({channelNumber, statName:'failureCount'}))
+              dispatch(refreshChannelClipCountStatistics({channelNumber}))
               recorder.emit('end', localm3u8, startTimestamp, duration, ffmpegError);
           }
         })
@@ -338,6 +343,7 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
                 if(error == undefined){
                     dispatch(setChannelStatNStore({channelNumber, statName:'lastSuccessTime', value:Date.now()}))
                     dispatch(increaseChannelStatsNStore({channelNumber, statName:'successCount'}))
+                    dispatch(refreshChannelClipCountStatistics({channelNumber}))
                 }
                 dispatch(refreshRecorder({channelNumber}));
             } catch (error) {
