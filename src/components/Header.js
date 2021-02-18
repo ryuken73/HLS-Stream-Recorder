@@ -127,14 +127,21 @@ const Header = (props) => {
         setTooltipOpen(false);
     }
 
+
+
     const {appStat} = props;
     const {refreshChannelClipCountStatistics} = props.StatisticsActions;
+    const refreshClipCount = (event, channelNumber) => {
+        console.log(`&&&&& got message from main : deleteScheduleDone ${channelNumber}`);
+        refreshChannelClipCountStatistics({channelNumber});
+    };
+
     React.useEffect(() => {
-        ipcRenderer.on('deleteScheduleDone', (event, channelNumber) => {
-          console.log(`&&&&& got message from main : deleteScheduleDone ${channelNumber}`);
-          refreshChannelClipCountStatistics({channelNumber});
-        })
-     },[])
+        ipcRenderer.on('deleteScheduleDone', refreshClipCount);
+        return () => {
+            ipcRenderer.removeListener('deleteScheduleDone', refreshClipCount);
+        }
+    },[])
 
     const AppStatComponent = () => {
         const StatLists = Object.entries(appStat).map(([statName, value]) => {
