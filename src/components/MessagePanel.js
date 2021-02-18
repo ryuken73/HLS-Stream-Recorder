@@ -26,7 +26,7 @@ function MessagePanel(props) {
   const {
     setPlayerMountAll=()=>{}
   } = props.HLSPlayerActions;
-  const [kafkaSender, setkafkaSender] = React.useState(kafka({topic:KAFKA_TOPIC}))
+  // const [kafkaSender, setkafkaSender] = React.useState(kafka({topic:KAFKA_TOPIC}))
   const [idleTime, setIdleTime] = React.useState(0);
   const [minimized, setMinimized] = React.useState(false);
 
@@ -34,6 +34,7 @@ function MessagePanel(props) {
     // web worker test
     const workerJS = electronUtil.getAbsolutePath('lib/worker.js');
     const timer = new Worker(workerJS);
+    const kafkaSender = kafka({topic:KAFKA_TOPIC});
     timer.onmessage = event => {
       const {data:processMemory} = event;
       const currentMemMB = parseInt((processMemory.private/1024).toFixed(0));
