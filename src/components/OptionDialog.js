@@ -58,11 +58,12 @@ function OptionDialog(props) {
   const {dialogOpen=true, config} = props;
   const {
     NUMBER_OF_CHANNELS,
+    INSTANCE_NAME="hlsInstance1",
     CHANNEL_PREFIX="channel",
     WAIT_SECONDS_MS_FOR_PLAYBACK_CHANGE,
     LONG_BUFFERING_MS_SECONDS,
-    SLEEP_MS_BETWEEN_ALL_START,
-    SLEEP_MS_BETWEEN_ALL_STOP,
+    // SLEEP_MS_BETWEEN_ALL_START,
+    // SLEEP_MS_BETWEEN_ALL_STOP,
     DEFAULT_PLAYER_PROPS,
     BASE_DIRECTORY="c:/temp",
     KEEP_SAVED_CLIP_AFTER_HOURS,
@@ -158,12 +159,13 @@ function OptionDialog(props) {
         tabIndex={-1}
       >
         <OptionTextInputWithDefault subtitle='Number of Recorders' value={NUMBER_OF_CHANNELS} onChange={onChangeConfig('NUMBER_OF_CHANNELS')}></OptionTextInputWithDefault>
+        <OptionTextInputWithDefault subtitle='Instance Name' value={INSTANCE_NAME} onChange={onChangeConfig('INSTANCE_NAME')}></OptionTextInputWithDefault>
         <OptionTextInputWithDefault subtitle='Channel Prefix' value={CHANNEL_PREFIX} onChange={onChangeConfig('CHANNEL_PREFIX')}></OptionTextInputWithDefault>
         <OptionTextInputWithDefault subtitle='Clip Keeping Hours(hh)' value={KEEP_SAVED_CLIP_AFTER_HOURS} onChange={onChangeConfig('KEEP_SAVED_CLIP_AFTER_HOURS')}></OptionTextInputWithDefault>
         <OptionTextInputWithDefault subtitle='Long Buffering(ms)' value={LONG_BUFFERING_MS_SECONDS} onChange={onChangeConfig('LONG_BUFFERING_MS_SECONDS')}></OptionTextInputWithDefault>
         <OptionTextInputWithDefault subtitle='Wait for Playback(ms)' value={WAIT_SECONDS_MS_FOR_PLAYBACK_CHANGE} onChange={onChangeConfig('WAIT_SECONDS_MS_FOR_PLAYBACK_CHANGE')}></OptionTextInputWithDefault>
-        <OptionTextInputWithDefault subtitle='Delay All Starting(ms)' value={SLEEP_MS_BETWEEN_ALL_START} onChange={onChangeConfig('SLEEP_MS_BETWEEN_ALL_START')}></OptionTextInputWithDefault>
-        <OptionTextInputWithDefault subtitle='Delay All Stopping(ms)' value={SLEEP_MS_BETWEEN_ALL_STOP} onChange={onChangeConfig('SLEEP_MS_BETWEEN_ALL_STOP')}></OptionTextInputWithDefault>
+        {/* <OptionTextInputWithDefault subtitle='Delay All Starting(ms)' value={SLEEP_MS_BETWEEN_ALL_START} onChange={onChangeConfig('SLEEP_MS_BETWEEN_ALL_START')}></OptionTextInputWithDefault> */}
+        {/* <OptionTextInputWithDefault subtitle='Delay All Stopping(ms)' value={SLEEP_MS_BETWEEN_ALL_STOP} onChange={onChangeConfig('SLEEP_MS_BETWEEN_ALL_STOP')}></OptionTextInputWithDefault> */}
         <OptionTextInputWithDefault subtitle='Schedule Start Delay(ms)' value={AUTO_START_SCHEDULE_DELAY_MS} onChange={onChangeConfig('AUTO_START_SCHEDULE_DELAY_MS')}></OptionTextInputWithDefault>
         <OptionTextInputWithDefault subtitle='Save Directory' value={BASE_DIRECTORY} iconButton={SaveDirectoryButton}></OptionTextInputWithDefault>
         <OptionTextInputWithDefault subtitle='Delete Schedule Cron' value={DELETE_SCHEDULE_CRON} onChange={onChangeConfig('DELETE_SCHEDULE_CRON')}></OptionTextInputWithDefault>

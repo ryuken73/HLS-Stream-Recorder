@@ -18,6 +18,19 @@ import MenuBuilder from './menu';
 import {scheduler} from './lib/scheduleManager';
 import {deleteDirectoryR} from './utils/deleteDirectoryR';
 
+const getConfig = require('./lib/getConfig');
+const config = getConfig.getCombinedConfig();
+const {INSTANCE_NAME='hlsInstance1'} = config;
+const fs = require('fs');
+const userHomeDir = app.getPath('home');
+const newHomeDir = path.join(userHomeDir, INSTANCE_NAME);
+try {
+  fs.mkdirSync(newHomeDir)
+} catch(error) {
+  console.log('Path already Exists: ', newHomeDir)
+}
+app.setPath('home', newHomeDir);
+
 const userData = app.getPath('userData');
 app.setAppLogsPath(path.join(userData, 'logs'));
 
@@ -136,8 +149,6 @@ const createWindow = async () => {
   const electronUtil = require('./lib/electronUtil');
   const electronLog = electronUtil.initElectronLog({}); 
 
-  const getConfig = require('./lib/getConfig');
-  const config = getConfig.getCombinedConfig();
   const {DELETE_SCHEDULE_CRON='0,10,20,30,40,50 * * * *'} = config;
 
   // const scheduler = require('./lib/scheduleManager');
