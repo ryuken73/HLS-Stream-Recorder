@@ -54,7 +54,7 @@ function MessagePanel(props) {
         key: KAFKA_KEY,
         messageJson: reportStatus
       })
-      console.log(`current memory: ${currentMemMB}`)
+      // console.log(`current memory: ${currentMemMB}`)
       setMemUsed(currentMemMB);
     }
 

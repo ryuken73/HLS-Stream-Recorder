@@ -6,6 +6,8 @@ import { createLogger } from 'redux-logger';
 import { routerMiddleware } from 'connected-react-router';
 import * as modules from '../modules';
 
+import notify from '../lib/notifyMiddleware';
+
 const history = createHashHistory();
 
 const configureStore = (initialState) => {
@@ -25,7 +27,7 @@ const configureStore = (initialState) => {
   });
 
 
-  const middlewares = [thunk, logger, router];
+  const middlewares = [thunk, logger, notify, router];
   
   const devtools = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
   const composeEnhancers = devtools || compose;

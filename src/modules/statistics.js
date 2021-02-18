@@ -16,71 +16,12 @@ const statisticsStore = new Store({
     cwd:remote.app.getPath('home')
 })
 
-const clipStore = new Store({
-    name:'clipStore',
-    cwd:remote.app.getPath('home')
-})
-
-const getChannelClipCountInStore = channelNumber => {
-    const allClips = clipStore.store;
-    const count = Object.entries(allClips).filter(([id, clipInfo]) => {
-        return clipInfo.channelNumber === channelNumber
-    }).length
-    return count;
-}
-
-const fs = require('fs');
-const path = require('path');
-const getChannelClipCountInDirectory = (state, channelNumber) => {
-    return new Promise((resolve, reject) => {
-        try {
-            const channelRecorder = state.hlsRecorders.recorders.get(channelNumber);
-            const saveFolder = channelRecorder.channelDirectory;
-            const {localm3u8} = channelRecorder;
-            fs.readdir(saveFolder, (err, files) => {
-                // console.log(`@@@ channelNumber=${channelNumber} localm3u8=${localm3u8} allFolderCount=${files.length}`)
-                const countInFolder = localm3u8 === null ? files.length : files.filter(file => {
-                    const currentFolder = path.join(saveFolder, file);
-                    const currentRecordingFolder = path.dirname(localm3u8);
-                    // currentFolder === currentRecordingFolder && console.log(`@@@ currentFolder=${currentFolder} currentRecordingFolder=${currentRecordingFolder} ${currentFolder !== currentRecordingFolder}`)
-                    return currentFolder !== currentRecordingFolder
-                }).length;
-                // console.log(`@@@ countInFolder=${countInFolder}`);
-                resolve(countInFolder);
-            })
-        } catch (err) {
-            console.error(err);            
-        }
-
-    })
-}
-
-// const getTotalClipInStore = () => { return clipStore.size };
-const getTotalClipInStore = () => {
-    let totalCount = 0;
-    for(let channelNumber=1; channelNumber <= NUMBER_OF_CHANNELS; channelNumber++){
-        const channelClipCountInStore = getChannelClipCountInStore(channelNumber);
-        totalCount += channelClipCountInStore;
-    }
-    return totalCount;
-}
-
-const getTotalClipInFolder = async state => {
-    return new Promise((resolve, reject) => {
-        const {recorders} = state.hlsRecorders
-        const getCountInSubDir = [...recorders].map(async ([channelNumber, recorder]) => {
-            return await getChannelClipCountInDirectory(state, channelNumber);
-        })
-        Promise.all(getCountInSubDir)
-        .then(clipCounts => {
-            const totalCounts = clipCounts.reduce((total, count) => {
-                return total + count;                
-            }, 0)
-            resolve(totalCounts);
-        })
-    })
-
-}
+import {
+    getChannelClipCountInStore,
+    getChannelClipCountInDirectory,
+    getTotalClipInStore,
+    getTotalClipInFolder
+} from '../lib/getClipCount';
 
 // define initial stats
 const INITIAL_APP_STATS = {
@@ -121,117 +62,43 @@ const INCREASE_APP_STAT = 'statistics/INCREASE_APP_STAT';
 const INCREASE_CHANNEL_STAT = 'statistics/INCREASE_CHANNEL_STAT';
 
 // action creator
-export const setAppStat = createAction(SET_APP_STAT);
-export const setChannelStat= createAction(SET_CHANNEL_STAT);
+const setAppStat = createAction(SET_APP_STAT);
+const setChannelStat= createAction(SET_CHANNEL_STAT);
 export const replaceAppStat = createAction(REPLACE_APP_STAT);
 export const replaceChannelStat= createAction(REPLACE_CHANNEL_STAT);
 export const increaseAppStat= createAction(INCREASE_APP_STAT);
 export const increaseChannelStat= createAction(INCREASE_CHANNEL_STAT);
 
-import {kafka} from '../lib/kafkaSender';
-import { sendMessage } from '../lib/kafkaClient';
-const kafkaSender = kafka({topic:KAFKA_TOPIC});
-
-const sendAppMessage = statusReport => {
-    statusReport.type = 'appStatistics';
-    statusReport.source = 'app';
-    kafkaSender.send({
-        key: KAFKA_KEY,
-        messageJson: statusReport
-    })
-}
 // redux thunk
 
-// set app related value: set appStat in state, update store and send appStatistics message 
-export const setAppStatNStore = ({statName, value}) => (dispatch, getState) => {
-    
-    const statusReport = {
-        name: statName,
-        value
-    }
-    sendAppMessage(statusReport);
+// set app related value: set appStat in state, update store 
+export const setAppStatNStore = ({statName, value}) => (dispatch, getState) => { 
     statisticsStore.set(`appStats.${statName}`, value);
     dispatch(setAppStat({statName, value}));
 }
 
-// increse app related value: set appStat in state, update store and send appStatistics message
+// increse app related value: set appStat in state, update store 
 export const increaseAppStatNStore = ({statName}) => (dispatch, getState) => {
     const state = getState();
     const value = state.statistics.appStat[statName] + 1;
-
-    const statusReport = {
-        name: statName,
-        value
-    }
-    sendAppMessage(statusReport);
     statisticsStore.set(`appStats.${statName}`, value);
     dispatch(increaseAppStat({statName}))
-}
-
-const sendChannelMessage = statusReport => {
-    statusReport.type = 'channelStatistics';
-    statusReport.source = `channel${statusReport.channelNumber}`;
-    kafkaSender.send({
-        key: KAFKA_KEY,
-        messageJson: statusReport
-    })
 }
 
 // set channel related value : set channelStat in state, update store and send channelStatistics message
 // and automatically call setAppStatNStore (update app scope value)
 export const setChannelStatNStore = ({channelNumber, statName, value}) => async (dispatch, getState) => {
-
-    const state = getState();
-    const hlsPlayer = {...state.hlsPlayers.players.get(channelNumber)};
-    const {title} = hlsPlayer.source;
-    const statusReport = {
-        channelNumber,
-        title: title,
-        name: statName,
-        value
-    }
-    sendChannelMessage(statusReport);    
     statisticsStore.set(`channelStats.${channelNumber}.${statName}`, value);
     dispatch(setChannelStat({channelNumber, statName, value}));
-
-    // apply app stat (time and count info)
     dispatch(setAppStatNStore({statName, value}));
-
-    // refresh channel clip count and app clip count
-    // dispatch(refreshChannelClipCountStatistics({channelNumber}));
-    // dispatch(refreshAppClipCountStatistics());
-
-    // // refresh clip count of store on both store and state 
-    // const countInStore = getChannelClipCountInStore(channelNumber);
-    // dispatch(setChannelStat({channelNumber, statName:'clipCountStore', value:countInStore}))
-    // statisticsStore.set(`channelStats.${channelNumber}.clipCountStore`, countInStore);
-
-    // // refresh clip count of directory on both store and state 
-    // const countInFolder = await getChannelClipCountInDirectory(state, channelNumber);
-    // dispatch(setChannelStat({channelNumber, statName:'clipCountFolder', value: countInFolder}));
-    // statisticsStore.set(`channelStats.${channelNumber}.clipCountFolder`, countInFolder);
 }
 
 export const increaseChannelStatsNStore = ({channelNumber, statName}) => async (dispatch, getState) => {
     const state = getState();
     const value = state.statistics.channelStats[channelNumber][statName] + 1;
-    const hlsPlayer = {...state.hlsPlayers.players.get(channelNumber)};
-    const {title} = hlsPlayer.source;
-    const statusReport = {
-        channelNumber,
-        title: title,
-        name: statName,
-        value
-    }
-    sendChannelMessage(statusReport);    
     statisticsStore.set(`channelStats.${channelNumber}.${statName}`, value);
-    dispatch(increaseChannelStat({channelNumber, statName}));
-    
+    dispatch(increaseChannelStat({channelNumber, statName}));    
     dispatch(increaseAppStatNStore({statName}));
-
-    dispatch(refreshChannelClipCountStatistics({channelNumber}));
-    dispatch(refreshAppClipCountStatistics());
-
 }
 
 // clear stat and statStore

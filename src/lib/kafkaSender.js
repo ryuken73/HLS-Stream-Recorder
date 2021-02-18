@@ -16,7 +16,7 @@ class KafkaSender {
     }
 
     send = async ({key='none', messageJson={}}) => {
-        console.log(`@@ kafkaSender send called :`, messageJson);
+        // console.log(`@@ kafkaSender send called :`, messageJson);
         const now = new Date();
         const dateString = now.toLocaleString();
         try {
@@ -32,7 +32,7 @@ class KafkaSender {
                 }]
             }
             const result = await sendMessage(this.producer, payloads);
-            console.log('###', result)
+            // console.log('###', result)
             // this.producer.disconnect();
         } catch (err) {
             console.error(err);
