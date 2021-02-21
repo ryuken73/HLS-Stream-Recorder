@@ -9,6 +9,8 @@ import ConfirmContainer from '../containers/ConfirmContainer';
 import MessageContainer from '../containers/MessagePanelContainer';
 import AutoReloadDialog from '../containers/AutoReloadContainer';
 import AutoStartDialog from '../containers/AutoStartDialogContainer';
+import AppMini from './AppMini';
+import {ipcRenderer} from 'electron';
 
 const { BrowserView, getCurrentWindow } = require('electron').remote;
 const utils = require('../utils');
@@ -43,9 +45,19 @@ function App(props) {
   const [reloadDialogOpen, setReloadDialogOpen] = React.useState(false);
   const [autoStartDialogOpen, setAutoStartDialogOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [minimized, setMinimized] = React.useState(false);
+
+  const changeSmallUI = () => {
+    setMinimized(true);
+    ipcRenderer.send('ready-small-UI');
+  }
 
   React.useEffect(() => {
     setIsLoading(false);
+    ipcRenderer.on('cmd-change-small-UI', changeSmallUI);
+    return () => {
+      ipcRenderer.removeListener('cmd-change-small-UI', changeSmallUI);
+    }
   },[])
   
   React.useEffect(() => {
@@ -56,14 +68,17 @@ function App(props) {
 
   return (
     <ThemeProvider theme={theme}>
-      {isLoading && 
+      {minimized &&
+        <AppMini setMinimized={setMinimized}></AppMini>
+      }
+      {isLoading && !minimized &&
         <Box display="flex" height="100%">
           <Box m="auto" fontSize="30px">
               Loading.....
           </Box>
         </Box>
       }
-      {!isLoading &&
+      {!isLoading && !minimized &&
         <Box display="flex" flexDirection="column" height="1">
           <HeaderContainer 
             setConfirmOpen={setConfirmOpen}

@@ -89,10 +89,12 @@ const createWindow = async () => {
   mainWindow = new BrowserWindow({
     show: false,
     width: 1750,
-    minWidth: 1012,
-    maxWidth: 1750,
-    minHeight: 800,
     height: 800,
+    minWidth: 1012,
+    minHeight: 800,
+    // minWidth: 400,
+    // minHeight: 200,
+    maxWidth: 1750,
     backgroundColor: '#252839',
     title: 'HLS Stream Recorder',
     // minimizable: false,
@@ -125,11 +127,32 @@ const createWindow = async () => {
   //   event.preventDefault();
   // })
 
-  mainWindow.on('closed', event => {
-    console.log('application is about to exit');
-    // event.preventDefault();
-    mainWindow = null;
-  });
+  // mainWindow.on('minimize', event => {
+  //   // event.preventDefault();
+  //   console.log('minimize clicked')
+  //   // mainWindow.hide();
+  //   mainWindow.setMinimizable(false)
+  //   mainWindow.webContents.send('cmd-change-small-UI');
+  // })
+
+  // ipcMain.on('ready-small-UI', () => {
+  //   mainWindow.setSize(400, 200, false);
+  // })
+
+  // ipcMain.on('mini-ui-mounted', () => {
+  //   mainWindow.show();
+  // })
+
+  // ipcMain.on('mini-ui-umounted', () => {
+  //   mainWindow.setMinimizable(true);
+  //   mainWindow.setSize(1750, 800, false)
+  // })
+
+  // mainWindow.on('closed', event => {
+  //   console.log('application is about to exit');
+  //   // event.preventDefault();
+  //   mainWindow = null;
+  // });
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
@@ -226,7 +249,6 @@ app.on('activate', () => {
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) createWindow();
 });
-
 
 import Store from 'electron-store';
 Store.initRenderer();
