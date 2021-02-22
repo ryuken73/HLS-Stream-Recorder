@@ -4,6 +4,7 @@ import { createHashHistory } from 'history';
 import { connectRouter } from 'connected-react-router';
 import { routerMiddleware } from 'connected-react-router';
 import * as modules from '../modules';
+import notify from '../lib/notifyMiddleware';
 
 const history = createHashHistory();
 const reducers = combineReducers({
@@ -13,7 +14,7 @@ const reducers = combineReducers({
 
 // const rootReducer = createRootReducer(history);
 const router = routerMiddleware(history);
-const enhancer = applyMiddleware(thunk, router);
+const enhancer = applyMiddleware(thunk, notify, router);
 
 function configureStore(initialState?: counterStateType) {
   return createStore<counterStateType>(
