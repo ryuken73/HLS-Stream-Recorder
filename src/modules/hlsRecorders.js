@@ -7,6 +7,7 @@ import {
     increaseChannelStatsNStore, 
     refreshChannelClipCountStatistics
 } from './statistics';
+import {add_X_ENDLIST} from '../lib/tsFileUtil';
 
 const sources = cctvFromConfig();
 const config = getCombinedConfig({storeName:'optionStore', electronPath:'home'});
@@ -339,6 +340,9 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
                     dispatch(refreshRecorder({channelNumber}));
                     return
                 }
+                // append #EXT-X-ENDLIST to m3u8 file otherwise player(video.js, ffplayer..) think live contents (player start from last ts file)
+                await add_X_ENDLIST(hlsm3u8)
+                //
                 clipStore.set(clipId, clipData);
                 if(error == undefined){
                     dispatch(setChannelStatNStore({channelNumber, statName:'lastSuccessTime', value:Date.now()}))
