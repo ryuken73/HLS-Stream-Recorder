@@ -40,6 +40,32 @@ async function mkdir(directory){
     }
 }
 
+const SmallIconWithTooltip = (props) => {
+    const {title, onclick, disabled=false, tooltipClass, open, children} = props;
+    return (
+        <Tooltip
+            title={title}
+            placement="right"
+            open={open}
+            classes={tooltipClass}
+            disableFocusListener 
+            disableTouchListener 
+            arrow
+        >
+            <SmallPaddingIconButton 
+                padding="1px" 
+                size="small" 
+                iconcolor="black"
+                onClick={onclick}
+                disabled={disabled}
+            >
+                {children}
+            </SmallPaddingIconButton>
+        </Tooltip>
+    )
+}
+
+
 const Controls = props => {
     const [tooltipOpen, setTooltipOpen] = React.useState(false);
     const {channelNumber, source, bgColors} = props;
@@ -205,55 +231,41 @@ const Controls = props => {
     
     return (
         <Box display="flex" flexDirection="column" mr="3px">
-            <Tooltip
-                title={"Refresh Player"}
-                placement="right"
-                disableFocusListener 
-                disableTouchListener 
-                arrow
-            >
-                <SmallPaddingIconButton 
-                    disabled={!mountPlayer} 
-                    onClick={refreshChannelPlayer} 
-                    padding="1px" 
-                    size="small" 
-                    iconcolor="black"
-                >
-                    <RefreshIcon color="primary" fontSize={"small"}></RefreshIcon>
-                </SmallPaddingIconButton>
-            </Tooltip>
-            <Tooltip
-                title={mountPlayer ? "playback off" : "playback on"}
-                placement="right"
-                disableFocusListener 
-                disableTouchListener 
-                arrow
-            >
-                <SmallPaddingIconButton 
-                    padding="1px" 
-                    size="small" 
-                    iconcolor="black"
-                    onClick={toggleMountPlayer}
-                >
-                    {mountPlayer ? 
-                        <TvOffIcon fontSize={"small"} ></TvOffIcon> :
-                        <TvIcon fontSize={"small"} ></TvIcon>
-                    }
-                </SmallPaddingIconButton>
-            </Tooltip>
-            <SmallPaddingIconButton disabled={inTransition} padding="1px" size="small" iconcolor={recorderIconColor}>
-                <FiberManualRecordIcon 
-                    fontSize={"small"} 
-                    onClick={recorderStatus==="started" ? stopRecordChannel : startRecordChannel}
-                ></FiberManualRecordIcon>
-            </SmallPaddingIconButton>
             <SmallPaddingIconButton disabled={inTransition} padding="1px" size="small" iconcolor={scheduleIconColor}>
                 <AccessAlarmIcon 
                     fontSize={"small"} 
                     onClick={scheduleStatus==="started" ? stopScheduleChannel : startScheduleChannel}
                 ></AccessAlarmIcon>
             </SmallPaddingIconButton>
+            <SmallPaddingIconButton disabled={inTransition} padding="1px" size="small" iconcolor={recorderIconColor}>
+                <FiberManualRecordIcon 
+                    fontSize={"small"} 
+                    onClick={recorderStatus==="started" ? stopRecordChannel : startRecordChannel}
+                ></FiberManualRecordIcon>
+            </SmallPaddingIconButton>
             <Box mt="auto" display="flex" flexDirection="column">
+                <SmallIconWithTooltip
+                    title={"force stop recording"}
+                    onclick={stopRecordChannelForce}
+                >
+                    <PowerSettingsNewIcon fontSize={"small"}></PowerSettingsNewIcon>
+                </SmallIconWithTooltip>
+                <SmallIconWithTooltip
+                    title={"Refresh Player"}
+                    onclick={refreshChannelPlayer}
+                    disabled={!mountPlayer}
+                >
+                    <RefreshIcon fontSize={"small"}></RefreshIcon>
+                </SmallIconWithTooltip>
+                <SmallIconWithTooltip
+                    title={mountPlayer ? "playback off" : "playback on"}
+                    onclick={toggleMountPlayer}
+                >
+                    {mountPlayer ? 
+                        <TvOffIcon fontSize={"small"} ></TvOffIcon> :
+                        <TvIcon fontSize={"small"} ></TvIcon>
+                    }
+                </SmallIconWithTooltip>
                 <StyledBadge 
                     badgeContent={<Box>{channelStat.clipCountFolder}</Box>} 
                     color="primary"
@@ -270,43 +282,16 @@ const Controls = props => {
                     </SmallPaddingIconButton>
                 </StyledBadge>
                 <ClickAwayListener onClickAway={handleTooltipClose}>
-                    <Tooltip
-                        open={tooltipOpen}
+                    <SmallIconWithTooltip
                         title={<AppStatComponent></AppStatComponent>}
+                        onclick={showStatistics}
+                        open={tooltipOpen}
                         classes={{ tooltip: classes.customWidth }}
-                        placement="left"
-                        arrow
+
                     >
-                    <SmallPaddingIconButton 
-                        padding="1px" 
-                        size="small" 
-                        iconcolor="black"
-                        onClick={showStatistics}
-                    >
-                        <AssignmentIcon 
-                            fontSize={"small"} 
-                        ></AssignmentIcon>
-                    </SmallPaddingIconButton>
-                    </Tooltip>
+                        <AssignmentIcon fontSize={"small"}></AssignmentIcon>
+                    </SmallIconWithTooltip>
                 </ClickAwayListener>
-                <Tooltip
-                        title={"force stop recording"}
-                        placement="right"
-                        disableFocusListener 
-                        disableTouchListener 
-                        arrow
-                    >
-                    <SmallPaddingIconButton 
-                        padding="1px" 
-                        size="small" 
-                        iconcolor="black"
-                        onClick={stopRecordChannelForce}
-                    >
-                        <PowerSettingsNewIcon 
-                            fontSize={"small"} 
-                        ></PowerSettingsNewIcon>
-                    </SmallPaddingIconButton>
-                </Tooltip>
             </Box>
         </Box>
     );

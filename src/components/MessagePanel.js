@@ -170,14 +170,14 @@ function MessagePanel(props) {
                     <Box ml="auto">
                         <Typography variant={"caption"}>[{memUsed}MB / {maxMemory}MB]</Typography>
                     </Box>
-                    <Box ml="5px">
+                    {/* <Box ml="5px">
                         <Typography variant={"caption"}>
                           {playbackAllOff ? 
                             "[Playback All Closed!]" :
                             `[Playback off after ${IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK - idleTime} seconds]`
                           }
                         </Typography>
-                    </Box>
+                    </Box> */}
                     <Box ml="5px">
                         <Typography variant={"caption"}>v.{app.getVersion()}</Typography>
                     </Box>

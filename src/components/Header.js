@@ -182,45 +182,19 @@ const Header = (props) => {
                 <Tooltip
                     disableFocusListener 
                     disableTouchListener 
-                    title="Refresh All Players"
+                    title="Start All Scheduled Recording"
                     arrow
                 >
                     <Box>
-                        <BasicIconButton aria-label="remount" onClick={remount}>
-                            <RefreshIcon 
+                        <BasicIconButton 
+                            aria-label="all schedule" 
+                            iconcolor={scheduleButtonColor}
+                            onClick={scheduleStatusAllStopped ? startScheduleAll : stopScheduleAll}
+                            disabled={recorderStatusAnyInTransition || !scheduleStatusAllSame}
+                        >
+                            <AccessAlarmIcon 
                                 fontSize="large"
-                                style={{color:"grey"}}
-                            ></RefreshIcon>
-                        </BasicIconButton>
-                    </Box>
-                </Tooltip>
-                <Tooltip
-                    disableFocusListener 
-                    disableTouchListener 
-                    title="Playback All On"
-                    arrow
-                >
-                    <Box>
-                        <BasicIconButton aria-label="playbackOff" onClick={allPlaybackOn}>
-                            <TvIcon 
-                                fontSize="large"
-                                style={{color:"grey"}}
-                            ></TvIcon>
-                        </BasicIconButton>
-                    </Box>
-                </Tooltip>
-                <Tooltip
-                    disableFocusListener 
-                    disableTouchListener 
-                    title="Playback All Off"
-                    arrow
-                >
-                    <Box>
-                        <BasicIconButton aria-label="playbackOff" onClick={allPlaybackOff}>
-                            <TvOffIcon 
-                                fontSize="large"
-                                style={{color:"grey"}}
-                            ></TvOffIcon>
+                            ></AccessAlarmIcon>
                         </BasicIconButton>
                     </Box>
                 </Tooltip>
@@ -246,19 +220,45 @@ const Header = (props) => {
                 <Tooltip
                     disableFocusListener 
                     disableTouchListener 
-                    title="Start All Scheduled Recording"
+                    title="Refresh All Players"
                     arrow
                 >
                     <Box>
-                        <BasicIconButton 
-                            aria-label="all schedule" 
-                            iconcolor={scheduleButtonColor}
-                            onClick={scheduleStatusAllStopped ? startScheduleAll : stopScheduleAll}
-                            disabled={recorderStatusAnyInTransition || !scheduleStatusAllSame}
-                        >
-                            <AccessAlarmIcon 
-                                fontSize="large"
-                            ></AccessAlarmIcon>
+                        <BasicIconButton aria-label="remount" onClick={remount}>
+                            <RefreshIcon 
+                                fontSize="medium"
+                                style={{color:"grey"}}
+                            ></RefreshIcon>
+                        </BasicIconButton>
+                    </Box>
+                </Tooltip>
+                <Tooltip
+                    disableFocusListener 
+                    disableTouchListener 
+                    title="Playback All On"
+                    arrow
+                >
+                    <Box>
+                        <BasicIconButton aria-label="playbackOff" onClick={allPlaybackOn}>
+                            <TvIcon 
+                                fontSize="medium"
+                                style={{color:"grey"}}
+                            ></TvIcon>
+                        </BasicIconButton>
+                    </Box>
+                </Tooltip>
+                <Tooltip
+                    disableFocusListener 
+                    disableTouchListener 
+                    title="Playback All Off"
+                    arrow
+                >
+                    <Box>
+                        <BasicIconButton aria-label="playbackOff" onClick={allPlaybackOff}>
+                            <TvOffIcon 
+                                fontSize="medium"
+                                style={{color:"grey"}}
+                            ></TvOffIcon>
                         </BasicIconButton>
                     </Box>
                 </Tooltip>
@@ -287,7 +287,7 @@ const Header = (props) => {
                                 onClick={showStatistics}
                             >
                                 <LiveHelpIcon 
-                                    fontSize="large"
+                                    fontSize="medium"
                                     style={{color:"grey"}}
                                 ></LiveHelpIcon>
                             </BasicIconButton>
@@ -306,7 +306,7 @@ const Header = (props) => {
                             onClick={clearStatistics}
                         >
                             <BackspaceIcon 
-                                fontSize="large"
+                                fontSize="medium"
                                 style={{color:"grey"}}
                             ></BackspaceIcon>
                         </BasicIconButton>
@@ -321,7 +321,7 @@ const Header = (props) => {
                 whiteSpace="nowrap"
             >CCTV Recorder
             </Box>
-            <Box display="flex" width="500px">
+            <Box display="flex" width="500px" alignItems="center">
                 <Tooltip
                     disableFocusListener 
                     disableTouchListener 
@@ -331,7 +331,7 @@ const Header = (props) => {
                     <Box ml="auto"> 
                         <BasicIconButton aria-label="reload" onClick={reload}>
                             <PowerSettingsNewIcon 
-                                fontSize="large"
+                                fontSize="medium"
                                 style={{color:"grey"}}
                             ></PowerSettingsNewIcon>
                         </BasicIconButton>
@@ -346,7 +346,7 @@ const Header = (props) => {
                     <Box>
                         <BasicIconButton aria-label="home directory" onClick={openHome}>
                             <HomeIcon 
-                                fontSize="large"
+                                fontSize="medium"
                                 style={{color:"grey"}}
                             ></HomeIcon>
                         </BasicIconButton>
@@ -361,7 +361,7 @@ const Header = (props) => {
                     <Box>
                         <BasicIconButton aria-label="open directory" onClick={openDirectory}>
                             <FolderOpenIcon 
-                                fontSize="large"
+                                fontSize="medium"
                                 style={{color:"grey"}}
                             ></FolderOpenIcon>
                         </BasicIconButton>
@@ -376,7 +376,7 @@ const Header = (props) => {
                     <Box>
                         <BasicIconButton aria-label="open log(debug)" onClick={openLogFolder}>
                             <BugReportIcon 
-                                fontSize="large"
+                                fontSize="medium"
                                 style={{color:"grey"}}
                             ></BugReportIcon>
                         </BasicIconButton>
@@ -391,7 +391,7 @@ const Header = (props) => {
                     <Box>
                         <BasicIconButton aria-label="configuration" onClick={clearCache}>
                             <DeleteSweepIcon 
-                                fontSize="large"
+                                fontSize="medium"
                                 style={{color:"grey"}}
                             ></DeleteSweepIcon>
                         </BasicIconButton>
