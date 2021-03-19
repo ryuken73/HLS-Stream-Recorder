@@ -58,7 +58,7 @@ function OptionDialog(props) {
   const {dialogOpen=true, config} = props;
   const {
     NUMBER_OF_CHANNELS,
-    INSTANCE_NAME="hlsInstance1",
+    // INSTANCE_NAME="hlsInstance1",
     CHANNEL_PREFIX="channel",
     WAIT_SECONDS_MS_FOR_PLAYBACK_CHANGE,
     LONG_BUFFERING_MS_SECONDS,
@@ -159,7 +159,7 @@ function OptionDialog(props) {
         tabIndex={-1}
       >
         <OptionTextInputWithDefault subtitle='Number of Recorders' value={NUMBER_OF_CHANNELS} onChange={onChangeConfig('NUMBER_OF_CHANNELS')}></OptionTextInputWithDefault>
-        <OptionTextInputWithDefault subtitle='Instance Name' value={INSTANCE_NAME} onChange={onChangeConfig('INSTANCE_NAME')}></OptionTextInputWithDefault>
+        {/* <OptionTextInputWithDefault subtitle='Instance Name' value={INSTANCE_NAME} onChange={onChangeConfig('INSTANCE_NAME')}></OptionTextInputWithDefault> */}
         <OptionTextInputWithDefault subtitle='Channel Prefix' value={CHANNEL_PREFIX} onChange={onChangeConfig('CHANNEL_PREFIX')}></OptionTextInputWithDefault>
         <OptionTextInputWithDefault subtitle='Clip Keeping Hours(hh)' value={KEEP_SAVED_CLIP_AFTER_HOURS} onChange={onChangeConfig('KEEP_SAVED_CLIP_AFTER_HOURS')}></OptionTextInputWithDefault>
         <OptionTextInputWithDefault subtitle='Long Buffering(ms)' value={LONG_BUFFERING_MS_SECONDS} onChange={onChangeConfig('LONG_BUFFERING_MS_SECONDS')}></OptionTextInputWithDefault>

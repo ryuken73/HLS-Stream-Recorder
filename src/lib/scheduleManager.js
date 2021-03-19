@@ -18,7 +18,7 @@ export const scheduler = (enabled=true, logger) => {
         });
         registeredTasks.set(name, task);   
         scheduleEvent.start = () => {
-            logger.info(`scheduler ${name} started!`);
+            logger.info(`scheduler ${name} : ${schedule} started!`);
             task.start();
         }
         scheduleEvent.stop = () => {

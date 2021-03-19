@@ -18,9 +18,15 @@ import MenuBuilder from './menu';
 import {scheduler} from './lib/scheduleManager';
 import {deleteDirectoryR} from './utils/deleteDirectoryR';
 
-const getConfig = require('./lib/getConfig');
-const config = getConfig.getCombinedConfig();
-const {INSTANCE_NAME='hlsInstance1'} = config;
+// const {INSTANCE_NAME='hlsInstance1'} = config;
+const exeName = path.basename(path.basename(app.getPath('exe'))).split('.')[0];
+let INSTANCE_NAME;
+if(exeName === 'electron' || exeName === 'HLS-Stream-Recorder'){
+  INSTANCE_NAME = 'hlsInstance1';
+} else {
+  INSTANCE_NAME = eleName;
+}
+
 const fs = require('fs');
 const userHomeDir = app.getPath('home');
 const newHomeDir = path.join(userHomeDir, INSTANCE_NAME);
@@ -30,6 +36,9 @@ try {
   console.log('Path already Exists: ', newHomeDir)
 }
 app.setPath('home', newHomeDir);
+
+const getConfig = require('./lib/getConfig');
+const config = getConfig.getCombinedConfig();
 
 const userData = app.getPath('userData');
 app.setAppLogsPath(path.join(userData, 'logs'));
@@ -179,12 +188,13 @@ const createWindow = async () => {
   const deleteScheduler = scheduleManager.register('deleteClips', DELETE_SCHEDULE_CRON);
 
   deleteScheduler.on('triggered', name => {
-    const config = getConfig.getCombinedConfig();
+    // const config = getConfig.getCombinedConfig({storeName:'optionStore', electronPath:'home'});
     const {
       BASE_DIRECTORY="none", 
       CHANNEL_PREFIX="channel",
       KEEP_SAVED_CLIP_AFTER_HOURS=24
     } = config;
+    console.log(`triggered: ${name} baseDirectory:[${BASE_DIRECTORY}] channel prefix:[${CHANNEL_PREFIX}] delete before hours: [${KEEP_SAVED_CLIP_AFTER_HOURS}]`);
     electronLog.log(`triggered: ${name} baseDirectory:[${BASE_DIRECTORY}] channel prefix:[${CHANNEL_PREFIX}] delete before hours: [${KEEP_SAVED_CLIP_AFTER_HOURS}]`);
     const channelNumbers = Array(20).fill(0).map((element, index) => index+1);
     const deleteJobs = channelNumbers.map(channelNumber => {
