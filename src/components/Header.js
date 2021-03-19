@@ -212,7 +212,7 @@ const Header = (props) => {
                             disabled={recorderStatusAnyInTransition || !recorderStatusAllSame}
                         >
                             <FiberManualRecordIcon 
-                                fontSize="large"
+                                fontSize="medium"
                             ></FiberManualRecordIcon>
                         </BasicIconButton>
                     </Box>
