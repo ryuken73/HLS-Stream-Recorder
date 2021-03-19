@@ -252,12 +252,15 @@ app.on('activate', () => {
 
 import Store from 'electron-store';
 Store.initRenderer();
-
+const clipStore = new Store({
+  name:'clipStore',
+  cwd:app.getPath('home')
+})
 const deleteClipStore = deletedPath => {
-  const clipStore = new Store({
-    name:'clipStore',
-    cwd:app.getPath('home')
-  })
+  // const clipStore = new Store({
+  //   name:'clipStore',
+  //   cwd:app.getPath('home')
+  // })
   const clipId = path.basename(deletedPath);
   clipStore.delete(clipId);
 }
