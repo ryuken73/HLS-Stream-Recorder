@@ -279,7 +279,7 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
             recorder,
         } = hlsRecorder;
         const {source} = hlsPlayer;
-        const {clipStore} = state.app;
+        // const {clipStore} = state.app;
     
         channelLog.info(`start startRecroding() recorder.createTime:${recorder.createTime}`)
     
@@ -343,7 +343,7 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
                 // append #EXT-X-ENDLIST to m3u8 file otherwise player(video.js, ffplayer..) think live contents (player start from last ts file)
                 await add_X_ENDLIST(hlsm3u8)
                 //
-                clipStore.set(clipId, clipData);
+                // clipStore.set(clipId, clipData);
                 if(error == undefined){
                     dispatch(setChannelStatNStore({channelNumber, statName:'lastSuccessTime', value:Date.now()}))
                     dispatch(increaseChannelStatsNStore({channelNumber, statName:'successCount'}))

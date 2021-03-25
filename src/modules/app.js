@@ -5,10 +5,10 @@ import {initElectronLog, createElectronStore} from '../lib/electronUtil';
 initElectronLog({});
 
 const {remote} = require('electron');
-const clipStore = createElectronStore({
-    name:'clipStore',
-    cwd:remote.app.getPath('home')
-});
+// const clipStore = createElectronStore({
+//     name:'clipStore',
+//     cwd:remote.app.getPath('home')
+// });
 const sourceStore = createElectronStore({
     name:'sourceStore',
     cwd:remote.app.getPath('home')
@@ -29,7 +29,7 @@ export const setSources = createAction(SET_SOURCES);
 
 const initialState = {
     sources,
-    clipStore,
+    // clipStore,
     sourceStore,
     intervalStore
 }
