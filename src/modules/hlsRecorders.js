@@ -49,9 +49,12 @@ const intervalStore = new Store({
     name:'intervalStore',
     cwd:remote.app.getPath('home')
 })
-
 const sourceStore = new Store({
     name:'sourceStore',
+    cwd:remote.app.getPath('home')
+})
+const clipStore = new Store({
+    name:'clipStore',
     cwd:remote.app.getPath('home')
 })
 
@@ -343,7 +346,7 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
                 // append #EXT-X-ENDLIST to m3u8 file otherwise player(video.js, ffplayer..) think live contents (player start from last ts file)
                 await add_X_ENDLIST(hlsm3u8)
                 //
-                // clipStore.set(clipId, clipData);
+                clipStore.set(clipId, clipData);
                 if(error == undefined){
                     dispatch(setChannelStatNStore({channelNumber, statName:'lastSuccessTime', value:Date.now()}))
                     dispatch(increaseChannelStatsNStore({channelNumber, statName:'successCount'}))
