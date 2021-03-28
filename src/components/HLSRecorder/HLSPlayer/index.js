@@ -3,9 +3,13 @@ import Box from '@material-ui/core/Box';
 import VideoPlayer from './VideoPlayer';
 import {SmallButton}  from '../../template/smallComponents';
 import log from 'electron-log';
+import {remote} from 'electron';
 
 const Store = require('electron-store');
-const store = new Store({watch: true});
+const store = new Store({
+    name:'configStore',
+    cwd:remote.app.getPath('home')
+});
 
 const HLSPlayer = (props) => {
     console.log('rerender hlsplayer', props)
@@ -126,7 +130,7 @@ const HLSPlayer = (props) => {
         // channelLog.info("Video ended");
     },[])
     const onVideoCanPlay = player => {
-        channelLog.info('can play');
+        // channelLog.info('can play');
         if(restorePlaybackRate && player){
             const playbackRate = getPlaybackRateStore();
             player.playbackRate(playbackRate);

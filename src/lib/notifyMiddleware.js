@@ -52,7 +52,7 @@ const notify = store => next => action => {
         }
         sendChannelMessage(channelNumber, statusReport); 
     }    
-    console.log(action);
+    // console.log(action);
     const result = next(action);
     return result;
 }

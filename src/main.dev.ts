@@ -224,7 +224,7 @@ const createWindow = async () => {
         results.forEach(result => {
           if(result.deleted){
             deleteClipStore(result.file);
-            electronLog.info('Delete clipStore too');
+            // electronLog.info('Delete clipStore too');
           }
         })
         mainWindow.webContents.send('deleteScheduleDone', channelNumber);
