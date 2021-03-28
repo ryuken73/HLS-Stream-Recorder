@@ -49,9 +49,12 @@ const intervalStore = new Store({
     name:'intervalStore',
     cwd:remote.app.getPath('home')
 })
-
 const sourceStore = new Store({
     name:'sourceStore',
+    cwd:remote.app.getPath('home')
+})
+const clipStore = new Store({
+    name:'clipStore',
     cwd:remote.app.getPath('home')
 })
 
@@ -279,7 +282,7 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
             recorder,
         } = hlsRecorder;
         const {source} = hlsPlayer;
-        const {clipStore} = state.app;
+        // const {clipStore} = state.app;
     
         channelLog.info(`start startRecroding() recorder.createTime:${recorder.createTime}`)
     
