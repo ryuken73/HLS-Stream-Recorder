@@ -19,12 +19,12 @@ import log from 'electron-log';
 import HLSRecorder from '../../../lib/RecordHLS_ffmpeg';
 import {getAbsolutePath} from '../../../lib/electronUtil';
 
-import { makeStyles } from '@material-ui/core/styles';
-const useStyles = makeStyles((theme) => ({
-    customWidth: {
-      maxWidth: 500,
-    }
-}));
+// import { makeStyles } from '@material-ui/core/styles';
+// const useStyles = makeStyles((theme) => ({
+//     customWidth: {
+//       maxWidth: 500,
+//     }
+// }));
 
 const rimraf = require('rimraf');
 const path = require('path');
@@ -227,7 +227,7 @@ const Controls = props => {
         },
     }))(Badge);
       
-    const classes = useStyles();
+    // const classes = useStyles();
     
     return (
         <Box display="flex" flexDirection="column" mr="3px">
@@ -286,7 +286,7 @@ const Controls = props => {
                         title={<AppStatComponent></AppStatComponent>}
                         onclick={showStatistics}
                         open={tooltipOpen}
-                        classes={{ tooltip: classes.customWidth }}
+                        // classes={{ tooltip: classes.customWidth }}
 
                     >
                         <AssignmentIcon fontSize={"small"}></AssignmentIcon>
