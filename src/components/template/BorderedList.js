@@ -11,8 +11,8 @@ export default function BorderedList(props) {
             alignItems={alignItems} 
             bgcolor={bgcolor} 
             border={border} 
-            {...props
-        }>
+            {...props}
+        >
             <BorderdBox border={0} width={titlewidth} bgcolor={bgcolor} color={color}>
                 {subject}
             </BorderdBox>

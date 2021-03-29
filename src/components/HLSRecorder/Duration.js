@@ -14,29 +14,47 @@ function Duration(props) {
     const inRecording = recorderStatus === 'started';
     const inTransition = recorderStatus === 'starting' || recorderStatus === 'stopping';
     const bgColor = bgColors[recorderStatus];
-    const channel = {
-        subject: <Typography variant="body1">{channelName}</Typography>,
-        content: (
-            <Box width="100%" m="0px"> 
-                <SmallMarginTextField 
-                    width="100%"
-                    variant="outlined"
-                    margin="dense"
-                    bgcolor={bgColor}
-                    value={duration}
-                    fontSize={"12px"}
-                    disabled={true}
-                    mt={"2px"}
-                    mb={"2px"}
-                ></SmallMarginTextField> 
-            </Box>
-        ) 
+    const Subject = () => {
+        return <Typography variant="body1">{channelName}</Typography>;
     }
+    const Content = () => {
+        return  <Box width="100%" m="0px"> 
+                    <SmallMarginTextField 
+                        width="100%"
+                        variant="outlined"
+                        margin="dense"
+                        bgcolor={bgColor}
+                        value={duration}
+                        fontSize={"12px"}
+                        disabled={true}
+                        mt={"2px"}
+                        mb={"2px"}
+                    ></SmallMarginTextField> 
+                </Box>
+    }
+    // const channel = {
+    //     subject: <Typography variant="body1">{channelName}</Typography>,
+    //     content: (
+    //         <Box width="100%" m="0px"> 
+    //             <SmallMarginTextField 
+    //                 width="100%"
+    //                 variant="outlined"
+    //                 margin="dense"
+    //                 bgcolor={bgColor}
+    //                 value={duration}
+    //                 fontSize={"12px"}
+    //                 disabled={true}
+    //                 mt={"2px"}
+    //                 mb={"2px"}
+    //             ></SmallMarginTextField> 
+    //         </Box>
+    //     ) 
+    // }
     return (
         <BorderedList 
-            subject={channel.subject} 
+            subject={<Subject></Subject>} 
             titlewidth={"80px"}
-            content={channel.content} 
+            content={<Content></Content>} 
             border={1}
             ml={"3px"}
             my={"2px"}

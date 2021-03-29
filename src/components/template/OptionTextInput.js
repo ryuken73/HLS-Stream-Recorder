@@ -7,26 +7,26 @@ import {SmallMarginTextField} from './smallComponents';
 
 export default function OptionTextInput(props) {
     const {subtitle, subTitleWidth:titlewidth="20%", inputWidth:width, value, iconButton} = props;
-    const optionText = {
-        subject: <Typography component={'span'} variant="body1">{subtitle}</Typography>,
-        content:  (
-            <Box display="flex" width={width}>
-                <SmallMarginTextField 
-                    variant="outlined"
-                    margin="dense"
-                    value={value}
-                    fullWidth      
-                    {...props}               
-                ></SmallMarginTextField> 
-                {iconButton}
-            </Box>
-        )
+    const Subject = () => {
+        return <Typography component={'span'} variant="body1">{subtitle}</Typography>;
+    }
+    const Content = () => {
+        return  <Box display="flex" width={width}>
+                    <SmallMarginTextField 
+                        variant="outlined"
+                        margin="dense"
+                        value={value}
+                        fullWidth      
+                        {...props}               
+                    ></SmallMarginTextField> 
+                    {iconButton}
+                </Box>
     }
     return (
         <BorderedList 
-            subject={optionText.subject} 
+            subject={<Subject></Subject>} 
             titlewidth={titlewidth}
-            content={optionText.content}
+            content={<Content></Content>}
             border={1}
             {...props}
         ></BorderedList>
