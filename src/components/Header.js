@@ -23,12 +23,12 @@ import {webFrame} from 'electron';
 import {ipcRenderer} from 'electron';
 import {remote} from 'electron';
 
-import { makeStyles } from '@material-ui/core/styles';
-const useStyles = makeStyles((theme) => ({
-    customWidth: {
-      maxWidth: 500,
-    }
-}));
+// import { makeStyles } from '@material-ui/core/styles';
+// const useStyles = makeStyles((theme) => ({
+//     customWidth: {
+//       maxWidth: 500,
+//     }
+// }));
 
 const Header = (props) => {
     // console.log('$$$$', props)
@@ -163,7 +163,7 @@ const Header = (props) => {
         return StatLists;
     }
 
-    const classes = useStyles();
+    // const classes = useStyles();
     return (      
         <Box 
             display="flex" 
@@ -276,7 +276,7 @@ const Header = (props) => {
                     <Tooltip
                         open={tooltipOpen}
                         title={<AppStatComponent></AppStatComponent>}
-                        classes={{ tooltip: classes.customWidth }}
+                        // classes={{ tooltip: classes.customWidth }}
                         disableFocusListener 
                         disableTouchListener 
                         arrow
