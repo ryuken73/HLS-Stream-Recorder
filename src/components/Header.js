@@ -397,7 +397,7 @@ const Header = (props) => {
                         </BasicIconButton>
                     </Box>
                 </Tooltip>
-                <Tooltip
+                {/* <Tooltip
                     disableFocusListener 
                     disableTouchListener 
                     title="Configuration"
@@ -411,8 +411,7 @@ const Header = (props) => {
                             ></SettingsIcon>
                         </BasicIconButton>
                     </Box>
-                </Tooltip>
-
+                </Tooltip> */}
             </Box>
         </Box>  
 
