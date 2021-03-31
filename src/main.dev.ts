@@ -65,25 +65,34 @@ if (
   require('electron-debug')();
 }
 
-const installExtensions = async () => {
-  const installer = require('electron-devtools-installer');
-  const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
-  const extensions = ['REACT_DEVELOPER_TOOLS'];
+// const installExtensions = async () => {
+//   const installer = require('electron-devtools-installer');
+//   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
+//   const extensions = ['REACT_DEVELOPER_TOOLS'];
 
-  return installer
-    .default(
-      extensions.map((name) => installer[name]),
-      forceDownload
-    )
-    .catch(console.log);
-};
+//   return installer
+//     .default(
+//       extensions.map((name) => installer[name]),
+//       forceDownload
+//     )
+//     .catch(console.log);
+// };
 
+import installExtension, { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer';
 const createWindow = async () => {
   if (
     process.env.NODE_ENV === 'development' ||
     process.env.DEBUG_PROD === 'true'
   ) {
-    await installExtensions();
+    // await installExtensions();
+    const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
+    const extensions = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS];
+    installExtension(
+      extensions,
+      {loadExtensionOptions: {allowFileAccess: true}, forceDownload: forceDownload}
+    )
+    .catch(console.log);
+
   }
 
   const RESOURCES_PATH = app.isPackaged
