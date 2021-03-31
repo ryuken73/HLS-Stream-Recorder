@@ -7,7 +7,7 @@ import {SmallPaddingSelect}  from './smallComponents';
 import {BasicSelect}  from './basicComponents';
 
 
-export default function OptionSelectList(props) {
+function OptionSelectList(props) {
     const {
         maxWidth="100%", 
         minWidth="30%", 
@@ -62,3 +62,5 @@ export default function OptionSelectList(props) {
     </React.Fragment>
     )
 }
+
+export default React.memo(OptionSelectList)

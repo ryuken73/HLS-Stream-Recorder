@@ -14,6 +14,7 @@ import { withStyles } from '@material-ui/core/styles';
 import {SmallPaddingIconButton}  from '../../template/smallComponents';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import BorderedList from '../../template/BorderedList';
+import SmallIconWithTooltip from './SmallIconWithTooltip';
 import log from 'electron-log';
 
 import HLSRecorder from '../../../lib/RecordHLS_ffmpeg';
@@ -40,30 +41,30 @@ async function mkdir(directory){
     }
 }
 
-const SmallIconWithTooltip = (props) => {
-    const {title, onclick, disabled=false, tooltipClass, open, children} = props;
-    return (
-        <Tooltip
-            title={title}
-            placement="right"
-            open={open}
-            classes={tooltipClass}
-            disableFocusListener 
-            disableTouchListener 
-            arrow
-        >
-            <SmallPaddingIconButton 
-                padding="1px" 
-                size="small" 
-                iconcolor="black"
-                onClick={onclick}
-                disabled={disabled}
-            >
-                {children}
-            </SmallPaddingIconButton>
-        </Tooltip>
-    )
-}
+// const SmallIconWithTooltip = (props) => {
+//     const {title, onclick, disabled=false, tooltipClass, open, children} = props;
+//     return (
+//         <Tooltip
+//             title={title}
+//             placement="right"
+//             open={open}
+//             classes={tooltipClass}
+//             disableFocusListener 
+//             disableTouchListener 
+//             arrow
+//         >
+//             <SmallPaddingIconButton 
+//                 padding="1px" 
+//                 size="small" 
+//                 iconcolor="black"
+//                 onClick={onclick}
+//                 disabled={disabled}
+//             >
+//                 {children}
+//             </SmallPaddingIconButton>
+//         </Tooltip>
+//     )
+// }
 
 
 const Controls = props => {

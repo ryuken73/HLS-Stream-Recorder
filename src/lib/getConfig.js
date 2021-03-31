@@ -34,6 +34,22 @@ export const getCombinedConfig = (params={}) => {
     return typeConverted;
 }
 
+export const getStore = (params={}) => {
+    const {app} = electronUtil.isRenderer ? require('electron').remote : require('electron');
+    const {storeName='optionStore', electronPath='home'} = params;
+    const store = new Store({
+        name: storeName,
+        cwd: app.getPath(electronPath)
+    })
+    return store;
+}
+
+export const mergeConfig = (storeConfig, defaultConfig) => {
+    const combinedConfig = {...defaultConfig, ...storeConfig};
+    const typeConverted = valuesToInt(combinedConfig)
+    return typeConverted;
+}
+
 export const getDefaultConfig = () => {
     const defaultJsonFile = electronUtil.getAbsolutePath('config/default/config.json', true);
     const defaultJson = electronUtil.readJSONFile(defaultJsonFile);

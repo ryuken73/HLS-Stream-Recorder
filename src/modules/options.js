@@ -1,11 +1,11 @@
 import {createAction, handleActions} from 'redux-actions';
 const Store = require('electron-store');
 
-const {remote} = require('electron');
-const optionStore = new Store({
-    name:'optionStore',
-    cwd:remote.app.getPath('home')
-})
+// const {remote} = require('electron');
+// const optionStore = new Store({
+//     name:'optionStore',
+//     cwd:remote.app.getPath('home')
+// })
 
 const MAX_NUMBER_OF_CHANNEL = 10;
 
@@ -20,10 +20,17 @@ export const setConfigValue = createAction(SET_CONFIG_VALUE);
 export const setOptionsDialogOpen = createAction(SET_OPTIONS_DIALOG_OPEN);
 
 // redux thunk
-import {getCombinedConfig,getDefaultConfig}  from '../lib/getConfig';
+import {getCombinedConfig, getDefaultConfig, getStore, mergeConfig}  from '../lib/getConfig';
+import {getAbsolutePath, readJSONFile} from '../lib/electronUtil';
+
+const optionStore = getStore({storeName:'optionStore', electronPath:'home'});
+const defaultJsonFile = getAbsolutePath('config/default/config.json', true);
+const defaultJsonConfig = readJSONFile(defaultJsonFile);
 
 export const openOptionsDialog = () => (dispatch, getState) => {
-    const config = getCombinedConfig({storeName:'optionStore', electronPath:'home'});
+    // const config = getCombinedConfig({storeName:'optionStore', electronPath:'home'});
+    const storeJsonConfig = optionStore.store;
+    const config = mergeConfig(storeJsonConfig, defaultJsonConfig);
     dispatch(setConfig({config}));
     dispatch(setOptionsDialogOpen({dialogOpen:true}))
 }
