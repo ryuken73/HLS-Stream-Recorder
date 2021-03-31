@@ -16,6 +16,13 @@ function OptionSelectList(props) {
     }=props;
 
     const [currentValue, setCurrentValue] = React.useState(currentItem);
+    const [customStyle, setCustomStyle] = React.useState({minWidth:minWidth, width:"100%", maxWidth:maxWidth})
+    const [selectItems, setSelectItems] = React.useState(intervalsForSelection.map(interval => {
+        return {
+            value: interval.milliseconds,
+            label: interval.title
+        }
+    }));
 
     const {
         onChangeSelect=()=>{}, 
@@ -27,22 +34,28 @@ function OptionSelectList(props) {
     const {smallComponent=true} = props;
     const SelectComponent = smallComponent ? SmallPaddingSelect : BasicSelect;
 
-    const selectItems = intervalsForSelection.map(interval => {
-        return {
-            value: interval.milliseconds,
-            label: interval.title
-        }
-    })
+    React.useEffect(() => {
+        setCustomStyle({minWidth:minWidth, width:"100%", maxWidth:maxWidth});
+    }, [minWidth, maxWidth])
 
-    const changeCurrentItem = event => {
+    React.useEffect(() => {
+        setSelectItems(intervalsForSelection.map(interval => {
+            return {
+                value: interval.milliseconds,
+                label: interval.title
+            }
+        }));
+    }, [intervalsForSelection])
+
+    const changeCurrentItem = React.useCallback(event => {
         const {value} = event.target;
         setCurrentValue(value)
         onChangeSelect(value);
-    }
+    },[]);
     
     return (
         <React.Fragment>
-        <FormControl style={{minWidth:minWidth, width:"100%", maxWidth:maxWidth}}>
+        <FormControl style={customStyle}>
             <SelectComponent
                 labelId="select-label" 
                 variant="outlined"
