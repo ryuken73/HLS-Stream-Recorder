@@ -33,25 +33,24 @@ function IntervalSelection(props) {
         }
     })
 
-    const onChangeSelect = (event) => {
+    const onChangeSelect = React.useCallback((event) => {
         setScheduleIntervalNSave({channelNumber, scheduleInterval:event.target.value})
-    }
+    },[channelNumber])
 
-    const ButtonElement = () => {
-        return <ScheduleButton
-                    channelNumber={channelNumber}
-                    inTransition={inTransition}
-                    scheduleStatus={scheduleStatus} 
-                    scheduledFunction={scheduledFunction}
-                    startSchedule={startSchedule}
-                    stopSchedule={stopSchedule}
-                >
-                </ScheduleButton>
-    } 
+    const ButtonElement = React.memo((props) => {
+        return <ScheduleButton {...props}></ScheduleButton>
+    }) 
 
     return (
         <OptionSelectButton 
-            FrontButton={ButtonElement}
+            FrontButton={<ButtonElement 
+                            channelNumber={channelNumber}
+                            inTransition={inTransition}
+                            scheduleStatus={scheduleStatus} 
+                            scheduledFunction={scheduledFunction}
+                            startSchedule={startSchedule}
+                            stopSchedule={stopSchedule}                       
+                        ></ButtonElement>}
             currentItem={scheduleInterval}
             multiple={false}
             menuItems={selectItems}

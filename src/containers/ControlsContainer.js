@@ -16,7 +16,7 @@ function mapStateToProps(state, ownProps) {
     ...ownProps,
     source: hlsPlayer.source,
     channelName: hlsRecorder.channelName,
-    duration: hlsRecorder.duration,
+    // duration: hlsRecorder.duration,
     channelDirectory: hlsRecorder.channelDirectory,
     url: hlsRecorder.url,
     recorder: hlsRecorder.recorder,

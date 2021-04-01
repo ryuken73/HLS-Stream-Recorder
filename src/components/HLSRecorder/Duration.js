@@ -17,13 +17,14 @@ function Duration(props) {
     const Subject = () => {
         return <Typography variant="body1">{channelName}</Typography>;
     }
-    const Content = () => {
+    const Content = React.memo((props) => {
+        const {bgcolor, duration} = props;
         return  <Box width="100%" m="0px"> 
                     <SmallMarginTextField 
                         width="100%"
                         variant="outlined"
                         margin="dense"
-                        bgcolor={bgColor}
+                        bgcolor={bgcolor}
                         value={duration}
                         fontSize={"12px"}
                         disabled={true}
@@ -31,7 +32,7 @@ function Duration(props) {
                         mb={"2px"}
                     ></SmallMarginTextField> 
                 </Box>
-    }
+    })
     // const channel = {
     //     subject: <Typography variant="body1">{channelName}</Typography>,
     //     content: (
@@ -54,7 +55,7 @@ function Duration(props) {
         <BorderedList 
             subject={<Subject></Subject>} 
             titlewidth={"80px"}
-            content={<Content></Content>} 
+            content={<Content bgcolor={bgColor} duration={duration}></Content>} 
             border={1}
             ml={"3px"}
             my={"2px"}

@@ -15,6 +15,8 @@ import {SmallPaddingIconButton}  from '../../template/smallComponents';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import BorderedList from '../../template/BorderedList';
 import SmallIconWithTooltip from './SmallIconWithTooltip';
+import ScheduleButton from './ScheduleButton';
+import RecordButton from './RecordButton';
 import log from 'electron-log';
 
 import HLSRecorder from '../../../lib/RecordHLS_ffmpeg';
@@ -40,6 +42,17 @@ async function mkdir(directory){
         console.error(err);
     }
 }
+
+const StyledBadge = withStyles((theme) => ({
+    badge: {
+      right: -10,
+      top: -8,
+      border: `1.5px solid ${theme.palette.background.paper}`,
+      padding: '0 4px',
+      fontSize: '12px',
+      background: 'darkslategrey'
+    },
+}))(Badge);
 
 // const SmallIconWithTooltip = (props) => {
 //     const {title, onclick, disabled=false, tooltipClass, open, children} = props;
@@ -72,7 +85,7 @@ const Controls = props => {
     const {channelNumber, source, bgColors} = props;
     const {
         channelName="channelX",
-        duration="00:00:00.00",
+        // duration="00:00:00.00",
         channelDirectory="c:/cctv/channelX",
         url="",
         recorder=null,
@@ -95,7 +108,7 @@ const Controls = props => {
     } = props.HLSPlayerActions;
 
     const {
-        setDuration=()=>{},
+        // setDuration=()=>{},
         setRecorder=()=>{},
         setRecorderStatus=()=>{},
         setRecorderInTransition=()=>{},
@@ -132,57 +145,57 @@ const Controls = props => {
         createRecorder(channelNumber);
     },[])
 
-    const refreshChannelPlayer = (event) => {
+    const refreshChannelPlayer = React.useCallback((event) => {
         refreshPlayer({channelNumber});
-    }
+    },[channelNumber]);
 
-    const remountChannelPlayer = (event) => {
+    const remountChannelPlayer = React.useCallback((event) => {
         remountPlayer({channelNumber});
-    }
+    },[channelNumber]);
 
     const toggleMountPlayer = React.useCallback( event => {
         setPlayerMount({channelNumber, mountPlayer:!mountPlayer})
-    }, [mountPlayer]);
+    }, [channelNumber, mountPlayer]);
 
 
-    const dismountRecorder = (event) => {
+    const dismountRecorder = React.useCallback((event) => {
         setRecorderMount({channelNumber, mountRecorder:false});
-    }
+    }, [channelNumber]);
 
-    const startRecordChannel = event => {
+    const startRecordChannel = React.useCallback(event => {
         startRecording(channelNumber);
-    }
+    }, [channelNumber]);
 
-    const stopRecordChannel = event => {
+    const stopRecordChannel = React.useCallback(event => {
         stopRecording(channelNumber);
-    }
+    }, [channelNumber]);
 
-    const stopRecordChannelForce = event => {
+    const stopRecordChannelForce = React.useCallback(event => {
         stopRecordingForce(channelNumber);
-    }
+    }, [channelNumber])
 
-    const startScheduleChannel = event => {
+    const startScheduleChannel = React.useCallback(event => {
         startSchedule(channelNumber);
-    }
+    }, [channelNumber]);
 
-    const stopScheduleChannel = event => {
+    const stopScheduleChannel = React.useCallback(event => {
         stopSchedule(channelNumber);
-    }
+    }, [channelNumber])
 
-    const handleTooltipClose = () => {
+    const handleTooltipClose = React.useCallback(() => {
         setTooltipOpen(false)
-    }
+    },[])
 
-    const showStatistics = () => {
+    const showStatistics = React.useCallback(() => {
         setTooltipOpen(previous => {
             return !previous;
         })
-    }
+    },[])
 
     const {remote} = require('electron');
-    const openDirectory = () => {
+    const openDirectory = React.useCallback(() => {
         remote.shell.openPath(channelDirectory)
-    }
+    },[]);
 
     const {channelStat={}} = props;
     const {
@@ -217,33 +230,43 @@ const Controls = props => {
         return StatLists;
     }
 
-    const StyledBadge = withStyles((theme) => ({
-        badge: {
-          right: -10,
-          top: -8,
-          border: `1.5px solid ${theme.palette.background.paper}`,
-          padding: '0 4px',
-          fontSize: '12px',
-          background: 'darkslategrey'
-        },
-    }))(Badge);
+    // const StyledBadge = withStyles((theme) => ({
+    //     badge: {
+    //       right: -10,
+    //       top: -8,
+    //       border: `1.5px solid ${theme.palette.background.paper}`,
+    //       padding: '0 4px',
+    //       fontSize: '12px',
+    //       background: 'darkslategrey'
+    //     },
+    // }))(Badge);
       
     // const classes = useStyles();
-    
+
+    const onClickScheduleButton = React.useCallback(() => {
+        return scheduleStatus==="started" ? stopScheduleChannel : startScheduleChannel;
+    },[scheduleStatus, stopScheduleChannel, startScheduleChannel])
+
+    const onClickRecordButton = React.useCallback(() => {
+        return recorderStatus==="started" ? stopRecordChannel : startRecordChannel
+    },[recorderStatus, stopRecordChannel, startRecordChannel])
+
+    const BatchContentComponent = React.memo(() => {
+        return <Box>{channelStat.clipCountFolder}</Box>
+    },[channelStat.clipCountFolder])
+        
     return (
         <Box display="flex" flexDirection="column" mr="3px">
-            <SmallPaddingIconButton disabled={inTransition} padding="1px" size="small" iconcolor={scheduleIconColor}>
-                <AccessAlarmIcon 
-                    fontSize={"small"} 
-                    onClick={scheduleStatus==="started" ? stopScheduleChannel : startScheduleChannel}
-                ></AccessAlarmIcon>
-            </SmallPaddingIconButton>
-            <SmallPaddingIconButton disabled={inTransition} padding="1px" size="small" iconcolor={recorderIconColor}>
-                <FiberManualRecordIcon 
-                    fontSize={"small"} 
-                    onClick={recorderStatus==="started" ? stopRecordChannel : startRecordChannel}
-                ></FiberManualRecordIcon>
-            </SmallPaddingIconButton>
+            <ScheduleButton
+                disabled={inTransition}
+                iconcolor={scheduleIconColor}
+                onClick={onClickScheduleButton}
+            ></ScheduleButton>
+            <RecordButton
+                disabled={inTransition}
+                iconcolor={recorderIconColor}
+                onClick={onClickRecordButton}
+            ></RecordButton>
             <Box mt="auto" display="flex" flexDirection="column">
                 <SmallIconWithTooltip
                     title={"force stop recording"}
@@ -268,7 +291,8 @@ const Controls = props => {
                     }
                 </SmallIconWithTooltip>
                 <StyledBadge 
-                    badgeContent={<Box>{channelStat.clipCountFolder}</Box>} 
+                    // badgeContent={<Box>{channelStat.clipCountFolder}</Box>} 
+                    badgeContent={<BatchContentComponent></BatchContentComponent>}
                     color="primary"
                     anchorOrigin={{
                         vertical: 'bottom',

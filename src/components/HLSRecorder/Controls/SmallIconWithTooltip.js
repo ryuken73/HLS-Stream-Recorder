@@ -4,13 +4,12 @@ import {SmallPaddingIconButton}  from '../../template/smallComponents';
 
 
 const SmallIconWithTooltip = (props) => {
-    const {title, onclick, disabled=false, tooltipClass, open, children} = props;
+    const {title, onclick=()=>{}, disabled=false, open, children} = props;
     return (
         <Tooltip
             title={title}
             placement="right"
             open={open}
-            classes={tooltipClass}
             disableFocusListener 
             disableTouchListener 
             arrow
