@@ -4,4 +4,4 @@ stages:
 build-job:
   stage: build
   script:
-    - ls -al 
+    - ls -al
