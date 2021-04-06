@@ -4,5 +4,5 @@ stages:
 build-job:
   stage: build
   script:
-    - export PATH=$PATH:/home/sbs/.nvm/versions/node/v8.11.3/bin
+    - export PATH=$PATH:/home/sbs/.nvm/versions/node/v12.14.1/bin
     - yarn && yarn run package
