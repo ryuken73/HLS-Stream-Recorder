@@ -97,9 +97,8 @@
       "./assets/**"
     ],
     "publish": {
-      "provider": "github",
-      "owner": "electron-react-boilerplate",
-      "repo": "electron-react-boilerplate"
+      "provider": "generic",
+      "url": "https://gitlabsvr.sbs.co.kr/S9A4268/hls-stream-recorder/-/jobs/artifacts/main/raw/release?job=deploy"
     }
   },
   "repository": {
