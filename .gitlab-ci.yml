@@ -5,6 +5,7 @@ deploy:
   stage: deploy
   script:
     - export PATH=$PATH:/home/sbs/.nvm/versions/node/v12.14.1/bin
+    - cp ~/extra_binary/ffmpeg.exe src/bin
     - yarn && yarn run package
   artifacts:
     name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME"
