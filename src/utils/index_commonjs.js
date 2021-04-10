@@ -15,7 +15,7 @@ const {
     errorTap
 } = require('./fp.file.js');
 
-export const number = {
+exports.number = {
     group1000(number){
         return new Intl.NumberFormat().format(number)
     },
@@ -34,7 +34,7 @@ export const number = {
     }
 }
 
-export const string = {
+exports.string = {
     toObject(string, itemSep, keySep){
         if(typeof(string) !== 'string') return {};
         const itemArray = string.replace(/^\?/,'').split(itemSep);
@@ -48,7 +48,7 @@ export const string = {
     }
 }
 
-export const clone = {
+exports.clone = {
     replaceElement(array, index, newElement){
         return [
             ...array.slice(0, index),
@@ -58,7 +58,7 @@ export const clone = {
     }
 }
 
-export const date = {
+exports.date = {
     getString(date, separator={}){
         const {
             dateSep='', 
@@ -77,7 +77,7 @@ export const date = {
     }
 }
 
-export const file = {
+exports.file = {
     validType : {
         directory(dirname){
             if(typeof(dirname) === 'string') return true;
@@ -228,7 +228,7 @@ export const file = {
     )
 }
 
-export const fp = {
+exports.fp = {
     throttle(duration, fn){
         let timer = null;
         return (...args) => {
@@ -315,7 +315,7 @@ const appendToWriteStream = async (rStream, wStream) => {
     })
 }
 
-export const browserStorage = {
+exports.browserStorage = {
     storage : null,
     // storageAvailable : (type) => {
     init : (type) => {
@@ -351,7 +351,7 @@ const sortBy = (a,b) => {
 	}
 }
 
-export const order = {
+exports.order = {
     orderByKey: (keyName) => {
         return (a,b) => {
             const sortByKey = sortBy(a,b);

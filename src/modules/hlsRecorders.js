@@ -317,6 +317,8 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
                 const hlsDirectory = saveDirectory;
                 const clipId = subDirectory;
                 const hlsm3u8 = localm3u8;
+                const saveSize = await file.getTotalSizeR(hlsDirectory);
+                const saveFileCount = await file.getFileCountR(hlsDirectory);
                 const clipData = {
                     clipId,
                     channelNumber,
@@ -331,6 +333,8 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
                     duration,
                     hlsm3u8,
                     saveDirectory,
+                    saveSize,
+                    saveFileCount,
                     mp4Converted:false
                 }
                 console.log('#######', clipData);
@@ -353,6 +357,8 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
                     dispatch(refreshChannelClipCountStatistics({channelNumber}))
                 }
                 dispatch(refreshRecorder({channelNumber}));
+                dispatch(setChannelStatNStore({channelNumber, statName:'lastSaveSize', value: saveSize}))
+                dispatch(setChannelStatNStore({channelNumber, statName:'lastSaveFileCount', value: saveFileCount}))
             } catch (error) {
                 if(error){
                     channelLog.error(error)

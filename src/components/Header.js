@@ -199,7 +199,7 @@ const Header = (props) => {
                     disabled={recorderStatusAnyInTransition || !recorderStatusAllSame}
                 >
                     <FiberManualRecordIcon 
-                        fontSize="medium"
+                        fontSize="small"
                     ></FiberManualRecordIcon>
                 </IconButtonWithTooltip>
                 <IconButtonWithTooltip
@@ -209,7 +209,7 @@ const Header = (props) => {
                     disabled={false}
                 >
                     <RefreshIcon 
-                        fontSize="medium"
+                        fontSize="default"
                         style={{color:"grey"}}
                     ></RefreshIcon>
                 </IconButtonWithTooltip>
@@ -220,7 +220,7 @@ const Header = (props) => {
                     disabled={false}
                 >
                     <TvIcon 
-                        fontSize="medium"
+                        fontSize="default"
                         style={{color:"grey"}}
                     ></TvIcon>
                 </IconButtonWithTooltip>
@@ -231,7 +231,7 @@ const Header = (props) => {
                     disabled={false}
                 >
                     <TvOffIcon 
-                        fontSize="medium"
+                        fontSize="default"
                         style={{color:"grey"}}
                     ></TvOffIcon>
                 </IconButtonWithTooltip>
@@ -260,7 +260,7 @@ const Header = (props) => {
                                 onClick={showStatistics}
                             >
                                 <LiveHelpIcon 
-                                    fontSize="medium"
+                                    fontSize="default"
                                     style={{color:"grey"}}
                                 ></LiveHelpIcon>
                             </BasicIconButton>
@@ -274,7 +274,7 @@ const Header = (props) => {
                     disabled={false}
                 >
                     <BackspaceIcon 
-                        fontSize="medium"
+                        fontSize="default"
                         style={{color:"grey"}}
                     ></BackspaceIcon>
                 </IconButtonWithTooltip>
@@ -296,7 +296,7 @@ const Header = (props) => {
                         disabled={false}
                     >
                         <PowerSettingsNewIcon 
-                            fontSize="medium"
+                            fontSize="default"
                             style={{color:"grey"}}
                         ></PowerSettingsNewIcon>
                     </IconButtonWithTooltip>
@@ -308,7 +308,7 @@ const Header = (props) => {
                     disabled={false}
                 >
                     <HomeIcon 
-                        fontSize="medium"
+                        fontSize="default"
                         style={{color:"grey"}}
                     ></HomeIcon>
                 </IconButtonWithTooltip>
@@ -319,7 +319,7 @@ const Header = (props) => {
                     disabled={false}
                 >
                     <FolderOpenIcon 
-                        fontSize="medium"
+                        fontSize="default"
                         style={{color:"grey"}}
                     ></FolderOpenIcon>
                 </IconButtonWithTooltip>
@@ -330,7 +330,7 @@ const Header = (props) => {
                     disabled={false}
                 >
                     <BugReportIcon 
-                        fontSize="medium"
+                        fontSize="default"
                         style={{color:"grey"}}
                     ></BugReportIcon>
                 </IconButtonWithTooltip>
@@ -341,7 +341,7 @@ const Header = (props) => {
                     disabled={false}
                 >
                     <DeleteSweepIcon 
-                        fontSize="medium"
+                        fontSize="default"
                         style={{color:"grey"}}
                     ></DeleteSweepIcon>
                 </IconButtonWithTooltip>
