@@ -3,12 +3,12 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import {SmallPaddingIconButton}  from '../../template/smallComponents';
 
 function RecordButton(props) {
-    const {disabled, iconcolor, onClick} = props;
+    const {disabled, iconcolor, onClickRecordButton} = props;
     return (
         <SmallPaddingIconButton disabled={disabled} padding="1px" size="small" iconcolor={iconcolor}>
             <FiberManualRecordIcon 
                 fontSize={"small"} 
-                onClick={onClick}
+                onClick={onClickRecordButton}
             ></FiberManualRecordIcon>
         </SmallPaddingIconButton>
     )

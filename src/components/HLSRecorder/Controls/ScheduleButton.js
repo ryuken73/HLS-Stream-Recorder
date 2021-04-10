@@ -3,12 +3,17 @@ import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
 import {SmallPaddingIconButton}  from '../../template/smallComponents';
 
 function ScheduleButton(props) {
-    const {disabled, iconcolor, onClick} = props;
+    const {disabled, iconcolor, onClickScheduleButton} = props;
     return (
-        <SmallPaddingIconButton disabled={disabled} padding="1px" size="small" iconcolor={iconcolor}>
+        <SmallPaddingIconButton 
+            disabled={disabled} 
+            padding="1px" 
+            size="small" 
+            iconcolor={iconcolor}
+            onClick={onClickScheduleButton}
+        >
             <AccessAlarmIcon 
                 fontSize={"small"} 
-                onClick={onClick}
             ></AccessAlarmIcon>
         </SmallPaddingIconButton>
     )

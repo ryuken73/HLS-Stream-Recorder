@@ -243,13 +243,14 @@ const Controls = props => {
       
     // const classes = useStyles();
 
-    const onClickScheduleButton = React.useCallback(() => {
-        return scheduleStatus==="started" ? stopScheduleChannel : startScheduleChannel;
-    },[scheduleStatus, stopScheduleChannel, startScheduleChannel])
+    // const onClickScheduleButton = React.useCallback( event => {
+    //     console.log('click schedule')
+    //     return scheduleStatus==="started" ? stopScheduleChannel() : startScheduleChannel();
+    // },[scheduleStatus, stopScheduleChannel, startScheduleChannel])
 
-    const onClickRecordButton = React.useCallback(() => {
-        return recorderStatus==="started" ? stopRecordChannel : startRecordChannel
-    },[recorderStatus, stopRecordChannel, startRecordChannel])
+    // const onClickRecordButton = React.useCallback(() => {
+    //     return recorderStatus==="started" ? stopRecordChannel : startRecordChannel
+    // },[recorderStatus, stopRecordChannel, startRecordChannel])
 
     const BatchContentComponent = React.memo(() => {
         return <Box>{channelStat.clipCountFolder}</Box>
@@ -260,12 +261,12 @@ const Controls = props => {
             <ScheduleButton
                 disabled={inTransition}
                 iconcolor={scheduleIconColor}
-                onClick={onClickScheduleButton}
+                onClickScheduleButton={scheduleStatus === 'started' ? stopScheduleChannel:startScheduleChannel}
             ></ScheduleButton>
             <RecordButton
                 disabled={inTransition}
                 iconcolor={recorderIconColor}
-                onClick={onClickRecordButton}
+                onClickRecordButton={recorderStatus === "started" ? stopRecordChannel : startRecordChannel}
             ></RecordButton>
             <Box mt="auto" display="flex" flexDirection="column">
                 <SmallIconWithTooltip
