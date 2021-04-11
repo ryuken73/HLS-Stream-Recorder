@@ -145,7 +145,7 @@ class RecoderHLS extends EventEmitter {
         this.log.info(`ffmpeg ends! : ${this.target} ${this.localm3u8}`);
         clearTimeout(this.killTimer);
         if(error && !this.exitByTimeout){
-            this.log.error(`ended abnormally: startime =${this.startTime}:duration=${this.duration}`);
+            this.log.error(`ended abnormally: startime = ${this.startTime}: duration=${this.duration}`);
             this.emit('error', this.target, this.startTime, this.duration, error);
             this.initialize();            
             return
@@ -153,7 +153,7 @@ class RecoderHLS extends EventEmitter {
         if(this.exitByTimeout){
             this.log.error(`ended by timeout!`)
         }
-        this.log.info(`ended ${this.startTime}:${this.duration}`)
+        this.log.info(`ended: startime = ${this.startTime}: duration=${this.duration}`)
         this.emit('end', this.target, this.startTime, this.duration)
         this.initialize();
     }
