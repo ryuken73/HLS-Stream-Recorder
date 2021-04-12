@@ -87,10 +87,12 @@ export const increaseAppStatNStore = ({statName}) => (dispatch, getState) => {
 
 // set channel related value : set channelStat in state, update store and send channelStatistics message
 // and automatically call setAppStatNStore (update app scope value)
+const channelStatsInAppStats = ['lastRefreshTime','lastAbortTime','lastFailureTime','lastSuccessTime']
 export const setChannelStatNStore = ({channelNumber, statName, value}) => async (dispatch, getState) => {
     statisticsStore.set(`channelStats.${channelNumber}.${statName}`, value);
     dispatch(setChannelStat({channelNumber, statName, value}));
-    dispatch(setAppStatNStore({statName, value}));
+    // channelStatsInAppStats.includes(statName) ? console.log('update app stat too : ', statName) : console.log('not update appStat :', statName)
+    channelStatsInAppStats.includes(statName) && dispatch(setAppStatNStore({statName, value}));
 }
 
 export const increaseChannelStatsNStore = ({channelNumber, statName}) => async (dispatch, getState) => {
