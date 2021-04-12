@@ -103,6 +103,8 @@ function OptionDialog(props) {
   }
 
   const onChangeConfig = React.useCallback(event => {
+    console.log(event.target.id)
+    console.log(event.currentTarget.id)
     const configName = event.target.id;
     setValueChanged(true);
     const nomalizedValue = stringToBool(event.target.value)
@@ -138,7 +140,7 @@ function OptionDialog(props) {
       setConfirmOpen(true);
 
     }
-  },[valueChanged]);
+  },[valueChanged, config]);
 
   return (
     
@@ -159,22 +161,22 @@ function OptionDialog(props) {
         tabIndex={-1}
       >
         <OptionTextInputWithDefault id="NUMBER_OF_CHANNELS" subtitle='Number of Recorders' value={NUMBER_OF_CHANNELS} onChange={onChangeConfig}></OptionTextInputWithDefault>
-        {/* <OptionTextInputWithDefault key="CHANNEL_PREFIX" subtitle='Channel Prefix' value={CHANNEL_PREFIX} onChange={onChangeConfig('CHANNEL_PREFIX')}></OptionTextInputWithDefault> */}
+        <OptionTextInputWithDefault id="CHANNEL_PREFIX" subtitle='Channel Prefix' value={CHANNEL_PREFIX} onChange={onChangeConfig}></OptionTextInputWithDefault>
         <OptionTextInputWithDefault id="LOG_LEVEL" subtitle='Log Level' value={LOG_LEVEL} onChange={onChangeConfig}></OptionTextInputWithDefault>
-        {/* <OptionTextInputWithDefault key="KEEP_SAVED_CLIP_AFTER_HOURS" subtitle='Clip Keeping Hours(hh)' value={KEEP_SAVED_CLIP_AFTER_HOURS} onChange={onChangeConfig('KEEP_SAVED_CLIP_AFTER_HOURS')}></OptionTextInputWithDefault>
-        <OptionTextInputWithDefault key="LONG_BUFFERING_MS_SECONDS" subtitle='Long Buffering(ms)' value={LONG_BUFFERING_MS_SECONDS} onChange={onChangeConfig('LONG_BUFFERING_MS_SECONDS')}></OptionTextInputWithDefault>
-        <OptionTextInputWithDefault key="WAIT_SECONDS_MS_FOR_PLAYBACK_CHANGE" subtitle='Wait for Playback(ms)' value={WAIT_SECONDS_MS_FOR_PLAYBACK_CHANGE} onChange={onChangeConfig('WAIT_SECONDS_MS_FOR_PLAYBACK_CHANGE')}></OptionTextInputWithDefault>
-        <OptionTextInputWithDefault key="AUTO_START_SCHEDULE_DELAY_MS" subtitle='Schedule Start Delay(ms)' value={AUTO_START_SCHEDULE_DELAY_MS} onChange={onChangeConfig('AUTO_START_SCHEDULE_DELAY_MS')}></OptionTextInputWithDefault>
-        <OptionTextInputWithDefault key="SAVE_DIR" subtitle='Save Directory' value={BASE_DIRECTORY} iconButton={<SaveDirectoryButton onClick={onClickSelectSaveDirectory}></SaveDirectoryButton>}></OptionTextInputWithDefault>
-        <OptionTextInputWithDefault key="DELETE_SCHEDULE_CRON" subtitle='Delete Schedule Cron' value={DELETE_SCHEDULE_CRON} onChange={onChangeConfig('DELETE_SCHEDULE_CRON')}></OptionTextInputWithDefault>
-        <OptionTextInputWithDefault key="MAX_MEMORY_TO_RELOAD_MB" subtitle='Max Memory' value={MAX_MEMORY_TO_RELOAD_MB} onChange={onChangeConfig('MAX_MEMORY_TO_RELOAD_MB')}></OptionTextInputWithDefault>
-        <OptionTextInputWithDefault key="MEMORY_USAGE_PERCENTAGE_TO_AUTO_CLEAR" subtitle='High Memory Usage(%)' value={MEMORY_USAGE_PERCENTAGE_TO_AUTO_CLEAR} onChange={onChangeConfig('MEMORY_USAGE_PERCENTAGE_TO_AUTO_CLEAR')}></OptionTextInputWithDefault>
-        <OptionTextInputWithDefault key="MEM_CLEAR_COUNT_LIMIT" subtitle='Clear Memory Limit' value={MEM_CLEAR_COUNT_LIMIT} onChange={onChangeConfig('MEM_CLEAR_COUNT_LIMIT')}></OptionTextInputWithDefault>
-        <OptionRadioButtonWithDefault key="AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT" subtitle='Auto Reload Over Limit' currentvalue={AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT} onChange={onChangeConfig('AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT')}></OptionRadioButtonWithDefault>
-        <OptionRadioButtonWithDefault key="AUTO_START_SCHEDULE" subtitle="Schedule Auto Start" currentvalue={AUTO_START_SCHEDULE} onChange={onChangeConfig('AUTO_START_SCHEDULE')}></OptionRadioButtonWithDefault>
-        <OptionRadioButtonWithDefault key="KAFKA_ENABLED" subtitle="Enable Kafka Send" currentvalue={KAFKA_ENABLED} onChange={onChangeConfig('KAFKA_ENABLED')}></OptionRadioButtonWithDefault>
-        <OptionTextInputWithDefault key="KAFKA_CLIENT_NAME" subtitle='Kafka Host Name' value={KAFKA_CLIENT_NAME} onChange={onChangeConfig('KAFKA_CLIENT_NAME')}></OptionTextInputWithDefault>
-        <OptionTextInputWithDefault key="IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK" subtitle='Idle Seconds Player Off' value={IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK} onChange={onChangeConfig('IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK')}></OptionTextInputWithDefault> */}
+        <OptionTextInputWithDefault id="KEEP_SAVED_CLIP_AFTER_HOURS" subtitle='Clip Keeping Hours(hh)' value={KEEP_SAVED_CLIP_AFTER_HOURS} onChange={onChangeConfig}></OptionTextInputWithDefault>
+        <OptionTextInputWithDefault id="LONG_BUFFERING_MS_SECONDS" subtitle='Long Buffering(ms)' value={LONG_BUFFERING_MS_SECONDS} onChange={onChangeConfig}></OptionTextInputWithDefault>
+        <OptionTextInputWithDefault id="WAIT_SECONDS_MS_FOR_PLAYBACK_CHANGE" subtitle='Wait for Playback(ms)' value={WAIT_SECONDS_MS_FOR_PLAYBACK_CHANGE} onChange={onChangeConfig}></OptionTextInputWithDefault>
+        <OptionTextInputWithDefault id="AUTO_START_SCHEDULE_DELAY_MS" subtitle='Schedule Start Delay(ms)' value={AUTO_START_SCHEDULE_DELAY_MS} onChange={onChangeConfig}></OptionTextInputWithDefault>
+        <OptionTextInputWithDefault id="SAVE_DIR" subtitle='Save Directory' value={BASE_DIRECTORY} iconButton={<SaveDirectoryButton onClick={onClickSelectSaveDirectory}></SaveDirectoryButton>}></OptionTextInputWithDefault>
+        <OptionTextInputWithDefault id="DELETE_SCHEDULE_CRON" subtitle='Delete Schedule Cron' value={DELETE_SCHEDULE_CRON} onChange={onChangeConfig}></OptionTextInputWithDefault>
+        <OptionTextInputWithDefault id="MAX_MEMORY_TO_RELOAD_MB" subtitle='Max Memory' value={MAX_MEMORY_TO_RELOAD_MB} onChange={onChangeConfig}></OptionTextInputWithDefault>
+        <OptionTextInputWithDefault id="MEMORY_USAGE_PERCENTAGE_TO_AUTO_CLEAR" subtitle='High Memory Usage(%)' value={MEMORY_USAGE_PERCENTAGE_TO_AUTO_CLEAR} onChange={onChangeConfig}></OptionTextInputWithDefault>
+        <OptionTextInputWithDefault id="MEM_CLEAR_COUNT_LIMIT" subtitle='Clear Memory Limit' value={MEM_CLEAR_COUNT_LIMIT} onChange={onChangeConfig}></OptionTextInputWithDefault>
+        <OptionRadioButtonWithDefault id="AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT" subtitle='Auto Reload Over Limit' value={AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT} onChange={onChangeConfig}></OptionRadioButtonWithDefault>
+        <OptionRadioButtonWithDefault id="AUTO_START_SCHEDULE" subtitle="Schedule Auto Start" value={AUTO_START_SCHEDULE} onChange={onChangeConfig}></OptionRadioButtonWithDefault>
+        <OptionRadioButtonWithDefault id="KAFKA_ENABLED" subtitle="Enable Kafka Send" value={KAFKA_ENABLED} onChange={onChangeConfig}></OptionRadioButtonWithDefault>
+        <OptionTextInputWithDefault id="KAFKA_CLIENT_NAME" subtitle='Kafka Host Name' value={KAFKA_CLIENT_NAME} onChange={onChangeConfig}></OptionTextInputWithDefault>
+        <OptionTextInputWithDefault id="IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK" subtitle='Idle Seconds Player Off' value={IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK} onChange={onChangeConfig}></OptionTextInputWithDefault>
       </DialogContentText>
     </DialogContent>
     <DialogActions>
