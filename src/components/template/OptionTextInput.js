@@ -5,7 +5,7 @@ import BorderedList from './BorderedList';
 import {SmallMarginTextField} from './smallComponents';
 
 
-export default function OptionTextInput(props) {
+export default function OptionTextInput(props) {    
     const {subtitle, subTitleWidth:titlewidth="20%", inputWidth:width, value, iconButton} = props;
     const Subject = () => {
         return <Typography component={'span'} variant="body1">{subtitle}</Typography>;
@@ -22,13 +22,14 @@ export default function OptionTextInput(props) {
                     {iconButton}
                 </Box>
     }
+    const {onChange, ...restProps} = props;
     return (
         <BorderedList 
             subject={<Subject></Subject>} 
             titlewidth={titlewidth}
             content={<Content></Content>}
             border={1}
-            {...props}
+            {...restProps}
         ></BorderedList>
     )
 }
