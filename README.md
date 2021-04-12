@@ -61,23 +61,23 @@ yarn run package
 
 > Clip Keeping Hours : 클립 저장기간(시간)
 
-> Long Buffering : Long buffering 판정시간(이 시간동안 버퍼링 지속되면 플레이어 리로드)
+> Long Buffering : Long buffering 판정시간(버퍼링 지속되면 플레이어 리로드)
 
-> Wait for Playback: 녹화 시작 후 playback 표시하기까지 대기시간
+> Wait for Playback: 녹화 시작 후 플레이백 표시하기까지 대기시간
 
-> Schedule Start Delay : 전체 녹화시작버튼(좌상단) 클릭 시 채널별 시작시간 Delay
+> Schedule Start Delay : 전체 녹화시작버튼(좌상단) 클릭 시 채널별 시작 대기시간
 
 > Save Directory : 저장 디렉토리
 
-> Delete Schedule Cron : Crontab 형식의 삭제 스케쥴 (0 * * * * * == 매 00분 마다 삭제)
+> Delete Schedule Cron : Crontab 형식의 삭제 스케쥴 (0 * * * * * : 매 00분 마다 삭제)
 
 > Max Memory : 최대 사용메모리
 
-> High Memory Usage : 메모리 사용량이 높다고 판정되는 사용율. 이 사용율이 되면 electron clear cache 수행
+> High Memory Usage :  높은 메모리 사용율이라 판정. 이 사용율이 되면 electron clear cache 수행
 
-> Clear Memory Limit : 위 clear cache 명령 수행 최대값. 이 값을 넘으면 Application 전체 Reload됨
+> Clear Memory Limit : 위 clear cache 명령 최대 수행횟수. 이 횟수를 넘으면 Application 전체 Reload
 
-> Auto Reload Over Limit : 위 전체 Reload enable/disable
+> Auto Reload Over Limit : 위 전체 Reload 사용 여부
 
 > Schedule Auto Start : 프로그램 시작 시 자동 스케쥴 시작 여부
 
