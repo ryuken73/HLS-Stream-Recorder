@@ -17,6 +17,7 @@ const INPUT_WIDTH='300px'
 const SUBTITLE_WIDTH='30%';
 
 const OptionTextInputWithDefault = React.memo(props => {
+  console.log('re-render optionTextinput:', props)
   const {children} = props;
   return <OptionTextInput 
             subTitleWidth={SUBTITLE_WIDTH} 
@@ -31,6 +32,17 @@ const OptionTextInputWithDefault = React.memo(props => {
           >
             {children}
           </OptionTextInput>
+})
+
+const SaveDirectoryButton = React.memo(props => {
+  const {onClick} = props;
+  return <SmallPaddingIconButton 
+            onClick={onClick} 
+            aria-label="select save directory button"
+            iconcolor="black"
+          >
+            <FolderIcon fontSize="small" />
+          </SmallPaddingIconButton>
 })
 
 const boolLabels = [
@@ -52,6 +64,7 @@ const OptionRadioButtonWithDefault = props => {
         </OptionRadioButton>
 }
 function OptionDialog(props) {
+  console.log('rerender-optiondialog')
   const [valueChanged, setValueChanged] = React.useState(false);
   const {setConfirmOpen, setConfirmAction, setConfirmDialogTitle, setConfirmDialogText} = props;
   const {title="Dialog Box"} = props;
@@ -89,20 +102,19 @@ function OptionDialog(props) {
     return value;
   }
 
-  const onChangeConfig = React.useCallback(configName => {
-    return event => {
-      setValueChanged(true);
-      // console.log(configName, event.target.value, typeof(event.target.value));
-      const nomalizedValue = stringToBool(event.target.value)
-      setConfigValue({configName, value: nomalizedValue})
-    }
-  },[]);
+  const onChangeConfig = React.useCallback(event => {
+    const configName = event.target.id;
+    setValueChanged(true);
+    const nomalizedValue = stringToBool(event.target.value)
+    setConfigValue({configName, value: nomalizedValue})
+  },[])
+
 
   const handleClose = React.useCallback(() => {
     setOptionsDialogOpen({dialogOpen:false});
   },[]);
 
-  const onClickSelectSaveDirectory = () => {
+  const onClickSelectSaveDirectory = React.useCallback(() => {
     dialog.showOpenDialog({properties:['openDirectory']})
     .then(result => {
       const {filePaths} = result;
@@ -111,9 +123,9 @@ function OptionDialog(props) {
       setValueChanged(true);
     })
     .catch(err => console.error(err))
-  }
+  },[])
  
-  const onClickSaveBtn = () => {
+  const onClickSaveBtn = React.useCallback(() => {
     saveConfig({config});
     handleClose();
     if(valueChanged){
@@ -126,17 +138,7 @@ function OptionDialog(props) {
       setConfirmOpen(true);
 
     }
-  }
-
-  const SaveDirectoryButton = (
-    <SmallPaddingIconButton 
-        onClick={onClickSelectSaveDirectory} 
-        aria-label="select save directory button"
-        iconcolor="black"
-      >
-        <FolderIcon fontSize="small" />
-    </SmallPaddingIconButton>
-  )
+  },[valueChanged]);
 
   return (
     
@@ -156,17 +158,14 @@ function OptionDialog(props) {
         id="scroll-dialog-description"
         tabIndex={-1}
       >
-        <OptionTextInputWithDefault key="NUMBER_OF_CHANNELS" subtitle='Number of Recorders' value={NUMBER_OF_CHANNELS} onChange={onChangeConfig('NUMBER_OF_CHANNELS')}></OptionTextInputWithDefault>
-        {/* <OptionTextInputWithDefault subtitle='Instance Name' value={INSTANCE_NAME} onChange={onChangeConfig('INSTANCE_NAME')}></OptionTextInputWithDefault> */}
-        <OptionTextInputWithDefault key="CHANNEL_PREFIX" subtitle='Channel Prefix' value={CHANNEL_PREFIX} onChange={onChangeConfig('CHANNEL_PREFIX')}></OptionTextInputWithDefault>
-        <OptionTextInputWithDefault key="LOG_LEVEL" subtitle='Log Level' value={LOG_LEVEL} onChange={onChangeConfig('LOG_LEVEL')}></OptionTextInputWithDefault>
-        <OptionTextInputWithDefault key="KEEP_SAVED_CLIP_AFTER_HOURS" subtitle='Clip Keeping Hours(hh)' value={KEEP_SAVED_CLIP_AFTER_HOURS} onChange={onChangeConfig('KEEP_SAVED_CLIP_AFTER_HOURS')}></OptionTextInputWithDefault>
+        <OptionTextInputWithDefault id="NUMBER_OF_CHANNELS" subtitle='Number of Recorders' value={NUMBER_OF_CHANNELS} onChange={onChangeConfig}></OptionTextInputWithDefault>
+        {/* <OptionTextInputWithDefault key="CHANNEL_PREFIX" subtitle='Channel Prefix' value={CHANNEL_PREFIX} onChange={onChangeConfig('CHANNEL_PREFIX')}></OptionTextInputWithDefault> */}
+        <OptionTextInputWithDefault id="LOG_LEVEL" subtitle='Log Level' value={LOG_LEVEL} onChange={onChangeConfig}></OptionTextInputWithDefault>
+        {/* <OptionTextInputWithDefault key="KEEP_SAVED_CLIP_AFTER_HOURS" subtitle='Clip Keeping Hours(hh)' value={KEEP_SAVED_CLIP_AFTER_HOURS} onChange={onChangeConfig('KEEP_SAVED_CLIP_AFTER_HOURS')}></OptionTextInputWithDefault>
         <OptionTextInputWithDefault key="LONG_BUFFERING_MS_SECONDS" subtitle='Long Buffering(ms)' value={LONG_BUFFERING_MS_SECONDS} onChange={onChangeConfig('LONG_BUFFERING_MS_SECONDS')}></OptionTextInputWithDefault>
         <OptionTextInputWithDefault key="WAIT_SECONDS_MS_FOR_PLAYBACK_CHANGE" subtitle='Wait for Playback(ms)' value={WAIT_SECONDS_MS_FOR_PLAYBACK_CHANGE} onChange={onChangeConfig('WAIT_SECONDS_MS_FOR_PLAYBACK_CHANGE')}></OptionTextInputWithDefault>
-        {/* <OptionTextInputWithDefault subtitle='Delay All Starting(ms)' value={SLEEP_MS_BETWEEN_ALL_START} onChange={onChangeConfig('SLEEP_MS_BETWEEN_ALL_START')}></OptionTextInputWithDefault> */}
-        {/* <OptionTextInputWithDefault subtitle='Delay All Stopping(ms)' value={SLEEP_MS_BETWEEN_ALL_STOP} onChange={onChangeConfig('SLEEP_MS_BETWEEN_ALL_STOP')}></OptionTextInputWithDefault> */}
         <OptionTextInputWithDefault key="AUTO_START_SCHEDULE_DELAY_MS" subtitle='Schedule Start Delay(ms)' value={AUTO_START_SCHEDULE_DELAY_MS} onChange={onChangeConfig('AUTO_START_SCHEDULE_DELAY_MS')}></OptionTextInputWithDefault>
-        <OptionTextInputWithDefault key="SAVE_DIR" subtitle='Save Directory' value={BASE_DIRECTORY} iconButton={SaveDirectoryButton}></OptionTextInputWithDefault>
+        <OptionTextInputWithDefault key="SAVE_DIR" subtitle='Save Directory' value={BASE_DIRECTORY} iconButton={<SaveDirectoryButton onClick={onClickSelectSaveDirectory}></SaveDirectoryButton>}></OptionTextInputWithDefault>
         <OptionTextInputWithDefault key="DELETE_SCHEDULE_CRON" subtitle='Delete Schedule Cron' value={DELETE_SCHEDULE_CRON} onChange={onChangeConfig('DELETE_SCHEDULE_CRON')}></OptionTextInputWithDefault>
         <OptionTextInputWithDefault key="MAX_MEMORY_TO_RELOAD_MB" subtitle='Max Memory' value={MAX_MEMORY_TO_RELOAD_MB} onChange={onChangeConfig('MAX_MEMORY_TO_RELOAD_MB')}></OptionTextInputWithDefault>
         <OptionTextInputWithDefault key="MEMORY_USAGE_PERCENTAGE_TO_AUTO_CLEAR" subtitle='High Memory Usage(%)' value={MEMORY_USAGE_PERCENTAGE_TO_AUTO_CLEAR} onChange={onChangeConfig('MEMORY_USAGE_PERCENTAGE_TO_AUTO_CLEAR')}></OptionTextInputWithDefault>
@@ -175,7 +174,7 @@ function OptionDialog(props) {
         <OptionRadioButtonWithDefault key="AUTO_START_SCHEDULE" subtitle="Schedule Auto Start" currentvalue={AUTO_START_SCHEDULE} onChange={onChangeConfig('AUTO_START_SCHEDULE')}></OptionRadioButtonWithDefault>
         <OptionRadioButtonWithDefault key="KAFKA_ENABLED" subtitle="Enable Kafka Send" currentvalue={KAFKA_ENABLED} onChange={onChangeConfig('KAFKA_ENABLED')}></OptionRadioButtonWithDefault>
         <OptionTextInputWithDefault key="KAFKA_CLIENT_NAME" subtitle='Kafka Host Name' value={KAFKA_CLIENT_NAME} onChange={onChangeConfig('KAFKA_CLIENT_NAME')}></OptionTextInputWithDefault>
-        <OptionTextInputWithDefault key="IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK" subtitle='Idle Seconds Player Off' value={IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK} onChange={onChangeConfig('IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK')}></OptionTextInputWithDefault>
+        <OptionTextInputWithDefault key="IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK" subtitle='Idle Seconds Player Off' value={IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK} onChange={onChangeConfig('IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK')}></OptionTextInputWithDefault> */}
       </DialogContentText>
     </DialogContent>
     <DialogActions>
