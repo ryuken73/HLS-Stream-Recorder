@@ -1,14 +1,19 @@
 import {createAction, handleActions} from 'redux-actions';
 
-// const electronUtil = require('../lib/electronUtil');
+const {getCombinedConfig} = require('../lib/getConfig');
+const config = getCombinedConfig({storeName:'optionStore', electronPath:'home'});
+const {
+    LOG_LEVEL="info"
+} = config;
+
 import {initElectronLog, createElectronStore} from '../lib/electronUtil';
-initElectronLog({});
+initElectronLog({
+    fileLogLevel: LOG_LEVEL,
+    consoleLogLevel: LOG_LEVEL
+});
 
 const {remote} = require('electron');
-// const clipStore = createElectronStore({
-//     name:'clipStore',
-//     cwd:remote.app.getPath('home')
-// });
+
 const sourceStore = createElectronStore({
     name:'sourceStore',
     cwd:remote.app.getPath('home')
@@ -29,7 +34,6 @@ export const setSources = createAction(SET_SOURCES);
 
 const initialState = {
     sources,
-    // clipStore,
     sourceStore,
     intervalStore
 }
