@@ -9,6 +9,7 @@ import {
 } from './statistics';
 import {add_X_ENDLIST} from '../lib/tsFileUtil';
 
+const MIN_CLIP_LENGTH_PERCENTAGE = 10;
 const sources = cctvFromConfig();
 const config = getCombinedConfig({storeName:'optionStore', electronPath:'home'});
 
@@ -31,7 +32,7 @@ const {
 const INITIAL_DURATION = '00:00:00.00';
 const INITIAL_INTERVAL = defaultInterval;
 
-import {date, file} from '../utils';
+import {date, file, ffmpegUtils} from '../utils';
 async function mkdir(directory){
     try {
         await file.makeDirectory(directory);
@@ -272,6 +273,11 @@ export const restartRecording = channelNumber => (dispatch, getState) => {
 }
 
 const rimraf = require('rimraf');
+const isClipTooShort = (encodingSec, durationSec) => {
+    const diff = encodingSec - encodingSec;
+    const lossPercentage = parseInt(diff / encodingSec) * 100;
+    return (diff > MIN_CLIP_LENGTH_PERCENTAGE)
+}
 export const startRecording = (channelNumber) => (dispatch, getState) => {
     return new Promise((resolve, reject) => {
         console.log(`#### in startRecording:`, channelNumber);
@@ -319,6 +325,9 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
                 const hlsm3u8 = localm3u8;
                 const saveSize = await file.getTotalSizeR(hlsDirectory);
                 const saveFileCount = await file.getFileCountR(hlsDirectory);
+                const durationInSeconds = ffmpegUtils.durationToSeconds(duration);
+                const elapsedInSeconds = parseInt(((endTimestamp - startTimestamp)/1000).toFixed(0));
+                const encodedTooShort = isClipTooShort(elapsedInSeconds, durationInSeconds); 
                 const clipData = {
                     clipId,
                     channelNumber,
@@ -331,6 +340,9 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
                     title,
                     hlsDirectory,
                     duration,
+                    durationInSeconds,
+                    elapsedInSeconds,
+                    encodedTooShort,
                     hlsm3u8,
                     saveDirectory,
                     saveSize,
@@ -339,6 +351,7 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
                 }
                 console.log('#######', clipData);
                 dispatch(setRecorderLocalm3u8({channelNumber, localm3u8:null}));
+                // check duration === 00:00:00.00
                 if(duration === INITIAL_DURATION){
                     channelLog.error(`aborted: useless clip(duration === 00:00:00.00). discard and delete ${saveDirectory}`);
                     saveDirectory.startsWith(BASE_DIRECTORY) && rimraf(saveDirectory);

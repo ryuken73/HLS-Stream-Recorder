@@ -361,6 +361,14 @@ export const order = {
     }
 }
 
+export const ffmpegUtils = {
+    durationToSeconds: durationString => { // durationString = '00:00:00,00'
+        const [hours, minutes, secondsWithFrame] = durationString.split(':');
+        const [seconds, frames] = secondsWithFrame.split('.');
+        return parseInt(hours * 60 * 60) + parseInt(minutes * 60) + parseInt(seconds);
+    }
+}
+
 // const orderTest = [
 //     {name:'ryu', age:10},
 //     {name:'ken', age:50},
