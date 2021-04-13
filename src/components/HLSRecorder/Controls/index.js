@@ -3,8 +3,8 @@ import Box from '@material-ui/core/Box';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import AccessAlarmIcon from '@material-ui/icons/AccessAlarm';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
-import TvIcon from '@material-ui/icons/Tv';
-import TvOffIcon from '@material-ui/icons/TvOff';
+import TvIconTwoTone from '@material-ui/icons/TvTwoTone';
+import TvOffIconTwoTone from '@material-ui/icons/TvOffTwoTone';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -287,8 +287,8 @@ const Controls = props => {
                     onclick={toggleMountPlayer}
                 >
                     {mountPlayer ? 
-                        <TvOffIcon fontSize={"small"} ></TvOffIcon> :
-                        <TvIcon fontSize={"small"} ></TvIcon>
+                        <TvOffIconTwoTone style={{color:'white'}} fontSize="small" ></TvOffIconTwoTone> :
+                        <TvIconTwoTone style={{color:'black'}} fontSize="small" ></TvIconTwoTone>
                     }
                 </SmallIconWithTooltip>
                 <StyledBadge 
