@@ -364,7 +364,12 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
                 await add_X_ENDLIST(hlsm3u8)
                 //
                 clipStore.set(clipId, clipData);
-                if(error == undefined){
+                if(encodedTooShort === true){
+                    dispatch(setChannelStatNStore({channelNumber, statName:'lastTooShortTime', value:Date.now()}))
+                    dispatch(increaseChannelStatsNStore({channelNumber, statName:'tooShortCount'}))
+                    dispatch(refreshChannelClipCountStatistics({channelNumber}))
+                }
+                if(encodedTooShort === false && error == undefined){
                     dispatch(setChannelStatNStore({channelNumber, statName:'lastSuccessTime', value:Date.now()}))
                     dispatch(increaseChannelStatsNStore({channelNumber, statName:'successCount'}))
                     dispatch(refreshChannelClipCountStatistics({channelNumber}))
