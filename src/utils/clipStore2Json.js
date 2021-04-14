@@ -1,4 +1,4 @@
-const CLIPSTORE_FILE = './clipStore_04.json'
+const CLIPSTORE_FILE = './clipStore_0414.json'
 const storeJson = require(CLIPSTORE_FILE);
 const durationToSeconds = durationString => {
     const [hours, minutes, secondsWithFrame] = durationString.split(':');

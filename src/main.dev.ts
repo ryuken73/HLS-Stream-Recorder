@@ -181,6 +181,12 @@ const createWindow = async () => {
     shell.openExternal(url);
   });
 
+  mainWindow.webContents.on('crashed', (event) => {
+    console.log('app crashed');
+    app.relaunch();
+  });
+
+
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
   new AppUpdater();

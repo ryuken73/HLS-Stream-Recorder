@@ -17,7 +17,8 @@ function ConfirmDialog(props) {
         if(confirmAction === 'reload'){
             setAppStatNStore({statName:'reloadTimeManual', value:Date.now()});
             increaseAppStatNStore({statName:'reloadCountManual'});
-            remote.getCurrentWebContents().reload();
+            // remote.getCurrentWebContents().reload();
+            remote.getCurrentWindow().reload();
             return
         }
         if(confirmAction === 'clearStatistics'){
