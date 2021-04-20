@@ -1,9 +1,20 @@
 import React from 'react';
 import OptionSelectList from '../template/OptionSelectList';
+import {encryptUrl, decryptUrl} from '../../lib/encryptUrl';
+
+const createdBefore = (createdDateString, milliSeconds) => {
+    const createdDate = new Date(createdDateString);
+    const createTimestamp = createdDate.getTime();
+    console.log('### createdDate:', createdDate)
+    return (Date.now() - createTimestamp) > milliSeconds;
+}
+
+const URL_REFRESH_MILLI_SECONDS = 60 * 1000;
 
 function Selection(props) {
     const {
         channelNumber=1,
+        cctvHost,
         source={}, 
         sources=[], 
         recorderStatus='stopped',
@@ -14,8 +25,10 @@ function Selection(props) {
         setPlayerMount=()=>{}
     } = props.HLSPlayersActions;
     const {savePlayerHttpURL=()=>{}} = props.HLSRecordersActions;
+    const {refreshSourceUrl=()=>{}} = props.AppActions;
     
     const currentUrl = source.url;
+    // console.log('cctvId', source);
     const inRecording = recorderStatus !== 'stopped';
     const selectItems = sources.map(source => {
         return {
@@ -23,9 +36,15 @@ function Selection(props) {
             label: source.title
         }
     })
+
     const onChangeSelect = React.useCallback((event) => {
-        const url = event.target.value;
-        setSourceNSave({channelNumber, url});
+        const currentUrl = event.target.value;
+        const decrypted = decryptUrl(currentUrl);
+        const [corname, svcname, cctvId, createdDateString] = decrypted.split(',');
+        const url = createdBefore(createdDateString, URL_REFRESH_MILLI_SECONDS) ?
+                    encryptUrl(cctvHost, cctvId) : currentUrl
+        console.log('currentUrl : url : cctvId ;', currentUrl, url, cctvId)
+        setSourceNSave({channelNumber, cctvId, url});
         savePlayerHttpURL({channelNumber, playerHttpURL:url});
         setPlayerMount({channelNumber, mountPlayer:true})
     }, [setSourceNSave])

@@ -13,8 +13,9 @@ const {
 
 const sources = cctvFromConfig(CCTV_HOST);
 
-const mkOverlayContent = url => {
-    const source = sources.find(source => source.url === url)
+const mkOverlayContent = cctvId => {
+    console.log(cctvId)
+    const source = sources.find(source => source.cctvId === parseInt(cctvId))
     if(source !== undefined){
         const {title} = source
         const element = document.createElement('div');
@@ -37,12 +38,13 @@ const sourceStore = new Store({
 for(let channelNumber=1;channelNumber<=NUMBER_OF_CHANNELS;channelNumber++){
     // const source = sources[channelNumber-1] || {};
     const source = sourceStore.get(channelNumber.toString()) || sources[channelNumber-1]
-    const {title="없음", url=""} = source;
+    const {title="없음", url="", cctvId} = source;
+    console.log('### source in hlsplayer:', source)
     const hlsPlayer = {
         ...DEFAULT_PLAYER_PROPS,
         source,
         channelName: `${CHANNEL_PREFIX}${channelNumber}`,
-        overlayContent: mkOverlayContent(url),
+        overlayContent: mkOverlayContent(cctvId),
         mountPlayer: true
     }
     players.set(channelNumber, hlsPlayer);
@@ -62,19 +64,20 @@ export const setPlayerMount = createAction(SET_PLAYER_MOUNT);
 export const refreshPlayer = createAction(REFRESH_PLAYER);
 
 // redux thunk
-export const setSourceNSave = ({channelNumber, url}) => (dispatch, getState) => {
+export const setSourceNSave = ({channelNumber, cctvId, url}) => (dispatch, getState) => {
     const state = getState();
     const {sourceStore} = state.app;
     const hlsPlayer = {...state.hlsPlayers.players.get(channelNumber)};
 
-    const sourceNumber = sources.findIndex(source => source.url === url);
+    const sourceNumber = sources.findIndex(source => source.cctvId === parseInt(cctvId));
     const title = sourceNumber !== -1 ? sources[sourceNumber].title : hlsPlayer.source.title;
     
     sourceStore.set(channelNumber, {
         title, 
-        url
+        url,
+        cctvId
     })
-    dispatch(setPlayerSource({channelNumber, url}))
+    dispatch(setPlayerSource({channelNumber, url, cctvId}))
 }
 
 export const remountPlayer = ({channelNumber}) => (dispatch, getState) => {
@@ -142,10 +145,10 @@ export default handleActions({
     },
     [SET_PLAYER_SOURCE]: (state, action) => {
         // console.log('%%%%%%%%%%%%%%%%', action.payload);
-        const {channelNumber, url} = action.payload;
-        const overlayContent = mkOverlayContent(url);
+        const {channelNumber, url, cctvId} = action.payload;
+        const overlayContent = mkOverlayContent(cctvId);
 
-        const sourceNumber = sources.findIndex(source => source.url === url);
+        const sourceNumber = sources.findIndex(source => source.cctvId === cctvId);
         const hlsPlayer = {...state.players.get(channelNumber)};
         // to make state change, use spread operator on source;
         const source = {...hlsPlayer.source};

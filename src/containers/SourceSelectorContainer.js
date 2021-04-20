@@ -4,6 +4,7 @@ import SourceSelector from '../components/HLSRecorder/SourceSelector';
 // import * as sourceSelectorActions from '../modules/sourceSelector';
 import * as hlsPlayersActions from '../modules/hlsPlayers';
 import * as hlsRecordersActions from '../modules/hlsRecorders';
+import * as appActions from '../modules/app';
 
 
 function mapStateToProps(state, ownProps) {
@@ -13,6 +14,7 @@ function mapStateToProps(state, ownProps) {
   const hlsRecorder = state.hlsRecorders.recorders.get(channelNumber);
   return {
     ...ownProps,
+    cctvHost: state.app.cctvHost,
     sources: state.app.sources,
     source: hlsPlayer.source,
     recorderStatus: hlsRecorder.recorderStatus
@@ -24,6 +26,7 @@ function mapDispatchToProps(dispatch) {
     // SourceSelectorActions: bindActionCreators(sourceSelectorActions, dispatch),
     HLSPlayersActions: bindActionCreators(hlsPlayersActions, dispatch),
     HLSRecordersActions: bindActionCreators(hlsRecordersActions, dispatch),
+    AppActions: bindActionCreators(appActions, dispatch),
   };
 }
 
