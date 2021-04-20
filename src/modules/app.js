@@ -3,7 +3,8 @@ import {createAction, handleActions} from 'redux-actions';
 const {getCombinedConfig} = require('../lib/getConfig');
 const config = getCombinedConfig({storeName:'optionStore', electronPath:'home'});
 const {
-    LOG_LEVEL="info"
+    LOG_LEVEL="info",
+    CCTV_HOST
 } = config;
 
 import {initElectronLog, createElectronStore} from '../lib/electronUtil';
@@ -24,7 +25,8 @@ const intervalStore = createElectronStore({
 });
 
 import {cctvFromConfig} from '../lib/getCCTVList';
-const sources = cctvFromConfig();
+const sources = cctvFromConfig(CCTV_HOST);
+console.log('####', sources);
 
 // action types
 const SET_SOURCES = 'app/SET_SOURCES';

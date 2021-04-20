@@ -2,15 +2,16 @@ import {createAction, handleActions} from 'redux-actions';
 // import {logInfo, logError, logFail} from './messagePanel';
 import {cctvFromConfig} from '../lib/getCCTVList';
 const {getCombinedConfig} = require('../lib/getConfig');
-const sources = cctvFromConfig();
 const config = getCombinedConfig({storeName:'optionStore', electronPath:'home'});
-
 const {
     NUMBER_OF_CHANNELS,
     CHANNEL_PREFIX,
     DEFAULT_PLAYER_PROPS,
-    LONG_BUFFERING_MS_SECONDS=3000
+    LONG_BUFFERING_MS_SECONDS=3000,
+    CCTV_HOST
 } = config;
+
+const sources = cctvFromConfig(CCTV_HOST);
 
 const mkOverlayContent = url => {
     const source = sources.find(source => source.url === url)

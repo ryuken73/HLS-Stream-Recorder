@@ -2,51 +2,143 @@
   "sources": [
     {
       "title": "서울 마포구 성산교",
-      "url": "https://cctvsec.ktict.co.kr/9965/e9kLhEFmUD4LN5nutFjuZHnD9JrGKrFt75U6ttodXKVg8OTT6ti+Mhl7lQnZZywM2h56Ksu/xP9wUIQeftwdEA=="
+      "port": 9965
     },
     {
-      "title": "부산 동래구 세병교:온천천",
-      "url": "https://cctvsec.ktict.co.kr/9967/18K2VXgcUTnVklZg6zyPwbLSXYDtSnZMuH5LjkidcAZ+s06yKlFBe0fL8i7ywcEcGcnsCN8bUr6YDpMaTKupqA=="
+      "title": "서울 노원구 중랑천",
+      "port": 9966
+    },
+    {
+      "title": "부산 동래구 세병교 온천천",
+      "port": 9967
+    },
+    {
+      "title": "충북 청주시 무심천",
+      "port": 9968
     },
     {
       "title": "대구 동구 신천",
-      "url": "https://cctvsec.ktict.co.kr/9969/yS5hqESl1h3lDyHenHKZwjyV0cTQrKL/W7+XJ7yT++B8tTHu7XgfkT9SdQ+xS69KeLIQEDz2snB3pCArK+aixg=="
+      "port": 9969
+    },
+    {
+      "title": "대전 유성구 갑천",
+      "port": 9970
     },
     {
       "title": "전북 남원시 뱀사골(지리산)",
-      "url": "https://cctvsec.ktict.co.kr/9971/JZPSStTa9uhQihw1KwlqrXkOapWH8QK3jnJ6KjGLzeT9ZB6LOT9s45jHRinV5amDLf4V+V1jWGihdkpIylY1aQ=="
+      "port": 9971
+    },
+    {
+      "title": "경기 가평군 가평2교(북한강)",
+      "port": 9972
     },
     {
       "title": "서울 서초구 양재천",
-      "url": "https://cctvsec.ktict.co.kr/9973/EDmVTZMikEsoL3FE/hlxDzIZgv3bI3U+WTL6VQM/+gjbLS9pGDRiJIqVS3avl+QjG192L0JatI6VnZXBB1aBiw=="
+      "port": 9973
+    },
+    {
+      "title": "경기 구리시 왕숙천",
+      "port": 9974
     },
     {
       "title": "충북 단양군 도담삼봉",
-      "url": "https://cctvsec.ktict.co.kr/9975/ICjobmx8jz4Hp6H9fOW/eWy50bFrVmKQzVKftYHgEZDxmRcCIc0FVW7iAmjaWRH5k7Mf37+WeODwgfZpn3Q3xg=="
+      "port": 9975
     },
     {
+      "title": "충남 공주시 금강",
+      "port": 9976
+    },
+    {
+      "title": "경남 밀양시 삼랑진",
+      "port": 9977
+    },
+    {
+      "title": "전남 나주시 영산강",
+      "port": 9978
+    },    
+    {
       "title": "전북 군산시 비응항",
-      "url": "https://cctvsec.ktict.co.kr/9979/x7hpajQYrsYH+stw265lJI2Opyg1wHSpi26FVUkLVGMdjxqncxtHBkEC60Cpd5sp8Q9/Wz3SaLQayhZTO+/FXg=="
+      "port": 9979
+    },
+    {
+      "title": "충남 태안군 신진항",
+      "port": 9980
     },
     {
       "title": "인천 중구 연안부두",
-      "url": "https://cctvsec.ktict.co.kr/9981/Wl0KImWMN79hDgZSEd+i9eC4O8WMxljGu3UUjcPTf1RD6jLLy3FF0HaCg6Z6tWfESeg+J/VA+jTGp2+0EnG7aA=="
+      "port": 9981
+    },
+    {
+      "title": "제주 서귀포시 마라도",
+      "port": 9982
     },
     {
       "title": "전남 신안군 가거도",
-      "url": "https://cctvsec.ktict.co.kr/9983/tLH5RkSoA0YZi0Zn9poCaOv86Xjv17tNlzXWX3wjj/Uau17quYq0nbiJLlV/aVK2IAdyyksG10ZwoQaOlFIiBA=="
+      "port": 9983
+    },
+    {
+      "title": "전남 완도군 완도항",
+      "port": 9984
     },
     {
       "title": "경남 창원시 마산연안여객선터미널",
-      "url": "https://cctvsec.ktict.co.kr/9985/X4uibtRAk1KaCH3/gnBJzwhu3YrkOeNccEcb6Vbxh4F/Z71jyFGr42rsk3lvjNvlHXW4NJzN6Xd2Ph2CyIiRSw=="
+      "port": 9985
+    },
+    {
+      "title": "강원 속초시 등대전망대",
+      "port": 9986
     },
     {
       "title": "울릉 저동항",
-      "url": "https://cctvsec.ktict.co.kr/9987/Rwc6I5UfhTS/Gka2/TMlmZJy+M2aTidSpKMFJQhEFWVP9Gn+/RuZ2b03YkcYQNCXdrYi5UCCVkvsBcHMd5kLaQ=="
+      "port": 9987
+    },
+    {
+      "title": "경북 포항시 두호동",
+      "port": 9988
+    },
+    {
+      "title": "강원 평창군 대관령",
+      "port": 9989
+    },
+    {
+      "title": "서울 서초구 서초대로",
+      "port": 9990
+    },
+    {
+      "title": "부산 수영구 수영만",
+      "port": 9991
+    },
+    {
+      "title": "전남 목포시 북항",
+      "port": 9992
+    },
+    {
+      "title": "전남 여수시 거문도",
+      "port": 9993
+    },
+    {
+      "title": "전남 여수시 오동도",
+      "port": 9994
+    },
+    {
+      "title": "강원 강릉시 주문진항",
+      "port": 9995
+    },
+    {
+      "title": "서울 강남구 대치역사거리",
+      "port": 9996
+    },
+    {
+      "title": "서울 송파구 탄천주차장",
+      "port": 9997
+    },
+    {
+      "title": "서울 서초구 반포한강시민공원",
+      "port": 9998
     },
     {
       "title": "서울 강남구 강남대로",
-      "url": "https://cctvsec.ktict.co.kr/9999/oRuQRYJG8yOZvumY7CxtngaG5j78ukBY5HTHNV2QVgBoKSQ1mRokska70Myhr3DJLju0gIu7VBUY60rqAJugcg=="
+      "port": 9999
     }
   ]
 }

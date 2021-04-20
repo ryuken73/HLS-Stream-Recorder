@@ -10,7 +10,6 @@ import {
 import {add_X_ENDLIST} from '../lib/tsFileUtil';
 
 const MIN_CLIP_LENGTH_PERCENTAGE = 10;
-const sources = cctvFromConfig();
 const config = getCombinedConfig({storeName:'optionStore', electronPath:'home'});
 
 const {
@@ -21,8 +20,10 @@ const {
     WAIT_SECONDS_MS_FOR_PLAYBACK_CHANGE,
     SLEEP_MS_BETWEEN_ALL_START=2000,
     SLEEP_MS_BETWEEN_ALL_STOP=300,
-    RESTART_SCHEDULE_SLEPP_MS=5000
+    RESTART_SCHEDULE_SLEPP_MS=5000,
+    CCTV_HOST
 } = config;
+const sources = cctvFromConfig(CCTV_HOST);
 
 const {
     defaultInterval,
