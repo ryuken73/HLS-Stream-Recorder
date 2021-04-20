@@ -2,143 +2,143 @@
   "sources": [
     {
       "title": "서울 마포구 성산교",
-      "port": 9965
+      "cctvId": 9965
     },
     {
       "title": "서울 노원구 중랑천",
-      "port": 9966
+      "cctvId": 9966
     },
     {
       "title": "부산 동래구 세병교 온천천",
-      "port": 9967
+      "cctvId": 9967
     },
     {
       "title": "충북 청주시 무심천",
-      "port": 9968
+      "cctvId": 9968
     },
     {
       "title": "대구 동구 신천",
-      "port": 9969
+      "cctvId": 9969
     },
     {
       "title": "대전 유성구 갑천",
-      "port": 9970
+      "cctvId": 9970
     },
     {
       "title": "전북 남원시 뱀사골(지리산)",
-      "port": 9971
+      "cctvId": 9971
     },
     {
       "title": "경기 가평군 가평2교(북한강)",
-      "port": 9972
+      "cctvId": 9972
     },
     {
       "title": "서울 서초구 양재천",
-      "port": 9973
+      "cctvId": 9973
     },
     {
       "title": "경기 구리시 왕숙천",
-      "port": 9974
+      "cctvId": 9974
     },
     {
       "title": "충북 단양군 도담삼봉",
-      "port": 9975
+      "cctvId": 9975
     },
     {
       "title": "충남 공주시 금강",
-      "port": 9976
+      "cctvId": 9976
     },
     {
       "title": "경남 밀양시 삼랑진",
-      "port": 9977
+      "cctvId": 9977
     },
     {
       "title": "전남 나주시 영산강",
-      "port": 9978
+      "cctvId": 9978
     },    
     {
       "title": "전북 군산시 비응항",
-      "port": 9979
+      "cctvId": 9979
     },
     {
       "title": "충남 태안군 신진항",
-      "port": 9980
+      "cctvId": 9980
     },
     {
       "title": "인천 중구 연안부두",
-      "port": 9981
+      "cctvId": 9981
     },
     {
       "title": "제주 서귀포시 마라도",
-      "port": 9982
+      "cctvId": 9982
     },
     {
       "title": "전남 신안군 가거도",
-      "port": 9983
+      "cctvId": 9983
     },
     {
       "title": "전남 완도군 완도항",
-      "port": 9984
+      "cctvId": 9984
     },
     {
       "title": "경남 창원시 마산연안여객선터미널",
-      "port": 9985
+      "cctvId": 9985
     },
     {
       "title": "강원 속초시 등대전망대",
-      "port": 9986
+      "cctvId": 9986
     },
     {
       "title": "울릉 저동항",
-      "port": 9987
+      "cctvId": 9987
     },
     {
       "title": "경북 포항시 두호동",
-      "port": 9988
+      "cctvId": 9988
     },
     {
       "title": "강원 평창군 대관령",
-      "port": 9989
+      "cctvId": 9989
     },
     {
       "title": "서울 서초구 서초대로",
-      "port": 9990
+      "cctvId": 9990
     },
     {
       "title": "부산 수영구 수영만",
-      "port": 9991
+      "cctvId": 9991
     },
     {
       "title": "전남 목포시 북항",
-      "port": 9992
+      "cctvId": 9992
     },
     {
       "title": "전남 여수시 거문도",
-      "port": 9993
+      "cctvId": 9993
     },
     {
       "title": "전남 여수시 오동도",
-      "port": 9994
+      "cctvId": 9994
     },
     {
       "title": "강원 강릉시 주문진항",
-      "port": 9995
+      "cctvId": 9995
     },
     {
       "title": "서울 강남구 대치역사거리",
-      "port": 9996
+      "cctvId": 9996
     },
     {
       "title": "서울 송파구 탄천주차장",
-      "port": 9997
+      "cctvId": 9997
     },
     {
       "title": "서울 서초구 반포한강시민공원",
-      "port": 9998
+      "cctvId": 9998
     },
     {
       "title": "서울 강남구 강남대로",
-      "port": 9999
+      "cctvId": 9999
     }
   ]
 }

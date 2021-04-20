@@ -22,9 +22,8 @@ export const cctvFromConfig = (cctvHost) => {
         if(source.url){
             return {...source}
         }
-        const uri = encryptUrl(source.port);
-        // const completeUrl = path.join(`${cctvHost}:${source.port}`, uri);
-        const completeUrl = `${cctvHost}/${source.port}/${uri}`;
+        const uri = encryptUrl(source.cctvId);
+        const completeUrl = `${cctvHost}/${source.cctvId}/${uri}`;
         return {...source, url: completeUrl}
     })
     const orderByTitle = urlEncrypted.sort(order.orderByKey('title'));
