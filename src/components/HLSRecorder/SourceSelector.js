@@ -1,15 +1,6 @@
 import React from 'react';
 import OptionSelectList from '../template/OptionSelectList';
-import {encryptUrl, decryptUrl} from '../../lib/encryptUrl';
-
-const createdBefore = (createdDateString, milliSeconds) => {
-    const createdDate = new Date(createdDateString);
-    const createTimestamp = createdDate.getTime();
-    console.log('### createdDate:', createdDate)
-    return (Date.now() - createTimestamp) > milliSeconds;
-}
-
-const URL_REFRESH_MILLI_SECONDS = 60 * 1000;
+import {getEncryptedUrl} from '../../lib/urlUtils';
 
 function Selection(props) {
     const {
@@ -24,28 +15,25 @@ function Selection(props) {
         setSourceNSave=()=>{},
         setPlayerMount=()=>{}
     } = props.HLSPlayersActions;
-    const {savePlayerHttpURL=()=>{}} = props.HLSRecordersActions;
+    // const {savePlayerHttpURL=()=>{}} = props.HLSRecordersActions;
     const {refreshSourceUrl=()=>{}} = props.AppActions;
     
-    const currentUrl = source.url;
-    // console.log('cctvId', source);
+    const currentId = source.cctvId;
+    console.log('re-render selection:', source);
     const inRecording = recorderStatus !== 'stopped';
     const selectItems = sources.map(source => {
         return {
-            value: source.url,
-            label: source.title
+            value: source.cctvId,
+            label: source.title,
         }
     })
 
     const onChangeSelect = React.useCallback((event) => {
-        const currentUrl = event.target.value;
-        const decrypted = decryptUrl(currentUrl);
-        const [corname, svcname, cctvId, createdDateString] = decrypted.split(',');
-        const url = createdBefore(createdDateString, URL_REFRESH_MILLI_SECONDS) ?
-                    encryptUrl(cctvHost, cctvId) : currentUrl
-        console.log('currentUrl : url : cctvId ;', currentUrl, url, cctvId)
+        console.log(event.target)
+        const cctvId = event.target.value;
+        const url = getEncryptedUrl(cctvId);
         setSourceNSave({channelNumber, cctvId, url});
-        savePlayerHttpURL({channelNumber, playerHttpURL:url});
+        // savePlayerHttpURL({channelNumber, playerHttpURL:url});
         setPlayerMount({channelNumber, mountPlayer:true})
     }, [setSourceNSave])
 
@@ -56,7 +44,7 @@ function Selection(props) {
             titlewidth={"80px"}
             minWidth='200px'
             maxWidth='216px'
-            currentItem={currentUrl}
+            currentItem={currentId}
             multiple={false}
             menuItems={selectItems}
             onChangeSelect={onChangeSelect} 

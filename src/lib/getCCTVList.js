@@ -12,22 +12,22 @@ const distinctByKey = (arrayObject, key) => {
     return resultsUniq;
 }
 
-export const cctvFromConfig = (cctvHost) => {
+export const cctvFromConfig = () => {
     const defaultJsonFile = electronUtil.getAbsolutePath('config/default/sources.json', true);
     const customJsonFile = electronUtil.getAbsolutePath('config/sources.json', true);
     const defaultJson = electronUtil.readJSONFile(defaultJsonFile);
     const customJson = customJsonFile === false ? {sources:[]} : electronUtil.readJSONFile(customJsonFile);
     const mergedButDefaultFirst = distinctByKey([...defaultJson.sources, ...customJson.sources], 'title');
-    const urlEncrypted = [...mergedButDefaultFirst].map(source => {
-        if(source.url){
-            return {...source}
-        }
-        // const uri = encryptUrl(source.cctvId);
-        // const completeUrl = `${cctvHost}/${source.cctvId}/${uri}`;
-        const completeUrl = encryptUrl(cctvHost, source.cctvId);
-        return {...source, url: completeUrl}
-    })
-    const orderByTitle = urlEncrypted.sort(order.orderByKey('title'));
+    // const urlEncrypted = [...mergedButDefaultFirst].map(source => {
+    //     if(source.url){
+    //         return {...source}
+    //     }
+    //     // const uri = encryptUrl(source.cctvId);
+    //     // const completeUrl = `${cctvHost}/${source.cctvId}/${uri}`;
+    //     const completeUrl = encryptUrl(cctvHost, source.cctvId);
+    //     return {...source, url: completeUrl}
+    // })
+    const orderByTitle = mergedButDefaultFirst.sort(order.orderByKey('title'));
     return orderByTitle;
 }
 

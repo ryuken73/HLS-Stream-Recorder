@@ -1,6 +1,7 @@
 import {createAction, handleActions} from 'redux-actions';
 import {setPlayerSource, refreshPlayer} from './hlsPlayers';
 import {cctvFromConfig} from '../lib/getCCTVList';
+import {getEncryptedUrl} from '../lib/urlUtils';
 import {getCombinedConfig,getDefaultConfig}  from '../lib/getConfig';
 import {
     setChannelStatNStore, 
@@ -23,7 +24,7 @@ const {
     RESTART_SCHEDULE_SLEPP_MS=5000,
     CCTV_HOST
 } = config;
-const sources = cctvFromConfig(CCTV_HOST);
+const sources = cctvFromConfig();
 
 const {
     defaultInterval,
@@ -65,16 +66,16 @@ const fs = require('fs');
 // initialize recorder
 const path = require('path');
 for(let channelNumber=1 ; channelNumber<=NUMBER_OF_CHANNELS ; channelNumber++){
-    const arrayIndex = channelNumber - 1;
-    // const source = sources[arrayIndex] || {};
-    const source = sourceStore.get(channelNumber.toString()) || sources[channelNumber-1]
-    const {title="없음", url=""} = source;
+    // const arrayIndex = channelNumber - 1;
+    // // const source = sources[arrayIndex] || {};
+    // const source = sourceStore.get(channelNumber.toString()) || sources[channelNumber-1]
+    // const {title="없음", url=""} = source;
     const channelName = `${CHANNEL_PREFIX}${channelNumber}`;
     const channelDirectory = path.join(BASE_DIRECTORY, channelName);
     const hlsRecorder = {
         channelName,
         channelDirectory,
-        playerHttpURL: url,
+        // playerHttpURL: url,
         duration: INITIAL_DURATION,
         recorder: null,
         inTransition: false,
@@ -116,7 +117,7 @@ export const setScheduleFunction = createAction(SET_SCHEDULE_FUNCTION);
 export const setScheduleInterval = createAction(SET_SCHEDULE_INTERVAL);
 export const setScheduleStatus = createAction(SET_SCHEDULE_STATUS);
 export const setAutoStartSchedule = createAction(SET_AUTO_START_SCHEDULE);
-export const savePlayerHttpURL = createAction(SAVE_PLAYER_HTTP_URL);
+// export const savePlayerHttpURL = createAction(SAVE_PLAYER_HTTP_URL);
 
 import log from 'electron-log';
 const createLogger = channelName => {
@@ -235,12 +236,17 @@ export const setScheduleIntervalNSave = ({channelNumber, scheduleInterval}) => (
 
 export const refreshRecorder = ({channelNumber}) => (dispatch, getState) => {
     const state = getState();
-    const {recorders} = state.hlsRecorders;
-    const hlsRecorder = recorders.get(channelNumber);
+    const [hlsRecorder, hlsPlayer, channelLog] = getChanneler(state, channelNumber);
+    const {source} = hlsPlayer;
+    const {cctvId} = source;
+    const url = getEncryptedUrl(cctvId)
+    // const {recorders} = state.hlsRecorders;
+    // const hlsRecorder = recorders.get(channelNumber);
     dispatch(setRecorderStatus({channelNumber, recorderStatus: 'stopped'}))
     dispatch(setRecorderInTransition({channelNumber, inTransition:false}));
     dispatch(setDuration({channelNumber, duration:INITIAL_DURATION}));
-    dispatch(setPlayerSource({channelNumber, url:hlsRecorder.playerHttpURL}))
+    dispatch(setPlayerSource({channelNumber, url, cctvId}));
+    // dispatch(setPlayerSource({channelNumber, url:hlsRecorder.playerHttpURL}))
 }
 
 export const remountRecorder = ({channelNumber}) => (dispatch, getState) => {
@@ -295,7 +301,8 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
     
         const [saveDirectory, localm3u8, subDirectory] = getOutputName(hlsRecorder, hlsPlayer);
         
-        recorder.src = hlsRecorder.playerHttpURL;
+        // recorder.src = hlsRecorder.playerHttpURL;
+        recorder.src = getEncryptedUrl(source.cctvId);
         recorder.target = localm3u8;
         recorder.localm3u8 = localm3u8;
         hlsRecorder.localm3u8 = localm3u8;
@@ -309,7 +316,7 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
             setTimeout(() => {
                 dispatch(setRecorderStatus({channelNumber, recorderStatus: 'started'}));
                 dispatch(setRecorderInTransition({channelNumber, inTransition:false}));
-                dispatch(setPlayerSource({channelNumber, url:localm3u8}))
+                dispatch(setPlayerSource({channelNumber, cctvId:source.cctvId, url:localm3u8}))
                 resolve(true);
             },WAIT_SECONDS_MS_FOR_PLAYBACK_CHANGE);
         })
@@ -319,7 +326,7 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
                 const endTimestamp = Date.now();
                 const startTime = date.getString(new Date(startTimestamp),{sep:'-'})
                 const endTime = date.getString(new Date(endTimestamp),{sep:'-'})
-                const url = hlsRecorder.playerHttpURL;
+                // const url = hlsRecorder.playerHttpURL;
                 const title = source.title;
                 const hlsDirectory = saveDirectory;
                 const clipId = subDirectory;
@@ -337,7 +344,7 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
                     endTime,
                     startTimestamp,
                     endTimestamp,
-                    url,
+                    // url,
                     title,
                     hlsDirectory,
                     duration,
@@ -676,16 +683,16 @@ export default handleActions({
             recorders
         }
     },
-    [SAVE_PLAYER_HTTP_URL]: (state, action) => {
-        // console.log('%%%%%%%%%%%%%%%%', action.payload);
-        const {channelNumber, playerHttpURL} = action.payload;
-        const channelRecorder = {...state.recorders.get(channelNumber)};
-        channelRecorder.playerHttpURL = playerHttpURL;
-        const recorders = new Map(state.recorders);
-        recorders.set(channelNumber, channelRecorder);
-        return {
-            ...state,
-            recorders
-        }
-    },
+    // [SAVE_PLAYER_HTTP_URL]: (state, action) => {
+    //     // console.log('%%%%%%%%%%%%%%%%', action.payload);
+    //     const {channelNumber, playerHttpURL} = action.payload;
+    //     const channelRecorder = {...state.recorders.get(channelNumber)};
+    //     channelRecorder.playerHttpURL = playerHttpURL;
+    //     const recorders = new Map(state.recorders);
+    //     recorders.set(channelNumber, channelRecorder);
+    //     return {
+    //         ...state,
+    //         recorders
+    //     }
+    // },
 }, initialState);

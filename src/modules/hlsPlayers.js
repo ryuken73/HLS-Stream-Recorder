@@ -1,6 +1,8 @@
 import {createAction, handleActions} from 'redux-actions';
 // import {logInfo, logError, logFail} from './messagePanel';
 import {cctvFromConfig} from '../lib/getCCTVList';
+import {getEncryptedUrl} from '../lib/urlUtils';
+// import {setSource} from './app';
 const {getCombinedConfig} = require('../lib/getConfig');
 const config = getCombinedConfig({storeName:'optionStore', electronPath:'home'});
 const {
@@ -8,14 +10,14 @@ const {
     CHANNEL_PREFIX,
     DEFAULT_PLAYER_PROPS,
     LONG_BUFFERING_MS_SECONDS=3000,
-    CCTV_HOST
+    // CCTV_HOST
 } = config;
 
-const sources = cctvFromConfig(CCTV_HOST);
+const sources = cctvFromConfig();
 
 const mkOverlayContent = cctvId => {
     console.log(cctvId)
-    const source = sources.find(source => source.cctvId === parseInt(cctvId))
+    const source = sources.find(source => source.cctvId === cctvId)
     if(source !== undefined){
         const {title} = source
         const element = document.createElement('div');
@@ -35,11 +37,14 @@ const sourceStore = new Store({
     cwd:remote.app.getPath('home')
 })
 
+// initialize player
 for(let channelNumber=1;channelNumber<=NUMBER_OF_CHANNELS;channelNumber++){
     // const source = sources[channelNumber-1] || {};
-    const source = sourceStore.get(channelNumber.toString()) || sources[channelNumber-1]
-    const {title="없음", url="", cctvId} = source;
+    const source = sourceStore.get(channelNumber.toString()) || sources[channelNumber-1];
+    const url = getEncryptedUrl(source.cctvId);
+    source.url = url;
     console.log('### source in hlsplayer:', source)
+    const {cctvId} = source;
     const hlsPlayer = {
         ...DEFAULT_PLAYER_PROPS,
         source,
@@ -69,14 +74,14 @@ export const setSourceNSave = ({channelNumber, cctvId, url}) => (dispatch, getSt
     const {sourceStore} = state.app;
     const hlsPlayer = {...state.hlsPlayers.players.get(channelNumber)};
 
-    const sourceNumber = sources.findIndex(source => source.cctvId === parseInt(cctvId));
+    const sourceNumber = sources.findIndex(source => source.cctvId === cctvId);
     const title = sourceNumber !== -1 ? sources[sourceNumber].title : hlsPlayer.source.title;
     
     sourceStore.set(channelNumber, {
         title, 
-        url,
         cctvId
     })
+    // dispatch(setSource({cctvId, url}))
     dispatch(setPlayerSource({channelNumber, url, cctvId}))
 }
 
@@ -153,6 +158,7 @@ export default handleActions({
         // to make state change, use spread operator on source;
         const source = {...hlsPlayer.source};
         source.url = url;
+        source.cctvId = cctvId;
         source.title = sourceNumber !== -1 ? sources[sourceNumber].title : hlsPlayer.source.title;
         hlsPlayer.source = source;
         if(overlayContent) hlsPlayer.overlayContent = overlayContent;

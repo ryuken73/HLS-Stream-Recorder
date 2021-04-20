@@ -8,6 +8,7 @@ import {SmallPaddingSelect}  from './smallComponents';
 
 
 export default function OptionSelectList(props) {
+    console.log('re-render option selectionlist:', props.currentItem, props.menuItems)
     const {subtitle, minWidth, currentItem, menuItems, onChangeSelect, multiple=true, titlewidth="20%", bgcolor, selectColor, disabled=false} = props;
     const {mb="0px", mt="0px", maxWidth} = props;
     const {smallComponent} = props;
