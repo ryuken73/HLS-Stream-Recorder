@@ -41,9 +41,15 @@ export default function DraggableDialog(props) {
           {dialogTitle}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            {dialogText}
-          </DialogContentText>
+          {typeof(dialogText) === 'string' ?
+            (
+              <DialogContentText>
+                {dialogText}
+              </DialogContentText>
+            ) :
+            dialogText
+          }
+
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose} color="primary">

@@ -1,10 +1,12 @@
 import React from 'react';
+import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogActions from '@material-ui/core/DialogActions';
+import Typography from '@material-ui/core/Typography';
 import OptionTextInput from './template/OptionTextInput';
 import OptionRadioButton from './template/OptionRadioButton';
 import FolderIcon  from '@material-ui/icons/Folder';
@@ -96,6 +98,7 @@ function OptionDialog(props) {
   const {setConfigValue=()=>{}} = props.OptionDialogActions;
 
   const [scroll, setScroll] = React.useState('paper');
+  const [optionTitle, setOptionTitle] = React.useState(title);
 
   const stringToBool = value => {
     if(value === 'true') return true; 
@@ -113,6 +116,7 @@ function OptionDialog(props) {
 
 
   const handleClose = React.useCallback(() => {
+    setOptionTitle(title);
     setOptionsDialogOpen({dialogOpen:false});
   },[]);
 
@@ -126,16 +130,31 @@ function OptionDialog(props) {
     })
     .catch(err => console.error(err))
   },[])
- 
+  
+  const MAX_CHANNELS = 10;
   const onClickSaveBtn = React.useCallback(() => {
+    setOptionTitle(title)
+    if(config.NUMBER_OF_CHANNELS > MAX_CHANNELS){
+      setOptionTitle(title => {
+        return `${title} : Too Many Recorders (MAX: ${MAX_CHANNELS})`
+      })
+      return;
+    }
     saveConfig({config});
     handleClose();
     if(valueChanged){
       setConfirmDialogTitle('Caution! Reload Required!')
-      setConfirmDialogText(`
-        Reload is required for changes to take effect.
-        scheduled recording will be stopped!
-      `)
+      setConfirmDialogText(<Typography component="div">
+        <Box variant="caption">
+          Reload is required for changes to take effect.
+        </Box>
+        <Box>
+          scheduled recording will be stopped!.
+        </Box>
+        <Box>
+          (if you choose "NO", changes will be applied in next start!)
+        </Box>
+      </Typography>)
       setConfirmAction('reload');
       setConfirmOpen(true);
 
@@ -153,7 +172,7 @@ function OptionDialog(props) {
       fullWidth
     >
     <DialogTitle id="scroll-dialog-title">
-      {title}
+      {optionTitle}
     </DialogTitle>
     <DialogContent dividers={scroll === 'paper'}>
       <DialogContentText
