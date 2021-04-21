@@ -116,9 +116,12 @@ const Header = (props) => {
         const logFolder = remote.app.getPath('logs');
         remote.shell.openPath(logFolder)
     }
+    const path = require('path');
     const openConfigFolder = () => {
-        const configFolder = remote.app.getPath('exe');
+        const execBinary = remote.app.getPath('exe');
+        const configFolder = path.join(path.dirname(execBinary),'resources','app.asar.unpacked','config','default');
         console.log(configFolder)
+        remote.shell.openPath(configFolder)
     }
     const showStatistics = () => {
         setTooltipOpen(previous => {
