@@ -17,6 +17,7 @@ import LiveHelpIcon from '@material-ui/icons/LiveHelp';
 import BackspaceIcon from '@material-ui/icons/Backspace';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
+import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import OptionSelect from './template/OptionSelect';
 import Tooltip from '@material-ui/core/Tooltip';
 import {BasicIconButton, BasicIconButtonWithTooltip} from './template/basicComponents';
@@ -114,6 +115,10 @@ const Header = (props) => {
     const openLogFolder = () => {
         const logFolder = remote.app.getPath('logs');
         remote.shell.openPath(logFolder)
+    }
+    const openConfigFolder = () => {
+        const configFolder = remote.app.getPath('exe');
+        console.log(configFolder)
     }
     const showStatistics = () => {
         setTooltipOpen(previous => {
@@ -334,6 +339,17 @@ const Header = (props) => {
                         fontSize="default"
                         style={{color:"grey"}}
                     ></BugReportIcon>
+                </IconButtonWithTooltip>
+                <IconButtonWithTooltip
+                    title="config file"
+                    label="config file"
+                    onClick={openConfigFolder}
+                    disabled={false}
+                >
+                    <InsertDriveFileIcon 
+                        fontSize="default"
+                        style={{color:"grey"}}
+                    ></InsertDriveFileIcon>
                 </IconButtonWithTooltip>
                 <IconButtonWithTooltip
                     title="clear memory"
