@@ -17,7 +17,7 @@ export default function OptionRadioButton(props) {
     const Content = () => {
         return  <React.Fragment>
                     <FormControl component="fieldset">
-                        <RadioGroup aria-label="radioButton" name="radioButton" onChange={onChange} value={value}>
+                        <RadioGroup aria-label="radioButton" name={name} onChange={onChange} {...props}>
                             <Box display="flex">
                                 {formlabels.map((formLabel,index)=> {
                                     const {disabled, value, label} = formLabel;

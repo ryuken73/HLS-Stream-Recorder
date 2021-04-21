@@ -104,9 +104,8 @@ function OptionDialog(props) {
   }
 
   const onChangeConfig = React.useCallback(event => {
-    console.log(event.target.id)
-    console.log(event.currentTarget.id)
-    const configName = event.target.id;
+    // RadioButtonGroup has event.target.name instead of event.traget.id
+    const configName = event.target.id || event.target.name;
     setValueChanged(true);
     const nomalizedValue = stringToBool(event.target.value)
     setConfigValue({configName, value: nomalizedValue})
@@ -174,9 +173,9 @@ function OptionDialog(props) {
         <OptionTextInputWithDefault id="MAX_MEMORY_TO_RELOAD_MB" subtitle='Max Memory' value={MAX_MEMORY_TO_RELOAD_MB} onChange={onChangeConfig}></OptionTextInputWithDefault>
         <OptionTextInputWithDefault id="MEMORY_USAGE_PERCENTAGE_TO_AUTO_CLEAR" subtitle='High Memory Usage(%)' value={MEMORY_USAGE_PERCENTAGE_TO_AUTO_CLEAR} onChange={onChangeConfig}></OptionTextInputWithDefault>
         <OptionTextInputWithDefault id="MEM_CLEAR_COUNT_LIMIT" subtitle='Clear Memory Limit' value={MEM_CLEAR_COUNT_LIMIT} onChange={onChangeConfig}></OptionTextInputWithDefault>
-        <OptionRadioButtonWithDefault id="AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT" subtitle='Auto Reload Over Limit' value={AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT} onChange={onChangeConfig}></OptionRadioButtonWithDefault>
-        <OptionRadioButtonWithDefault id="AUTO_START_SCHEDULE" subtitle="Schedule Auto Start" value={AUTO_START_SCHEDULE} onChange={onChangeConfig}></OptionRadioButtonWithDefault>
-        <OptionRadioButtonWithDefault id="KAFKA_ENABLED" subtitle="Enable Kafka Send" value={KAFKA_ENABLED} onChange={onChangeConfig}></OptionRadioButtonWithDefault>
+        <OptionRadioButtonWithDefault name="AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT" subtitle='Auto Reload Over Limit' value={AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT} onChange={onChangeConfig}></OptionRadioButtonWithDefault>
+        <OptionRadioButtonWithDefault name="AUTO_START_SCHEDULE" subtitle="Schedule Auto Start" value={AUTO_START_SCHEDULE} onChange={onChangeConfig}></OptionRadioButtonWithDefault>
+        <OptionRadioButtonWithDefault name="KAFKA_ENABLED" subtitle="Enable Kafka Send" value={KAFKA_ENABLED} onChange={onChangeConfig}></OptionRadioButtonWithDefault>
         <OptionTextInputWithDefault id="KAFKA_CLIENT_NAME" subtitle='Kafka Host Name' value={KAFKA_CLIENT_NAME} onChange={onChangeConfig}></OptionTextInputWithDefault>
         <OptionTextInputWithDefault id="IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK" subtitle='Idle Seconds Player Off' value={IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK} onChange={onChangeConfig}></OptionTextInputWithDefault>
       </DialogContentText>
