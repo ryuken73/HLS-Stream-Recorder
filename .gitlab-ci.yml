@@ -7,6 +7,7 @@ deploy:
     - tags
   script:
     - export PATH=$PATH:/home/sbs/.nvm/versions/node/v12.14.1/bin
+    - export DEBUG_PROD=true
     - cp ~/extra_binary/ffmpeg.exe src/bin/ffmpeg.exe
     - yarn && yarn run package
   artifacts:
