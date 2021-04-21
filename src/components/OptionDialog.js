@@ -71,7 +71,8 @@ function OptionDialog(props) {
   const {dialogOpen=true, config} = props;
   const {
     NUMBER_OF_CHANNELS,
-    CHANNEL_PREFIX="channel",
+    // CHANNEL_PREFIX="channel",
+    CCTV_HOST,
     LOG_LEVEL='info',
     WAIT_SECONDS_MS_FOR_PLAYBACK_CHANGE,
     LONG_BUFFERING_MS_SECONDS,
@@ -161,7 +162,8 @@ function OptionDialog(props) {
         tabIndex={-1}
       >
         <OptionTextInputWithDefault id="NUMBER_OF_CHANNELS" subtitle='Number of Recorders' value={NUMBER_OF_CHANNELS} onChange={onChangeConfig}></OptionTextInputWithDefault>
-        <OptionTextInputWithDefault id="CHANNEL_PREFIX" subtitle='Channel Prefix' value={CHANNEL_PREFIX} onChange={onChangeConfig}></OptionTextInputWithDefault>
+        <OptionTextInputWithDefault id="CCTV_HOST" subtitle='CCTV Base Host' value={CCTV_HOST} onChange={onChangeConfig}></OptionTextInputWithDefault>
+        {/* <OptionTextInputWithDefault id="CHANNEL_PREFIX" subtitle='Channel Prefix' value={CHANNEL_PREFIX} onChange={onChangeConfig}></OptionTextInputWithDefault> */}
         <OptionTextInputWithDefault id="LOG_LEVEL" subtitle='Log Level' value={LOG_LEVEL} onChange={onChangeConfig}></OptionTextInputWithDefault>
         <OptionTextInputWithDefault id="KEEP_SAVED_CLIP_AFTER_HOURS" subtitle='Clip Keeping Hours(hh)' value={KEEP_SAVED_CLIP_AFTER_HOURS} onChange={onChangeConfig}></OptionTextInputWithDefault>
         <OptionTextInputWithDefault id="LONG_BUFFERING_MS_SECONDS" subtitle='Long Buffering(ms)' value={LONG_BUFFERING_MS_SECONDS} onChange={onChangeConfig}></OptionTextInputWithDefault>
