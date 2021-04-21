@@ -4,7 +4,9 @@ const {getCombinedConfig} = require('../lib/getConfig');
 const config = getCombinedConfig({storeName:'optionStore', electronPath:'home'});
 const {
     LOG_LEVEL="info",
-    CCTV_HOST
+    CCTV_HOST,
+    MAIL_RECEIVERS=['ryuken01@sbs.co.kr','110eel@sbs.co.kr'],
+    MAIL_ADDRESS='10.10.16.77'
 } = config;
 
 import {initElectronLog, createElectronStore} from '../lib/electronUtil';
@@ -31,10 +33,10 @@ console.log('####', sources);
 // mailer setting
 // const mailUtil = require('../utils/mailUtil');
 import mailUtil from '../utils/mailUtil';
-const wiseMail = mailUtil.connect({host:'10.10.16.77'});
+const wiseMail = mailUtil.connect({host:MAIL_ADDRESS});
 wiseMail.setDefaultOptions({
     from: 'KBS CCTV noreply@sbs.co.kr',
-    to: ['ryuken01@sbs.co.kr','110eel@sbs.co.kr'],
+    to: MAIL_RECEIVERS,
     subject: `HLS-Stream-Recorder Error`,
     html: 'Error ',
 })
@@ -47,7 +49,6 @@ const SET_SOURCES = 'app/SET_SOURCES';
 export const setSources = createAction(SET_SOURCES);
 
 const initialState = {
-    // cctvHost: CCTV_HOST,
     sources,
     sourceStore,
     intervalStore,
