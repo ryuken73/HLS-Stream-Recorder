@@ -271,6 +271,7 @@
     "history": "^5.0.0",
     "kafkajs": "^1.15.0",
     "node-cron": "^2.0.3",
+    "nodemailer": "^6.5.0",
     "ramda": "^0.27.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

@@ -22,7 +22,8 @@ const {
     SLEEP_MS_BETWEEN_ALL_START=2000,
     SLEEP_MS_BETWEEN_ALL_STOP=300,
     RESTART_SCHEDULE_SLEPP_MS=5000,
-    CCTV_HOST
+    CCTV_HOST,
+    KAFKA_CLIENT_NAME
 } = config;
 const sources = cctvFromConfig();
 
@@ -295,7 +296,6 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
             recorder,
         } = hlsRecorder;
         const {source} = hlsPlayer;
-        // const {clipStore} = state.app;
     
         channelLog.info(`start startRecroding() recorder.createTime:${recorder.createTime}`)
     
@@ -320,6 +320,7 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
                 resolve(true);
             },WAIT_SECONDS_MS_FOR_PLAYBACK_CHANGE);
         })
+        const {wiseMail} = state.app;
         recorder.once('end', async (clipName, startTimestamp, duration, error) => {
             try {
                 console.log('####### recorder.once end', hlsRecorder.localm3u8);
@@ -366,6 +367,7 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
                     dispatch(setChannelStatNStore({channelNumber, statName:'lastAbortTime', value:Date.now()}))
                     dispatch(increaseChannelStatsNStore({channelNumber, statName:'abortCount'}))
                     dispatch(refreshRecorder({channelNumber}));
+                    wiseMail.send({subject:`[${KAFKA_CLIENT_NAME}] Job Aborted [${clipId}]`, html:`aborted: useless clip(duration === 00:00:00.00). discard and delete ${saveDirectory}`});
                     return
                 }
                 // append #EXT-X-ENDLIST to m3u8 file otherwise player(video.js, ffplayer..) think live contents (player start from last ts file)
@@ -376,6 +378,7 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
                     dispatch(setChannelStatNStore({channelNumber, statName:'lastTooShortTime', value:Date.now()}))
                     dispatch(increaseChannelStatsNStore({channelNumber, statName:'tooShortCount'}))
                     dispatch(refreshChannelClipCountStatistics({channelNumber}))
+                    wiseMail.send({subject:`[${KAFKA_CLIENT_NAME}] Job Encoded Too Short [${clipId}]`, html:'too short!'});
                 }
                 if(encodedTooShort === false && error == undefined){
                     dispatch(setChannelStatNStore({channelNumber, statName:'lastSuccessTime', value:Date.now()}))
