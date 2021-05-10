@@ -369,6 +369,39 @@ export const ffmpegUtils = {
     }
 }
 
+export const common = {
+    tooFrequent: (durationMS, maxOccurence) => {
+        console.log('current: tooFrequent made!', durationMS, maxOccurence)
+        let previousOccurence = 0;
+        let previousTime = 0;
+        return () => {
+            const currentTime = Date.now();
+            const elapsedMS = currentTime - previousTime;
+            console.log('current:', elapsedMS, currentTime, previousTime)
+            let currentOccurence = 0;
+            if(elapsedMS < durationMS){
+                currentOccurence = previousOccurence + 1;
+                if(currentOccurence >= maxOccurence){
+                    previousOccurence = 0;
+                    previousTime = currentTime;
+                    return [currentOccurence, true];
+                } else {
+                    previousOccurence = currentOccurence;
+                    previousTime = currentTime;
+                    return [currentOccurence, false];
+                }
+            } else {
+                previousOccurence = 0;
+                previousTime = currentTime;
+                return [currentOccurence, false];
+            }
+        }
+    }
+}
+
+
+
+
 // const orderTest = [
 //     {name:'ryu', age:10},
 //     {name:'ken', age:50},

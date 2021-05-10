@@ -37,6 +37,7 @@ const successiveEvent = (checkFunction,logger=console) => {
         return false;   
     }
 }
+
 const FFMPEG_QUIT_TIMEOUT = 3000
 class RecoderHLS extends EventEmitter {
     constructor(options){
@@ -48,7 +49,7 @@ class RecoderHLS extends EventEmitter {
             enablePlayback=false, 
             localm3u8='./temp/stream.m3u8',
             ffmpegBinary='./ffmpeg.exe',
-            renameDoneFile=false
+            renameDoneFile=false,
         } = options;
         this._name = name;
         this._src = src;
@@ -192,6 +193,7 @@ class RecoderHLS extends EventEmitter {
         } catch (error) {
             this.log.error(error.message)
         }
+        const startTimestamp = Date.now();
         this.command
         .on('start', this.startHandler)
         .on('progress', this.progressHandler)
@@ -203,8 +205,18 @@ class RecoderHLS extends EventEmitter {
             this.onFFMPEGEnd(error);
         })
         .on('end', (stdout, stderr) => {
-            // this.log.info(`[ffmpeg stdout][${this.name}]`,stdout)
-            this.onFFMPEGEnd()
+            const elapsed = Date.now() - startTimestamp;
+            if(elapsed < 3000){
+                // if too frequenctly end, emit normal ffmpeg end => wait next schedule.
+                // otherwise emit abnoraml ffmpeg end. => immediate re-start.
+                this.log.error(`ffmpeg end too early. end event will be emitted in 20 seconds`);
+                const error ='END_TOO_EARLY';
+                setTimeout(() => {
+                    this.onFFMPEGEnd(error)
+                }, 20000)
+            } else {
+                this.onFFMPEGEnd();
+            }
         })
         .run();
     }

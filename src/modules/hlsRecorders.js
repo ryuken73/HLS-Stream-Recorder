@@ -403,11 +403,10 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
 }
 
 export const stopRecording = (channelNumber) => (dispatch, getState) => {    
+    const state = getState();
+    const [hlsRecorder, hlsPlayer, channelLog] = getChanneler(state, channelNumber);
     return new Promise((resolve, reject) => {
         try {
-            const state = getState();
-            const [hlsRecorder, hlsPlayer, channelLog] = getChanneler(state, channelNumber);
-
             const {
                 recorder,
                 inTransition,
@@ -443,6 +442,7 @@ export const stopRecordingForce = channelNumber => (dispatch, getState) => {
         channelLog.error(`stop recoder force!!`);
         recorder.destroy()
     } catch (err) {
+        console.log(error)
         channelLog.error(`error in stop recorder force. ${err}`)
     }
 }
