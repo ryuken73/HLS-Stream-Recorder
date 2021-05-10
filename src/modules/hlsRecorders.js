@@ -282,8 +282,10 @@ export const restartRecording = channelNumber => (dispatch, getState) => {
 
 const rimraf = require('rimraf');
 const isClipTooShort = (encodingSec, durationSec) => {
-    const diff = encodingSec - encodingSec;
+    if(encodingSec < durationSec) return false;
+    const diff = encodingSec - durationSec;
     const lossPercentage = parseInt(diff / encodingSec) * 100;
+    console.log(`lossPercentage: ${encodingSec} ${durationSec} ${lossPercentage}`)
     return (diff > MIN_CLIP_LENGTH_PERCENTAGE)
 }
 export const startRecording = (channelNumber) => (dispatch, getState) => {
@@ -375,6 +377,7 @@ export const startRecording = (channelNumber) => (dispatch, getState) => {
                 //
                 clipStore.set(clipId, clipData);
                 if(encodedTooShort === true){
+                    channelLog.error('encoded too short')
                     dispatch(setChannelStatNStore({channelNumber, statName:'lastTooShortTime', value:Date.now()}))
                     dispatch(increaseChannelStatsNStore({channelNumber, statName:'tooShortCount'}))
                     dispatch(refreshChannelClipCountStatistics({channelNumber}))
