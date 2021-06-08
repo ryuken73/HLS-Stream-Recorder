@@ -311,7 +311,7 @@ const Header = (props) => {
                     </IconButtonWithTooltip>
                 </Box>
                 <IconButtonWithTooltip
-                    title="Home Directoryn"
+                    title="Home Directory"
                     label="home directory"
                     onClick={openHome}
                     disabled={false}
