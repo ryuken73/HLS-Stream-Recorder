@@ -179,7 +179,7 @@ const Header = (props) => {
             display="flex" 
             alignItems="center"
             bgcolor="#2d2f3b"
-            ml="46px"
+            ml="55px"
             // mr="50px"
             maxWidth="1638px"
             mt="15px"

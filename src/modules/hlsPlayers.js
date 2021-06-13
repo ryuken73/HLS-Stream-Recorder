@@ -61,12 +61,14 @@ const SET_PLAYER = 'hlsPlayers/SET_PLAYER';
 const SET_PLAYER_SOURCE = 'hlsPlayers/SET_PLAYER_SOURCE';
 const SET_PLAYER_MOUNT = 'hlsPlayers/SET_PLAYER_MOUNT';
 const REFRESH_PLAYER = 'hlsPlayers/REFRESH_PLAYER';
+const SET_CURRENT_PAGE = 'hlsPlayers/SET_CURRENT_PAGE';
 
 // action creator
 export const setPlayer = createAction(SET_PLAYER);
 export const setPlayerSource = createAction(SET_PLAYER_SOURCE);
 export const setPlayerMount = createAction(SET_PLAYER_MOUNT);
 export const refreshPlayer = createAction(REFRESH_PLAYER);
+export const setCurrentPage = createAction(SET_CURRENT_PAGE);
 
 // redux thunk
 export const setSourceNSave = ({channelNumber, cctvId, url}) => (dispatch, getState) => {
@@ -129,6 +131,7 @@ export const setPlayerMountAll = ({mountPlayer}) => (dispatch, getState) => {
 
 const initialState = {
     players,
+    currentPage: 1,
     config:{
         LONG_BUFFERING_MS_SECONDS
     }
@@ -207,6 +210,14 @@ export default handleActions({
             return { ...state }
         }
         return { ...state }
+    },
+    [SET_CURRENT_PAGE]: (state, action) => {
+        // console.log('%%%%%%%%%%%%%%%%', action.payload);
+        const {currentPage} = action.payload;
+        return {
+            ...state,
+            currentPage
+        }
     },
 }, initialState);
 

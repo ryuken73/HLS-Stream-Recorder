@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import Box from '@material-ui/core/Box';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import {BasicIconButton} from './template/basicComponents';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import BottomMenuContainer from '../containers/BottomMenuContainer';;
 import BodyContainer from '../containers/BodyContainer';
 import OptionDialogContainer from '../containers/OptionDialogContainer';
@@ -66,6 +69,9 @@ function App(props) {
     }
   },[])
 
+  const pageBack = () => {};
+  const pageForward = () => {};
+
   return (
     <ThemeProvider theme={theme}>
       {minimized &&
@@ -86,7 +92,22 @@ function App(props) {
             setConfirmDialogTitle={setConfirmDialogTitle}
             setConfirmDialogText={setConfirmDialogText}
           ></HeaderContainer>
-          <BodyContainer></BodyContainer>
+          <Box 
+            display="flex"
+            alignItems="center"
+          >
+            <Box>
+              <BasicIconButton onClick={pageBack}>
+                <ArrowBackIosIcon fontSize="large"></ArrowBackIosIcon>
+              </BasicIconButton>
+            </Box>
+            <BodyContainer></BodyContainer>
+            <Box>
+              <BasicIconButton onClick={pageForward}>
+                <ArrowForwardIosIcon fontSize="large"></ArrowForwardIosIcon>
+              </BasicIconButton>
+            </Box>
+          </Box>
           <MessageContainer 
             mt="auto"
             maxMemory={MAX_MEMORY_TO_RELOAD_MB}
