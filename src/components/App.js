@@ -50,6 +50,8 @@ function App(props) {
   const [isLoading, setIsLoading] = React.useState(true);
   const [minimized, setMinimized] = React.useState(false);
 
+  const {goPage} = props.HLSPlayersActions;
+
   const changeSmallUI = () => {
     setMinimized(true);
     ipcRenderer.send('ready-small-UI');
@@ -69,8 +71,8 @@ function App(props) {
     }
   },[])
 
-  const pageBack = () => {};
-  const pageForward = () => {};
+  const pageBack = () => {goPage({direction: 'prev'})};
+  const pageForward = () => {goPage({direction: 'next'})};
 
   return (
     <ThemeProvider theme={theme}>
