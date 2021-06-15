@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import App from '../components/App';
 import * as appActions from '../modules/app';
+import * as hlsPlayersActions from '../modules/hlsPlayers';
 
 console.log('calling AppContainer')
 function mapStateToProps(state, ownProps) {
@@ -18,7 +19,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     AppActions: bindActionCreators(appActions, dispatch),
-  };
+    HLSPlayersActions: bindActionCreators(hlsPlayersActions, dispatch)  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

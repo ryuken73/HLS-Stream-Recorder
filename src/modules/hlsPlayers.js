@@ -14,6 +14,7 @@ const {
 } = config;
 
 const sources = cctvFromConfig();
+const MAX_PAGE_NUMBER = Math.ceil(sources.length / parseInt(NUMBER_OF_CHANNELS));
 
 const mkOverlayContent = cctvId => {
     console.log(cctvId)
@@ -37,23 +38,41 @@ const sourceStore = new Store({
     cwd:remote.app.getPath('home')
 })
 
-// initialize player
-for(let channelNumber=1;channelNumber<=NUMBER_OF_CHANNELS;channelNumber++){
-    // const source = sources[channelNumber-1] || {};
-    const source = sourceStore.get(channelNumber.toString()) || sources[channelNumber-1];
-    const url = getEncryptedUrl(source.cctvId);
-    source.url = url;
-    console.log('### source in hlsplayer:', source)
-    const {cctvId} = source;
-    const hlsPlayer = {
-        ...DEFAULT_PLAYER_PROPS,
-        source,
-        channelName: `${CHANNEL_PREFIX}${channelNumber}`,
-        overlayContent: mkOverlayContent(cctvId),
-        mountPlayer: true
+const getPlayerSourcesOfPage = pageNumber => {
+    let startSourceNumber = parseInt(NUMBER_OF_CHANNELS) * (pageNumber-1) + 1;
+    const IS_LAST_PAGE = parseInt(pageNumber) === MAX_PAGE_NUMBER;
+    const numberOfPagePlayer = IS_LAST_PAGE ? sources.length % NUMBER_OF_CHANNELS : NUMBER_OF_CHANNELS;
+    const playerSourcesOfPage = [];
+    for(let channelNumber=1;channelNumber<=numberOfPagePlayer;channelNumber++){
+        console.log('## page numbers:', startSourceNumber, numberOfPagePlayer, pageNumber, channelNumber)
+        const source = sourceStore.get(startSourceNumber.toString()) || sources[startSourceNumber-1];
+        const url = getEncryptedUrl(source.cctvId);
+        source.url = url;
+        console.log('### source in hlsplayer:', source)
+        const {cctvId} = source;
+        playerSourcesOfPage.push({channelNumber, source, cctvId});
+        startSourceNumber+=1
     }
-    players.set(channelNumber, hlsPlayer);
+    return playerSourcesOfPage;
 }
+
+// initialize player
+const initializePage = pageNumber => {
+    const playerSourcesOfPage = getPlayerSourcesOfPage(pageNumber);
+    playerSourcesOfPage.forEach(playerSource => {
+        const {channelNumber, source, cctvId} = playerSource;
+        const hlsPlayer = {
+            ...DEFAULT_PLAYER_PROPS,
+            source,
+            channelName: `${CHANNEL_PREFIX}${channelNumber}`,
+            overlayContent: mkOverlayContent(cctvId),
+            mountPlayer: true
+        }
+        players.set(channelNumber, hlsPlayer);
+    })
+}
+const INITIAL_PAGE = 1;
+initializePage(INITIAL_PAGE)
 
 
 // action types
@@ -61,12 +80,14 @@ const SET_PLAYER = 'hlsPlayers/SET_PLAYER';
 const SET_PLAYER_SOURCE = 'hlsPlayers/SET_PLAYER_SOURCE';
 const SET_PLAYER_MOUNT = 'hlsPlayers/SET_PLAYER_MOUNT';
 const REFRESH_PLAYER = 'hlsPlayers/REFRESH_PLAYER';
+const SET_CURRENT_PAGE = 'hlsPlayers/SET_CURRENT_PAGE';
 
 // action creator
 export const setPlayer = createAction(SET_PLAYER);
 export const setPlayerSource = createAction(SET_PLAYER_SOURCE);
 export const setPlayerMount = createAction(SET_PLAYER_MOUNT);
 export const refreshPlayer = createAction(REFRESH_PLAYER);
+export const setCurrentPage = createAction(SET_CURRENT_PAGE);
 
 // redux thunk
 export const setSourceNSave = ({channelNumber, cctvId, url}) => (dispatch, getState) => {
@@ -83,6 +104,26 @@ export const setSourceNSave = ({channelNumber, cctvId, url}) => (dispatch, getSt
     })
     // dispatch(setSource({cctvId, url}))
     dispatch(setPlayerSource({channelNumber, url, cctvId}))
+}
+
+const getNextPage = currentPage => {
+    return parseInt(currentPage) === MAX_PAGE_NUMBER ? 1 : parseInt(currentPage) + 1;
+}
+
+const getPrevPage = currentPage => {
+    return parseInt(currentPage) === 1 ? parseInt(MAX_PAGE_NUMBER) : parseInt(currentPage) - 1;
+}
+
+export const goPage = ({direction='next'}) => (dispatch, getState) => {
+    const state = getState();
+    const {currentPage} = state.hlsPlayers;
+    const pageToGo = direction === 'next' ? getNextPage(currentPage) : getPrevPage(currentPage);
+    const playerSourcesOfPage = getPlayerSourcesOfPage(pageToGo);
+    playerSourcesOfPage.forEach(playerSource => {
+        const {channelNumber, source, cctvId} = playerSource;
+        dispatch(setPlayerSource({channelNumber, url:source.url, cctvId}));
+    })
+    dispatch(setCurrentPage({currentPage: pageToGo}));
 }
 
 export const remountPlayer = ({channelNumber}) => (dispatch, getState) => {
@@ -129,6 +170,7 @@ export const setPlayerMountAll = ({mountPlayer}) => (dispatch, getState) => {
 
 const initialState = {
     players,
+    currentPage: INITIAL_PAGE,
     config:{
         LONG_BUFFERING_MS_SECONDS
     }
@@ -207,6 +249,14 @@ export default handleActions({
             return { ...state }
         }
         return { ...state }
+    },
+    [SET_CURRENT_PAGE]: (state, action) => {
+        // console.log('%%%%%%%%%%%%%%%%', action.payload);
+        const {currentPage} = action.payload;
+        return {
+            ...state,
+            currentPage
+        }
     },
 }, initialState);
 
