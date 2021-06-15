@@ -13,7 +13,7 @@ const {
     toFullName, 
     tap, 
     errorTap
-} = require('./fp.file.js');
+} = require('./fp.file_commonjs.js');
 
 exports.number = {
     group1000(number){
