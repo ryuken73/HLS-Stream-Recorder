@@ -41,10 +41,11 @@ const sourceStore = new Store({
 const getPlayerSourcesOfPage = pageNumber => {
     let startSourceNumber = parseInt(NUMBER_OF_CHANNELS) * (pageNumber-1) + 1;
     const IS_LAST_PAGE = parseInt(pageNumber) === MAX_PAGE_NUMBER;
-    const numberOfPagePlayer = IS_LAST_PAGE ? sources.length % NUMBER_OF_CHANNELS : NUMBER_OF_CHANNELS;
+    const modulus = sources.length % NUMBER_OF_CHANNELS;
+    const numberOfPlayerslastPage = modulus === 0 ? NUMBER_OF_CHANNELS : modulus;
+    const numberOfPagePlayer = IS_LAST_PAGE ? numberOfPlayerslastPage : NUMBER_OF_CHANNELS;
     const playerSourcesOfPage = [];
     for(let channelNumber=1;channelNumber<=numberOfPagePlayer;channelNumber++){
-        console.log('## page numbers:', startSourceNumber, numberOfPagePlayer, pageNumber, channelNumber)
         const source = sourceStore.get(startSourceNumber.toString()) || sources[startSourceNumber-1];
         const url = getEncryptedUrl(source.cctvId);
         source.url = url;
