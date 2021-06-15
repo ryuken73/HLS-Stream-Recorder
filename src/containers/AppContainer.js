@@ -10,9 +10,14 @@ console.log('calling AppContainer')
 function mapStateToProps(state, ownProps) {
   // console.log('mapStateToProps:',state) 
   const {sources} = state.app;
+  const {recorders} = state.hlsRecorders;
+  const scheduleStatusAllStop = [...recorders.values()].every(recorder => recorder.scheduleStatus==="stopped");
+  const recorderStatusAllStop = [...recorders.values()].every(recorder => recorder.recorderStatus==="stopped");
   return {
     ...ownProps,
-    sources
+    sources,
+    scheduleStatusAllStop,
+    recorderStatusAllStop,
   }
 }
 

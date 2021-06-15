@@ -190,7 +190,7 @@ const Header = (props) => {
         >
             <Box display="flex" alignItems="center" width="500px">
                 <IconButtonWithTooltip
-                    title="Start All Scheduled Recording"
+                    title="Start/Stop All Scheduled Recording"
                     label="all schedule"
                     iconcolor={scheduleButtonColor}
                     onClick={scheduleStatusAllStopped ? startScheduleAll : stopScheduleAll}
@@ -201,7 +201,7 @@ const Header = (props) => {
                     ></AccessAlarmIcon>
                 </IconButtonWithTooltip>
                 <IconButtonWithTooltip
-                    title="Start Recoding All"
+                    title="Start/Stop Recoding All"
                     label="all recording"
                     iconcolor={recordButtonColor}
                     onClick={recorderStatusAllStopped ? startRecordAll : stopRecordAll}

@@ -51,6 +51,9 @@ function App(props) {
   const [minimized, setMinimized] = React.useState(false);
 
   const {goPage} = props.HLSPlayersActions;
+  const {scheduleStatusAllStop, recorderStatusAllStop} = props;
+  const disableGoPageBtn = !recorderStatusAllStop || !scheduleStatusAllStop;
+  const bgColorGoPageBtn = disableGoPageBtn ? 'black' : 'white';
 
   const changeSmallUI = () => {
     setMinimized(true);
@@ -99,13 +102,21 @@ function App(props) {
             alignItems="center"
           >
             <Box>
-              <BasicIconButton onClick={pageBack}>
+              <BasicIconButton 
+                onClick={pageBack} 
+                disabled={disableGoPageBtn}
+                iconcolor={bgColorGoPageBtn}
+              >
                 <ArrowBackIosIcon fontSize="large"></ArrowBackIosIcon>
               </BasicIconButton>
             </Box>
             <BodyContainer></BodyContainer>
             <Box>
-              <BasicIconButton onClick={pageForward}>
+              <BasicIconButton 
+                onClick={pageForward}
+                disabled={disableGoPageBtn}
+                iconcolor={bgColorGoPageBtn}
+              >
                 <ArrowForwardIosIcon fontSize="large"></ArrowForwardIosIcon>
               </BasicIconButton>
             </Box>
