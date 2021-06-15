@@ -311,7 +311,7 @@ const Header = (props) => {
                     </IconButtonWithTooltip>
                 </Box>
                 <IconButtonWithTooltip
-                    title="Home Directoryn"
+                    title="Home Directory"
                     label="home directory"
                     onClick={openHome}
                     disabled={false}
@@ -322,7 +322,7 @@ const Header = (props) => {
                     ></HomeIcon>
                 </IconButtonWithTooltip>
                 <IconButtonWithTooltip
-                    title="Save Directoryn"
+                    title="Save Directory"
                     label="save directory"
                     onClick={openDirectory}
                     disabled={false}
@@ -333,7 +333,7 @@ const Header = (props) => {
                     ></FolderOpenIcon>
                 </IconButtonWithTooltip>
                 <IconButtonWithTooltip
-                    title="Log Directoryn"
+                    title="Log Directory"
                     label="open log(debug)"
                     onClick={openLogFolder}
                     disabled={false}
