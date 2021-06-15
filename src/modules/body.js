@@ -31,7 +31,8 @@ const initialState = {
 export default handleActions({
     [SET_CHANNELS]: (state, action) => {
         // console.log('%%%%%%%%%%%%%%%%', action.payload);
-        const {channels} = action.payload;
+        const {channelCount} = action.payload;
+        const channels = arrayBetween(1, channelCount)
         return {
             channels
         }

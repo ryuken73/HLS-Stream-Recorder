@@ -1,8 +1,7 @@
 import {createAction, handleActions} from 'redux-actions';
-// import {logInfo, logError, logFail} from './messagePanel';
 import {cctvFromConfig} from '../lib/getCCTVList';
 import {getEncryptedUrl} from '../lib/urlUtils';
-// import {setSource} from './app';
+import {setChannels} from './body';
 const {getCombinedConfig} = require('../lib/getConfig');
 const config = getCombinedConfig({storeName:'optionStore', electronPath:'home'});
 const {
@@ -124,6 +123,7 @@ export const goPage = ({direction='next'}) => (dispatch, getState) => {
         const {channelNumber, source, cctvId} = playerSource;
         dispatch(setPlayerSource({channelNumber, url:source.url, cctvId}));
     })
+    dispatch(setChannels({channelCount: playerSourcesOfPage.length}))
     dispatch(setCurrentPage({currentPage: pageToGo}));
 }
 
