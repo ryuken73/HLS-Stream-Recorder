@@ -54,6 +54,6 @@
   "MEM_CLEAR_COUNT_LIMIT": 10,
   "AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT": true,
   "IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK": 30,
-  "MAIL_RECEIVERS": ["ryuken01@sbs.co.kr","110eel@sbs.co.kr"],
+  "MAIL_RECEIVERS": ["ryuken01@sbs.co.kr", "110eel@sbs.co.kr"],
   "MAIL_ADDRESS": "10.10.16.77"
 }
