@@ -283,7 +283,6 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "regenerator-runtime": "^0.13.5",
-    "socket.io": "^4.1.2",
     "source-map-support": "^0.5.19",
     "styled-components": "^5.2.1",
     "video.js": "^7.10.2",
