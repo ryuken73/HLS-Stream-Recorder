@@ -14,6 +14,7 @@ import AutoReloadDialog from '../containers/AutoReloadContainer';
 import AutoStartDialog from '../containers/AutoStartDialogContainer';
 import AppMini from './AppMini';
 import {ipcRenderer} from 'electron';
+import socketIOClient from 'socket.io-client';
 
 const { BrowserView, getCurrentWindow } = require('electron').remote;
 const utils = require('../utils');
@@ -33,11 +34,13 @@ const theme = createMuiTheme({
 const {getCombinedConfig} = require('../lib/getConfig');
 const config = getCombinedConfig();
 const {
+  RECORD_MODE,
   MAX_MEMORY_RELOAD_WAIT_MS, 
   MAX_MEMORY_TO_RELOAD_MB,
   AUTO_START_SCHEDULE,
   AUTO_START_SCHEDULE_DELAY_MS,
-  MEMORY_USAGE_PERCENTAGE_TO_AUTO_CLEAR
+  MEMORY_USAGE_PERCENTAGE_TO_AUTO_CLEAR,
+  BROADCAST_SOCK_SERVER='http://127.0.0.1:9000/'
 } = config;
 
 function App(props) { 
@@ -51,6 +54,7 @@ function App(props) {
   const [minimized, setMinimized] = React.useState(false);
 
   const {goPage} = props.HLSPlayersActions;
+  const {setSocket, bcastSetRecorders} = props.AppActions;
   const {scheduleStatusAllStop, recorderStatusAllStop} = props;
   const disableGoPageBtn = !recorderStatusAllStop || !scheduleStatusAllStop;
   const bgColorGoPageBtn = disableGoPageBtn ? 'black' : 'white';
@@ -71,6 +75,23 @@ function App(props) {
   React.useEffect(() => {
     if(AUTO_START_SCHEDULE === true){
       setAutoStartDialogOpen(true);
+    }
+  },[])
+
+  React.useEffect(() => {
+    const socket = socketIOClient.connect(BROADCAST_SOCK_SERVER);
+    socket.on('connect', () => {
+      setSocket({socket});
+      console.log('connected');
+      socket.emit('setMode', RECORD_MODE);
+      bcastSetRecorders(socket);
+    });
+    socket.on('get:recorders', (data) => {
+      console.log('socket: get:recorders');
+      if(data === RECORD_MODE) bcastSetRecorders(socket);
+    })
+    return () => {
+      socket.disconnect();
     }
   },[])
 

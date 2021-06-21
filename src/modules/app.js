@@ -4,6 +4,7 @@ const {getCombinedConfig} = require('../lib/getConfig');
 const config = getCombinedConfig({storeName:'optionStore', electronPath:'home'});
 const {
     LOG_LEVEL="info",
+    RECORD_MODE,
     CCTV_HOST,
     MAIL_RECEIVERS=['ryuken01@sbs.co.kr','110eel@sbs.co.kr'],
     MAIL_ADDRESS='10.10.16.77'
@@ -43,16 +44,36 @@ wiseMail.setDefaultOptions({
 
 // action types
 const SET_SOURCES = 'app/SET_SOURCES';
-// const SET_SOURCE = 'app/SET_SOURCE';
+const SET_SOCKET = 'app/SET_SOCKET';
+
+// redux thunk
+export const bcastSetRecorders = socket => (dispatch, getState) => {
+    const state = getState();
+    const {hlsPlayers, hlsRecorders} = state;
+    const {players} = hlsPlayers;
+    const {recorders} = hlsRecorders;
+    const aPlayers = [...players];
+    const recordersStatus = aPlayers.map(([channelNumber, player]) => {
+        const duration = recorders.get(channelNumber).duration;
+        const recorderStatus = recorders.get(channelNumber).recorderStatus;
+        const title = player.source.title;
+        return {channelNumber, duration, recorderStatus, title}
+    })
+    console.log('socket:recorders', recordersStatus)
+    socket.emit('set:recorders', {from: RECORD_MODE, recordersStatus})
+}
 
 // action creator
 export const setSources = createAction(SET_SOURCES);
+export const setSocket = createAction(SET_SOCKET);
 
 const initialState = {
     sources,
     sourceStore,
     intervalStore,
-    wiseMail
+    wiseMail,
+    socket: null,
+    recordMode: RECORD_MODE
 }
 
 // reducer
@@ -62,6 +83,13 @@ export default handleActions({
         return {
             ...state,
             sources
+        }
+    },
+    [SET_SOCKET]: (state, action) => {
+        const {socket} = action.payload;
+        return {
+            ...state,
+            socket
         }
     }
 }, initialState);

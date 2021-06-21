@@ -1,5 +1,6 @@
 {
   "NUMBER_OF_CHANNELS": 4,
+  "RECORD_MODE": "dev",
   "CHANNEL_PREFIX": "channel",
   "CCTV_HOST": "http://61.96.224.149",
   "LOG_LEVEL": "info",

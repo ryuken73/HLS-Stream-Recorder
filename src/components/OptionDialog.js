@@ -74,6 +74,7 @@ function OptionDialog(props) {
   const {
     NUMBER_OF_CHANNELS,
     // CHANNEL_PREFIX="channel",
+    RECORD_MODE,
     CCTV_HOST,
     LOG_LEVEL='info',
     WAIT_SECONDS_MS_FOR_PLAYBACK_CHANGE,
@@ -180,6 +181,7 @@ function OptionDialog(props) {
         tabIndex={-1}
       >
         <OptionTextInputWithDefault id="NUMBER_OF_CHANNELS" subtitle='Number of Recorders' value={NUMBER_OF_CHANNELS} onChange={onChangeConfig}></OptionTextInputWithDefault>
+        <OptionTextInputWithDefault id="RECORD_MODE" subtitle='Record Mode' value={RECORD_MODE} onChange={onChangeConfig}></OptionTextInputWithDefault>
         <OptionTextInputWithDefault id="CCTV_HOST" subtitle='CCTV Base Host' value={CCTV_HOST} onChange={onChangeConfig}></OptionTextInputWithDefault>
         {/* <OptionTextInputWithDefault id="CHANNEL_PREFIX" subtitle='Channel Prefix' value={CHANNEL_PREFIX} onChange={onChangeConfig}></OptionTextInputWithDefault> */}
         <OptionTextInputWithDefault id="LOG_LEVEL" subtitle='Log Level' value={LOG_LEVEL} onChange={onChangeConfig}></OptionTextInputWithDefault>
