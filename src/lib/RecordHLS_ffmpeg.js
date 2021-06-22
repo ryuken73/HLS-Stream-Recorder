@@ -50,6 +50,7 @@ class RecoderHLS extends EventEmitter {
             localm3u8='./temp/stream.m3u8',
             ffmpegBinary='./ffmpeg.exe',
             renameDoneFile=false,
+            successive_duration_limit=5
         } = options;
         this._name = name;
         this._src = src;
@@ -71,6 +72,7 @@ class RecoderHLS extends EventEmitter {
               }
         })()
         this.INITIAL_TIMEMARKER =  '00:00:00.00';
+        this.CRITICAL_SUCCESSIVE_OCCUR_COUNT = successive_duration_limit;
         const checkFunction = sameAsBefore(this.INITIAL_TIMEMARKER);
         this.checkSuccessiveEvent = successiveEvent(checkFunction, this.log);
         this.initialize();
@@ -170,12 +172,12 @@ class RecoderHLS extends EventEmitter {
     }
     progressHandler = event => {
         this.duration = event.timemark;
-        this.log.debug(`duration: ${this.duration}`);
-        const CRITICAL_SUCCESSIVE_OCCUR_COUNT = 5;
-        const durationNotChanged = this.checkSuccessiveEvent(this.duration, CRITICAL_SUCCESSIVE_OCCUR_COUNT);
+        this.log.debug(`duration: ${this.duration}, successive_event_limit: ${this.CRITICAL_SUCCESSIVE_OCCUR_COUNT}`);
+        // const CRITICAL_SUCCESSIVE_OCCUR_COUNT = 5;
+        const durationNotChanged = this.checkSuccessiveEvent(this.duration, this.CRITICAL_SUCCESSIVE_OCCUR_COUNT);
         this.log.debug(`value of durationNotChanged: ${durationNotChanged}, duration=${this.duration}`);
         if(durationNotChanged){
-            this.log.error(`duration not changed last ${CRITICAL_SUCCESSIVE_OCCUR_COUNT} times`)
+            this.log.error(`duration not changed last ${this.CRITICAL_SUCCESSIVE_OCCUR_COUNT} times`)
             this.log.error(`kill ffmpeg`)
             this.command.kill();
         }
@@ -257,7 +259,8 @@ const createHLSRecoder = options => {
         enablePlayack= true, 
         localm3u8= 'd:/temp/cctv/stream.m3u8',
         ffmpegBinary= 'd:/temp/cctv/ffmpeg.exe',
-        renameDoneFile= false
+        renameDoneFile= false,
+        successive_duration_limit= 5
     } = options;
     log.info(`create HLS Recorder!`);
     return new RecoderHLS(options);

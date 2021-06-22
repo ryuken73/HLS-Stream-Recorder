@@ -23,7 +23,8 @@ const {
     SLEEP_MS_BETWEEN_ALL_STOP=300,
     RESTART_SCHEDULE_SLEPP_MS=5000,
     CCTV_HOST,
-    KAFKA_CLIENT_NAME
+    KAFKA_CLIENT_NAME,
+    CRITICAL_SUCCESSIVE_OCCUR_COUNT=5
 } = config;
 const sources = cctvFromConfig();
 
@@ -169,6 +170,7 @@ export const createRecorder = (channelNumber, createdByError=false) => (dispatch
         localm3u8:'',
         ffmpegBinary: ffmpegPath,
         renameDoneFile: false,
+        successive_duration_limit: CRITICAL_SUCCESSIVE_OCCUR_COUNT
     }
     const recorder = HLSRecorder.createHLSRecoder(recorderOptions);
 
