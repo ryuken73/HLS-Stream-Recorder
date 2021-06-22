@@ -92,7 +92,9 @@ function OptionDialog(props) {
     KAFKA_CLIENT_NAME,
     MEM_CLEAR_COUNT_LIMIT,
     AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT,
-    IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK
+    IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK,
+    CRITICAL_SUCCESSIVE_OCCUR_COUNT,
+    BROADCAST_SOCK_SERVER
   } = config;
   const {setOptionsDialogOpen=()=>{}, saveConfig=()=>{}} = props.OptionDialogActions;
   const {setDefaultConfig=()=>{}} = props.OptionDialogActions;
@@ -204,6 +206,8 @@ function OptionDialog(props) {
           <Box>
             <OptionTextInputWithDefault id="KAFKA_CLIENT_NAME" subtitle='Kafka Host Name' value={KAFKA_CLIENT_NAME} onChange={onChangeConfig}></OptionTextInputWithDefault>
             <OptionTextInputWithDefault id="IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK" subtitle='Idle Seconds Player Off' value={IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK} onChange={onChangeConfig}></OptionTextInputWithDefault>
+            <OptionTextInputWithDefault id="CRITICAL_SUCCESSIVE_OCCUR_COUNT" subtitle='Successive Duration Limit' value={CRITICAL_SUCCESSIVE_OCCUR_COUNT} onChange={onChangeConfig}></OptionTextInputWithDefault>
+            <OptionTextInputWithDefault id="BROADCAST_SOCK_SERVER" subtitle='Broadcast Server Address' value={BROADCAST_SOCK_SERVER} onChange={onChangeConfig}></OptionTextInputWithDefault>
           </Box>
         </Box>
       </DialogContentText>
