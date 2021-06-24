@@ -50,7 +50,8 @@ class RecoderHLS extends EventEmitter {
             localm3u8='./temp/stream.m3u8',
             ffmpegBinary='./ffmpeg.exe',
             renameDoneFile=false,
-            successive_duration_limit=5
+            successive_duration_limit=5,
+            tooOftenEnded=()=>{return [9999, false]}
         } = options;
         this._name = name;
         this._src = src;
@@ -62,6 +63,7 @@ class RecoderHLS extends EventEmitter {
         this._renameDoneFile = renameDoneFile;
         this._killTimer = null;
         this._exitByTimeout = false;
+        this._tooOftenEnded = tooOftenEnded;
         ffmpeg.setFfmpegPath(this._ffmpegBinary);
         this.log = (() => {
             return {
@@ -207,6 +209,16 @@ class RecoderHLS extends EventEmitter {
             this.onFFMPEGEnd(error);
         })
         .on('end', (stdout, stderr) => {
+            const [currentOccurence, tooOften] = this._tooOftenEnded();
+            this.log.info(`ffmpeg ends. currentOccurence=[${currentOccurence}] tooOften=[${tooOften}]`);
+            if(tooOften){
+                this.log.error(`ffmpeg end too early. end event will be emitted in 20 seconds`);
+
+                // if recording ends too frequently(ex: over 5 times in 5 minutes),
+                // emit normal stop => wait next schedule.
+                this.onFFMPEGEnd();
+                return;
+            }
             const elapsed = Date.now() - startTimestamp;
             if(elapsed < 3000){
                 // if too frequenctly end, emit normal ffmpeg end => wait next schedule.
@@ -217,6 +229,7 @@ class RecoderHLS extends EventEmitter {
                     this.onFFMPEGEnd(error)
                 }, 20000)
             } else {
+                // recorded enough time
                 this.onFFMPEGEnd();
             }
         })
@@ -260,7 +273,8 @@ const createHLSRecoder = options => {
         localm3u8= 'd:/temp/cctv/stream.m3u8',
         ffmpegBinary= 'd:/temp/cctv/ffmpeg.exe',
         renameDoneFile= false,
-        successive_duration_limit= 5
+        successive_duration_limit= 5,
+        tooOftenEnded=()=>{return [9999, false]}
     } = options;
     log.info(`create HLS Recorder!`);
     return new RecoderHLS(options);
