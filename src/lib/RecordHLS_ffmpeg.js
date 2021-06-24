@@ -51,7 +51,8 @@ class RecoderHLS extends EventEmitter {
             ffmpegBinary='./ffmpeg.exe',
             renameDoneFile=false,
             successive_duration_limit=5,
-            tooOftenEnded=()=>{return [9999, false]}
+            tooOftenEnded=()=>{return [9999, false]},
+            tooFastEndMS=10000
         } = options;
         this._name = name;
         this._src = src;
@@ -64,6 +65,7 @@ class RecoderHLS extends EventEmitter {
         this._killTimer = null;
         this._exitByTimeout = false;
         this._tooOftenEnded = tooOftenEnded;
+        this._tooFastEndMs = tooFastEndMS;
         ffmpeg.setFfmpegPath(this._ffmpegBinary);
         this.log = (() => {
             return {
@@ -212,7 +214,7 @@ class RecoderHLS extends EventEmitter {
             const [currentOccurence, tooOften] = this._tooOftenEnded();
             this.log.info(`ffmpeg ends. currentOccurence=[${currentOccurence}] tooOften=[${tooOften}]`);
             if(tooOften){
-                this.log.error(`ffmpeg end too early. end event will be emitted in 20 seconds`);
+                this.log.error(`ffmpeg ends too often[${currentOccurence}]. recording will continue in next schedule.`);
 
                 // if recording ends too frequently(ex: over 5 times in 5 minutes),
                 // emit normal stop => wait next schedule.
@@ -220,10 +222,10 @@ class RecoderHLS extends EventEmitter {
                 return;
             }
             const elapsed = Date.now() - startTimestamp;
-            if(elapsed < 3000){
+            if(elapsed < this._tooFastEndMs){
                 // if too frequenctly end, emit normal ffmpeg end => wait next schedule.
                 // otherwise emit abnoraml ffmpeg end. => immediate re-start.
-                this.log.error(`ffmpeg end too early. end event will be emitted in 20 seconds`);
+                this.log.error(`ffmpeg end too early[in ${this._tooFastEndMs}ms]. end event will be emitted in 20 seconds`);
                 const error ='END_TOO_EARLY';
                 setTimeout(() => {
                     this.onFFMPEGEnd(error)

@@ -94,7 +94,10 @@ function OptionDialog(props) {
     AUTO_RELOAD_OVER_MEM_CLEAR_COUNT_LIMIT,
     IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK,
     CRITICAL_SUCCESSIVE_OCCUR_COUNT,
-    BROADCAST_SOCK_SERVER
+    BROADCAST_SOCK_SERVER,
+    FAST_FAIL_DURATION_MS,
+    FAST_FAIL_MAX_COUNT,
+    FAST_END_MS
   } = config;
   const {setOptionsDialogOpen=()=>{}, saveConfig=()=>{}} = props.OptionDialogActions;
   const {setDefaultConfig=()=>{}} = props.OptionDialogActions;
@@ -208,6 +211,9 @@ function OptionDialog(props) {
             <OptionTextInputWithDefault id="IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK" subtitle='Idle Seconds Player Off' value={IDLE_SECONDS_BEFORE_CLOSE_PLAYBACK} onChange={onChangeConfig}></OptionTextInputWithDefault>
             <OptionTextInputWithDefault id="CRITICAL_SUCCESSIVE_OCCUR_COUNT" subtitle='Successive Duration Limit' value={CRITICAL_SUCCESSIVE_OCCUR_COUNT} onChange={onChangeConfig}></OptionTextInputWithDefault>
             <OptionTextInputWithDefault id="BROADCAST_SOCK_SERVER" subtitle='Broadcast Server Address' value={BROADCAST_SOCK_SERVER} onChange={onChangeConfig}></OptionTextInputWithDefault>
+            <OptionTextInputWithDefault id="FAST_FAIL_DURATION_MS" subtitle='Time Range to Track Event' value={FAST_FAIL_DURATION_MS} onChange={onChangeConfig}></OptionTextInputWithDefault>
+            <OptionTextInputWithDefault id="FAST_FAIL_MAX_COUNT" subtitle='Max Ends within Time Range' value={FAST_FAIL_MAX_COUNT} onChange={onChangeConfig}></OptionTextInputWithDefault>
+            <OptionTextInputWithDefault id="FAST_END_MS" subtitle='Mininum Valid Duration' value={FAST_END_MS} onChange={onChangeConfig}></OptionTextInputWithDefault>
           </Box>
         </Box>
       </DialogContentText>

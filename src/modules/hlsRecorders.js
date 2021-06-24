@@ -26,7 +26,8 @@ const {
     KAFKA_CLIENT_NAME,
     CRITICAL_SUCCESSIVE_OCCUR_COUNT=5,
     FAST_FAIL_DURATION_MS=5*60*1000,
-    FAST_FAIL_MAX_COUNT=5
+    FAST_FAIL_MAX_COUNT=5,
+    FAST_END_MS=10000
 } = config;
 const sources = cctvFromConfig();
 
@@ -77,6 +78,7 @@ for(let channelNumber=1 ; channelNumber<=NUMBER_OF_CHANNELS ; channelNumber++){
     const channelName = `${CHANNEL_PREFIX}${channelNumber}`;
     const channelDirectory = path.join(BASE_DIRECTORY, channelName);
     const tooOftenEnded = common.tooFrequent(FAST_FAIL_DURATION_MS, FAST_FAIL_MAX_COUNT);
+    const tooFastEndMS = FAST_END_MS;
     const hlsRecorder = {
         channelName,
         channelDirectory,
@@ -90,7 +92,8 @@ for(let channelNumber=1 ; channelNumber<=NUMBER_OF_CHANNELS ; channelNumber++){
         recorderStatus: 'stopped',
         scheduleStatus: 'stopped',
         scheduleInterval: intervalStore.get(channelNumber.toString()) || INITIAL_INTERVAL,  
-        tooOftenEnded      
+        tooOftenEnded,
+        tooFastEndMS   
     }
     recorders.set(channelNumber, hlsRecorder);
 }
@@ -153,7 +156,8 @@ export const createRecorder = (channelNumber, createdByError=false) => (dispatch
         channelName,
         channelDirectory,
         scheduleStatus,
-        tooOftenEnded
+        tooOftenEnded,
+        tooFastEndMS
     } = hlsRecorder;
 
     const {source={}} = hlsPlayer;
@@ -176,7 +180,8 @@ export const createRecorder = (channelNumber, createdByError=false) => (dispatch
         ffmpegBinary: ffmpegPath,
         renameDoneFile: false,
         successive_duration_limit: CRITICAL_SUCCESSIVE_OCCUR_COUNT,
-        tooOftenEnded
+        tooOftenEnded,
+        tooFastEndMS
     }
     const recorder = HLSRecorder.createHLSRecoder(recorderOptions);
 
