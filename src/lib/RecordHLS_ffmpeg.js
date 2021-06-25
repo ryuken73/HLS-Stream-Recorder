@@ -218,7 +218,10 @@ class RecoderHLS extends EventEmitter {
 
                 // if recording ends too frequently(ex: over 5 times in 5 minutes),
                 // emit normal stop => wait next schedule.
-                this.onFFMPEGEnd();
+                // To prevent status change problem(remaining "started"), emit end event after 20 seconds later
+                setTimeout(() => {
+                    this.onFFMPEGEnd()
+                }, 20000)
                 return;
             }
             const elapsed = Date.now() - startTimestamp;
