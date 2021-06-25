@@ -10,6 +10,10 @@ const getRecorderStatus = (channelNumber, recorders) => {
     return recorders.get(channelNumber).recorderStatus;
 }
 
+const getScheduleStatus = (channelNumber, recorders) => {
+    return recorders.get(channelNumber).scheduleStatus;
+}
+
 const socketBcast = store => next => action => {
     const {type, payload} = action;
     const state = store.getState();
@@ -30,6 +34,7 @@ const socketBcast = store => next => action => {
         title = source.title;
         channelNumber = payload.channelNumber;
         recorderStatus = getRecorderStatus(channelNumber, recorders);
+        scheduleStatus = getScheduleStatus(channelNumber, recorders);
         duration = getDuration(channelNumber, recorders);        
     }
     if(type === 'hlsRecorders/SET_RECORDER_STATUS'){
@@ -37,18 +42,21 @@ const socketBcast = store => next => action => {
         recorderStatus = payload.recorderStatus;
         title = getTitle(channelNumber, players);
         duration = getDuration(channelNumber, recorders);        
+        scheduleStatus = getScheduleStatus(channelNumber, recorders);
     }
     if(type === 'hlsRecorders/SET_DURATION'){
         channelNumber = payload.channelNumber;
         duration = payload.duration;
         title = getTitle(channelNumber, players);
         recorderStatus = getRecorderStatus(channelNumber, recorders);
+        scheduleStatus = getScheduleStatus(channelNumber, recorders);
     }
 
     if(channelNumber !== undefined){
         const data = {
             channelNumber,
             recorderStatus,
+            scheduleStatus,
             duration,
             title,
             type
