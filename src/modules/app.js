@@ -56,8 +56,9 @@ export const bcastSetRecorders = socket => (dispatch, getState) => {
     const recordersStatus = aPlayers.map(([channelNumber, player]) => {
         const duration = recorders.get(channelNumber).duration;
         const recorderStatus = recorders.get(channelNumber).recorderStatus;
+        const scheduleStatus = recorders.get(channelNumber).scheduleStatus;
         const title = player.source.title;
-        return {channelNumber, duration, recorderStatus, title}
+        return {channelNumber, duration, recorderStatus, scheduleStatus, title}
     })
     console.log('socket:recorders', recordersStatus)
     socket.emit('set:recorders', {from: RECORD_MODE, recordersStatus})

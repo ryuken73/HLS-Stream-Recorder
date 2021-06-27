@@ -26,7 +26,7 @@ const socketBcast = store => next => action => {
         return result;
     }
 
-    let channelNumber, recorderStatus, duration, title;
+    let channelNumber, recorderStatus, scheduleStatus, duration, title;
 
     if(type === 'hlsPlayers/SET_PLAYER_SOURCE'){
         const {cctvId} = payload;
