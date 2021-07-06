@@ -97,7 +97,8 @@ function OptionDialog(props) {
     BROADCAST_SOCK_SERVER,
     FAST_FAIL_DURATION_MS,
     FAST_FAIL_MAX_COUNT,
-    FAST_END_MS
+    FAST_END_MS,
+    BLOCK_MULTI_INSTANCE
   } = config;
   const {setOptionsDialogOpen=()=>{}, saveConfig=()=>{}} = props.OptionDialogActions;
   const {setDefaultConfig=()=>{}} = props.OptionDialogActions;
@@ -214,6 +215,7 @@ function OptionDialog(props) {
             <OptionTextInputWithDefault id="FAST_FAIL_DURATION_MS" subtitle='Time Range to Track Event' value={FAST_FAIL_DURATION_MS} onChange={onChangeConfig}></OptionTextInputWithDefault>
             <OptionTextInputWithDefault id="FAST_FAIL_MAX_COUNT" subtitle='Max Ends within Time Range' value={FAST_FAIL_MAX_COUNT} onChange={onChangeConfig}></OptionTextInputWithDefault>
             <OptionTextInputWithDefault id="FAST_END_MS" subtitle='Mininum Valid Duration' value={FAST_END_MS} onChange={onChangeConfig}></OptionTextInputWithDefault>
+            <OptionTextInputWithDefault id="BLOCK_MULTI_INSTANCE" subtitle='Block Multiple Instance' value={BLOCK_MULTI_INSTANCE} onChange={onChangeConfig}></OptionTextInputWithDefault>
           </Box>
         </Box>
       </DialogContentText>
