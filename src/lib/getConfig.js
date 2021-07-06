@@ -3,12 +3,14 @@ const electronUtil = require('./electronUtil');
 const Store = require('electron-store');
 // const {app} = require('electron');
 // console.log('isRenderer', electronUtil.isRenderer, getPath)
+const keepStringOptionKeys = ['DELETE_SCHEDULE_CRON', 'MAIL_ADDRESS'];
 
 const valuesToInt = obj => {
     const valuesToInt = Object.entries(obj).reduce((acc, element) => {
         const [key, value] = element;
+        console.log(key, value)
         // if(typeof(value) === 'string' && value.includes(',')){
-        if(typeof(value) === 'string' && key === 'DELETE_SCHEDULE_CRON') {
+        if(typeof(value) === 'string' && keepStringOptionKeys.includes(key)) {
             // this can be cron string like "0,10,20 * * *"
             // return original value
             return {...acc, [key]:value};
