@@ -6,7 +6,7 @@ const {
     LOG_LEVEL="info",
     RECORD_MODE,
     CCTV_HOST,
-    MAIL_RECEIVERS=['ryuken01@sbs.co.kr','110eel@sbs.co.kr'],
+    MAIL_RECEIVERS=['ryuken01@sbs.co.kr'],
     MAIL_ADDRESS='10.10.16.77'
 } = config;
 
