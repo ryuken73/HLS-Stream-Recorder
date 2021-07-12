@@ -157,11 +157,29 @@ const createWindow = async () => {
       mainWindow.focus();
     }
   });
+  let confirmClose = false;
+  mainWindow.on('close', (event) => {
+    if(confirmClose === false){
+      event.preventDefault();
+      dialog.showMessageBox({
+        message: 'Really Quit?',
+        buttons: ['yes', 'no'],
+        defaultId: 1,
+        title: 'confirm close.'
+      })
+      .then(result => {
+        console.log(result);
+        if(result.response === 1){
+          // cancel. do nothing. 
 
-  // mainWindow.on('close', (event) => {
-  //   // return false;
-  //   event.preventDefault();
-  // })
+        } else {
+          // yes. quit application.
+          confirmClose = true;
+          app.quit();
+        }
+      })
+    }
+  })
 
   // mainWindow.on('minimize', event => {
   //   // event.preventDefault();
@@ -184,11 +202,6 @@ const createWindow = async () => {
   //   mainWindow.setSize(1750, 800, false)
   // })
 
-  // mainWindow.on('closed', event => {
-  //   console.log('application is about to exit');
-  //   // event.preventDefault();
-  //   mainWindow = null;
-  // });
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
