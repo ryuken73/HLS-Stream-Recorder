@@ -266,6 +266,7 @@ class RecoderHLS extends EventEmitter {
     }
     destroy = () => {
         this.command && this.command.kill();
+        this.initialize();
     }
 }
 
