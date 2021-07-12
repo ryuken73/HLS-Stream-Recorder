@@ -1,7 +1,7 @@
 {
   "name": "HLS-Stream-Recorder",
   "productName": "HLS-Stream-Recorder",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "HLS to File Recorder",
   "main": "./main.prod.js",
   "author": {
